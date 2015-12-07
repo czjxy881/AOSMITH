@@ -1,0 +1,1 @@
+../../../SkywareSDK/SkywareSDK/SkywareSDK/SDK/Request/SkywareUserManager.h

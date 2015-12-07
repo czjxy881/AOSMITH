@@ -1,0 +1,1 @@
+../../../SkywareSDK/SkywareSDK/SkywareSDK/SDK/Other/SkywareSDKManager.h

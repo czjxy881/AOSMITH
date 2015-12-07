@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HomeCollectionViewCell" id="gTV-IL-0wX" customClass="HomeCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="智能电热水器" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o2j-Ay-Q1t">
+                        <rect key="frame" x="146" y="10" width="84" height="22"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="Txe-tq-u3F"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.71372549019999998" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="collectionViewCellScale" translatesAutoresizingMaskIntoConstraints="NO" id="LcD-MY-mOr">
+                        <rect key="frame" x="52" y="47" width="271" height="271"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="LcD-MY-mOr" secondAttribute="height" multiplier="1:1" id="0JD-tW-0yf"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCw-P6-dt4">
+                        <rect key="frame" x="110" y="123" width="125" height="120"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="100"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="centigrade" translatesAutoresizingMaskIntoConstraints="NO" id="jZk-Z8-yX0">
+                        <rect key="frame" x="235" y="137" width="10" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="5mB-Ga-gY7"/>
+                            <constraint firstAttribute="width" constant="10" id="PKQ-7e-jkx"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thermometer" translatesAutoresizingMaskIntoConstraints="NO" id="np8-OG-LOj">
+                        <rect key="frame" x="246" y="187" width="16" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="3Hb-zJ-dvB"/>
+                            <constraint firstAttribute="width" constant="16" id="XK8-Fc-HNT"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <animations/>
+            <color key="backgroundColor" red="0.0" green="0.10588235294117647" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="LcD-MY-mOr" firstAttribute="top" secondItem="o2j-Ay-Q1t" secondAttribute="bottom" constant="15" id="HDG-q9-nht"/>
+                <constraint firstItem="np8-OG-LOj" firstAttribute="leading" secondItem="PCw-P6-dt4" secondAttribute="trailing" constant="11" id="HTW-qk-ufm"/>
+                <constraint firstItem="LcD-MY-mOr" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Tb3-WD-cK7"/>
+                <constraint firstAttribute="centerX" secondItem="o2j-Ay-Q1t" secondAttribute="centerX" id="Z5l-bn-40b"/>
+                <constraint firstItem="np8-OG-LOj" firstAttribute="centerY" secondItem="LcD-MY-mOr" secondAttribute="centerY" constant="20" id="cGX-TQ-DWe"/>
+                <constraint firstItem="o2j-Ay-Q1t" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="gmR-Su-a7D"/>
+                <constraint firstItem="jZk-Z8-yX0" firstAttribute="leading" secondItem="PCw-P6-dt4" secondAttribute="trailing" id="pGC-1h-kur"/>
+                <constraint firstItem="np8-OG-LOj" firstAttribute="top" secondItem="jZk-Z8-yX0" secondAttribute="bottom" constant="40" id="qOP-q9-V1A"/>
+                <constraint firstItem="PCw-P6-dt4" firstAttribute="centerY" secondItem="LcD-MY-mOr" secondAttribute="centerY" id="tAY-NE-nGj"/>
+                <constraint firstAttribute="bottom" secondItem="LcD-MY-mOr" secondAttribute="bottom" constant="20" id="wzB-wp-D5d"/>
+                <constraint firstItem="PCw-P6-dt4" firstAttribute="centerX" secondItem="LcD-MY-mOr" secondAttribute="centerX" constant="-15" id="yU6-LP-ZVF"/>
+            </constraints>
+            <size key="customSize" width="390" height="318"/>
+            <connections>
+                <outlet property="deviceName" destination="o2j-Ay-Q1t" id="lG5-jX-eSv"/>
+            </connections>
+            <point key="canvasLocation" x="510" y="385.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="centigrade" width="10" height="11"/>
+        <image name="collectionViewCellScale" width="228" height="228"/>
+        <image name="thermometer" width="16" height="31"/>
+    </resources>
+</document>

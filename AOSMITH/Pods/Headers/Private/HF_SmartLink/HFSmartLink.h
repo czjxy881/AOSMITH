@@ -1,0 +1,1 @@
+../../../HF_SmartLink/SmartLink/Classes/HFSmartLink.h

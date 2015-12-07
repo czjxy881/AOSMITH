@@ -1,0 +1,57 @@
+//
+//  PCH.pch
+//  HangingFurnace
+//
+//  Created by 李晓 on 15/9/1.
+//  Copyright (c) 2015年 skyware. All rights reserved.
+//
+
+#ifndef HangingFurnace_PCH_pch
+#define HangingFurnace_PCH_pch
+
+// 全局使用的分类引用
+#ifdef __OBJC__
+
+#import <ImportClass.h>
+#import <SkywareSDK.h>
+#import "HFConst.h"
+#import "HFInstance.h"
+#import "UserDefaultsTool.h"
+
+#define kSystemLoginViewBackageColor kRGBColor(255, 255, 255, 1)
+#define kSystemBtnBGColor kRGBColor(95, 194, 6, 1)
+
+
+//  HomeController AllCell Height
+
+//---------------iPhone4、4s、5、5s------------------
+#define HomeiPhone5s_or_less_3 40
+#define HomeiPhone5s_or_less_1 80
+#define HomeiPhone5s_or_less_State 40
+#define HomeiPhone5s_or_less_T_colorsettingimg 24
+
+//---------------iPhone5、5s------------------
+//#define HomeiPhone5s_or_less_3 40
+//#define HomeiPhone5s_or_less_1 80
+//#define HomeiPhone5s_or_less_State 40
+//#define HomeiPhone5s_or_less_T_colorsettingimg 24
+//---------------iPhone6------------------
+#define HomeiPhone6_3 54
+#define HomeiPhone6_1 95
+#define HomeiPhone6_State 50
+#define HomeiPhone6_T_colorsettingimg 30
+
+//---------------iPhone6 plus------------------
+#define HomeiPhone6plus_3 60
+#define HomeiPhone6plus_1 100
+#define HomeiPhone6plus_State 55
+#define HomeiPhone6plus_T_colorsettingimg 36
+
+
+//自定义模式-----
+#define ServersURL @"http://v1.skyware.com.cn/api"
+#define kSearchPlan(DeviceId)  [NSString stringWithFormat:@"cronJob/%@",DeviceId]
+
+
+#endif
+#endif

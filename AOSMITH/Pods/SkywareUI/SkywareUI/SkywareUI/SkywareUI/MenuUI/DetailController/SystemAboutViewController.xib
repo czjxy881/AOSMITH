@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SystemAboutViewController">
+            <connections>
+                <outlet property="company" destination="kXu-5L-2EI" id="ef9-mn-P19"/>
+                <outlet property="copyright" destination="oa0-IY-25A" id="jH6-Uh-1lx"/>
+                <outlet property="imageView" destination="RZP-wJ-jrp" id="uEy-0k-fuC"/>
+                <outlet property="version" destination="D9L-sm-6DR" id="b8y-kX-1Xz"/>
+                <outlet property="view" destination="QvI-YF-x5l" id="uGL-oG-oOQ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="QvI-YF-x5l">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RZP-wJ-jrp">
+                    <rect key="frame" x="10" y="100" width="355" height="121"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="RZP-wJ-jrp" secondAttribute="height" multiplier="359:122" id="3pO-wL-IbM"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2011-2015 BeijingSkyware WebIntegration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oa0-IY-25A">
+                    <rect key="frame" x="45" y="645" width="285" height="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="北京鼎甲微联公司  版权所有" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kXu-5L-2EI">
+                    <rect key="frame" x="100" y="619" width="177" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="软件版本信息: 0.9.3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9L-sm-6DR">
+                    <rect key="frame" x="125" y="591" width="125" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="RZP-wJ-jrp" secondAttribute="trailing" constant="10" id="43L-o7-gg2"/>
+                <constraint firstItem="kXu-5L-2EI" firstAttribute="top" secondItem="D9L-sm-6DR" secondAttribute="bottom" constant="10" id="8cU-Iy-nqV"/>
+                <constraint firstItem="RZP-wJ-jrp" firstAttribute="top" secondItem="QvI-YF-x5l" secondAttribute="top" constant="100" id="DeJ-aZ-HyR"/>
+                <constraint firstAttribute="centerX" secondItem="oa0-IY-25A" secondAttribute="centerX" id="G0P-bk-VIw"/>
+                <constraint firstAttribute="centerX" secondItem="kXu-5L-2EI" secondAttribute="centerX" id="KiY-lY-SbF"/>
+                <constraint firstAttribute="centerX" secondItem="D9L-sm-6DR" secondAttribute="centerX" id="MJ6-JH-N7D"/>
+                <constraint firstAttribute="trailing" secondItem="RZP-wJ-jrp" secondAttribute="trailing" constant="8" id="Nyl-vO-9xy"/>
+                <constraint firstItem="RZP-wJ-jrp" firstAttribute="leading" secondItem="QvI-YF-x5l" secondAttribute="leading" constant="10" id="SYo-5H-L4j"/>
+                <constraint firstItem="D9L-sm-6DR" firstAttribute="top" secondItem="RZP-wJ-jrp" secondAttribute="bottom" constant="30" id="VJ5-HZ-gD1"/>
+                <constraint firstItem="oa0-IY-25A" firstAttribute="top" secondItem="kXu-5L-2EI" secondAttribute="bottom" constant="10" id="coa-t0-IjK"/>
+                <constraint firstItem="RZP-wJ-jrp" firstAttribute="leading" secondItem="QvI-YF-x5l" secondAttribute="leading" constant="8" id="fWR-sD-QRl"/>
+                <constraint firstAttribute="bottom" secondItem="oa0-IY-25A" secondAttribute="bottom" constant="8" id="pHh-86-hgb"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="Nyl-vO-9xy"/>
+                    <exclude reference="fWR-sD-QRl"/>
+                    <exclude reference="VJ5-HZ-gD1"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

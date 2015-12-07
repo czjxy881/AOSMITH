@@ -1,0 +1,1 @@
+../../../SkywareUI/SkywareUI/SkywareUI/SkywareUI/MenuUI/DetailController/DeviceManagerViewController.h

@@ -1,0 +1,1 @@
+../../../SkywareUI/SkywareUI/SkywareUI/SkywareUI/UserUI/View/UserSettingPasswordView.h
