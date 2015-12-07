@@ -10,7 +10,9 @@
 #import "HomeCollectionViewCell.h"
 #import "ASValueTrackingSlider.h"
 #import "UserMenuViewController.h"
+#import "CustomTimeViewController.h"
 #import <AddDeviceViewController.h>
+#import "CustomModel.h"
 
 @interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,ASValueTrackingSliderDelegate>
 
@@ -63,6 +65,8 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavBarBtn];
+    // 获取定时信息
+    [self getTimingTime];
     // 冬季模式下默认为采暖 测试默认是地暖
     //    HFInstance *instance = [HFInstance sharedHFInstance];
     //    instance.heatingState = heating_floor;
@@ -74,11 +78,25 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     // 适配
     //    [self setScreenDisplay];
     //    [self downloadDeviceList];
+    
+    
+    [self.tempretureSliderView addTarget:self action:@selector(sliderValueChange:) forControlEvents:UIControlEventValueChanged];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 }
+
+
+- (void) getTimingTime
+{
+    NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
+    CustomModel *customModel = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+    if (customModel) {
+        
+    }
+}
+
 /**
  *  获取设备列表
  */
@@ -220,19 +238,26 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 
 
 #pragma mark -ASValueTrackingSliderDelegate
-//-(void)sliderDidHidePopUpView:(ASValueTrackingSlider *)slider
-//{
-//    //存储设定的值
-//    DeviceData *deviceData = (DeviceData *)_currentSkywareInfo.device_data;
-//    HFInstance *instance = deviceData.totalInstance;
-//    instance.defaultTem = (NSInteger)slider.value;
-//    //发送指令
-//    [SendCommandManager sendSettingTempretureCmd:_currentSkywareInfo];
-//}
+-(void)sliderDidHidePopUpView:(ASValueTrackingSlider *)slider
+{
+    if (slider.value) {
+    }
+}
 
 -(void)sliderWillDisplayPopUpView:(ASValueTrackingSlider *)slider
 {
     NSLog(@"the slider value is %lf",slider.value);
+}
+
+- (void)sliderValueChange:(ASValueTrackingSlider *)slider
+{
+    NSLog(@"%f",slider.value);
+    
+    if (slider.value > 70 || slider.value < 35) {
+        [slider hidePopUpView];
+    }else{
+        [slider showPopUpView];
+    }
 }
 
 /**
@@ -308,11 +333,10 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 }
 
 #pragma mark - UITapGestureRecognizer
-//- (IBAction)pushModeVC:(UITapGestureRecognizer *)sender {
-//    SettingModelViewController *settingModelVC = [[SettingModelViewController alloc] init];
-//    settingModelVC.skywareInfo = _currentSkywareInfo;
-//    [self.navigationController pushViewController:settingModelVC animated:YES];
-//}
+- (IBAction)pushModeVC:(UITapGestureRecognizer *)sender {
+    CustomTimeViewController *timeVC = [[CustomTimeViewController alloc] init];
+    [self.navigationController pushViewController:timeVC animated:YES];
+}
 
 #pragma mark -- ButtonClick
 

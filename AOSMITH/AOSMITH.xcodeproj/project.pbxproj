@@ -31,9 +31,10 @@
 		4E670BA91C151C34009E7B52 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B7B1C151C34009E7B52 /* ViewController.m */; };
 		4E670BAB1C151C34009E7B52 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B811C151C34009E7B52 /* AppDelegate.m */; };
 		4E670BAC1C151C34009E7B52 /* HFConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B831C151C34009E7B52 /* HFConst.m */; };
-		4E670BAD1C151C34009E7B52 /* HFInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B851C151C34009E7B52 /* HFInstance.m */; };
 		4E670BAE1C151C34009E7B52 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4E670B861C151C34009E7B52 /* Info.plist */; };
 		4E670BAF1C151C34009E7B52 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B871C151C34009E7B52 /* main.m */; };
+		4E774D621C15934500906292 /* CustomTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E774D611C15934500906292 /* CustomTimeViewController.m */; };
+		4E774D651C1596B400906292 /* CustomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E774D641C1596B400906292 /* CustomModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,11 +79,13 @@
 		4E670B811C151C34009E7B52 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4E670B821C151C34009E7B52 /* HFConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFConst.h; sourceTree = "<group>"; };
 		4E670B831C151C34009E7B52 /* HFConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFConst.m; sourceTree = "<group>"; };
-		4E670B841C151C34009E7B52 /* HFInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFInstance.h; sourceTree = "<group>"; };
-		4E670B851C151C34009E7B52 /* HFInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFInstance.m; sourceTree = "<group>"; };
 		4E670B861C151C34009E7B52 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E670B871C151C34009E7B52 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4E670B881C151C34009E7B52 /* PCH.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCH.pch; sourceTree = "<group>"; };
+		4E774D601C15934500906292 /* CustomTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTimeViewController.h; sourceTree = "<group>"; };
+		4E774D611C15934500906292 /* CustomTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTimeViewController.m; sourceTree = "<group>"; };
+		4E774D631C1596B400906292 /* CustomModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomModel.h; sourceTree = "<group>"; };
+		4E774D641C1596B400906292 /* CustomModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomModel.m; sourceTree = "<group>"; };
 		860118F5987DF732F218A50D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A31544459E35E22BBD73D725 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -166,6 +169,8 @@
 		4E670B371C151C34009E7B52 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4E774D601C15934500906292 /* CustomTimeViewController.h */,
+				4E774D611C15934500906292 /* CustomTimeViewController.m */,
 				4E670B3C1C151C34009E7B52 /* HomeViewController.h */,
 				4E670B3D1C151C34009E7B52 /* HomeViewController.m */,
 			);
@@ -175,6 +180,8 @@
 		4E670B421C151C34009E7B52 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4E774D631C1596B400906292 /* CustomModel.h */,
+				4E774D641C1596B400906292 /* CustomModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -272,8 +279,6 @@
 				4E670B811C151C34009E7B52 /* AppDelegate.m */,
 				4E670B821C151C34009E7B52 /* HFConst.h */,
 				4E670B831C151C34009E7B52 /* HFConst.m */,
-				4E670B841C151C34009E7B52 /* HFInstance.h */,
-				4E670B851C151C34009E7B52 /* HFInstance.m */,
 				4E670B861C151C34009E7B52 /* Info.plist */,
 				4E670B871C151C34009E7B52 /* main.m */,
 				4E670B881C151C34009E7B52 /* PCH.pch */,
@@ -407,6 +412,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E774D651C1596B400906292 /* CustomModel.m in Sources */,
 				4E670BAB1C151C34009E7B52 /* AppDelegate.m in Sources */,
 				4E670BA31C151C34009E7B52 /* NotifyViewController.m in Sources */,
 				4E670BAC1C151C34009E7B52 /* HFConst.m in Sources */,
@@ -417,12 +423,12 @@
 				4E670BA01C151C34009E7B52 /* SelectWeekView.m in Sources */,
 				4E670BA41C151C34009E7B52 /* SettingViewController.m in Sources */,
 				4E670B951C151C34009E7B52 /* ASValueTrackingSlider.m in Sources */,
+				4E774D621C15934500906292 /* CustomTimeViewController.m in Sources */,
 				4E670B941C151C34009E7B52 /* ASValuePopUpView.m in Sources */,
 				4E670BA51C151C34009E7B52 /* UserMenuViewController.m in Sources */,
 				4E670B8B1C151C34009E7B52 /* HomeViewController.m in Sources */,
 				4E670B9E1C151C34009E7B52 /* selectDataPickView.m in Sources */,
 				4E670B981C151C34009E7B52 /* HomeCollectionView.m in Sources */,
-				4E670BAD1C151C34009E7B52 /* HFInstance.m in Sources */,
 				4E670BA61C151C34009E7B52 /* WebViewController.m in Sources */,
 				4E670B991C151C34009E7B52 /* HomeCollectionViewCell.m in Sources */,
 			);

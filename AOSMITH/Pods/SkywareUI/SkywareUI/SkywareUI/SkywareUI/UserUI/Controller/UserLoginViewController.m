@@ -42,6 +42,8 @@
     // 自动登录
     SkywareResult *result = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathTool getUserDataPath]];
     if (result.phone.length && result.password.length) { // 保存有用户名密码，跳转到首页
+        self.phone.text = result.phone;
+        self.password.text = result.password;
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
         [param setObject:result.phone forKey:@"login_id"];
         [param setObject:result.password forKey:@"login_pwd"];
