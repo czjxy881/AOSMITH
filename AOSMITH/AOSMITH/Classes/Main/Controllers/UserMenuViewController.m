@@ -39,7 +39,7 @@
 - (void) getUserInfo
 {
     [SkywareUserManager UserGetUserWithParamesers:nil Success:^(SkywareResult *result) {
-        SkywareUserInfoModel *userInfo = [SkywareUserInfoModel objectWithKeyValues:[result.result firstObject]];
+        SkywareUserInfoModel *userInfo = [SkywareUserInfoModel mj_objectWithKeyValues:[result.result firstObject]];
         [SVProgressHUD dismiss];
         [self setUpDataListWith:userInfo];
     } failure:^(SkywareResult *result) {
@@ -92,10 +92,10 @@
         [self.navigationController pushViewController:helpVC animated:YES];
     }];
     
-    BaseArrowCellItem *notification = [BaseArrowCellItem  createBaseCellItemWithIcon:@"notice" AndTitle:@"通知" SubTitle:nil ClickOption:^{
-        NotifyViewController *nogify = [[NotifyViewController alloc]init];
-        [self.navigationController pushViewController:nogify animated:YES];
-    }];
+//    BaseArrowCellItem *notification = [BaseArrowCellItem  createBaseCellItemWithIcon:@"notice" AndTitle:@"通知" SubTitle:nil ClickOption:^{
+//        NotifyViewController *nogify = [[NotifyViewController alloc]init];
+//        [self.navigationController pushViewController:nogify animated:YES];
+//    }];
     
     BaseArrowCellItem *feedbackItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_feedback" AndTitle:@"问题反馈" SubTitle:nil ClickOption:^{
         SystemFeedBackViewController *feedBack = [[SystemFeedBackViewController alloc] initWithNibName:@"SystemFeedBackViewController" bundle:nil];
@@ -114,7 +114,7 @@
     sectionLabel.textAlignment = NSTextAlignmentCenter;
     sectionLabel.backgroundColor = kRGBColor(231, 231, 231, 1);
     
-    BaseCellItemGroup *group3 = [BaseCellItemGroup createGroupWithHeadView:sectionLabel AndFootView:nil OrItem:@[notification,helpItem,feedbackItem,aboutItem]];
+    BaseCellItemGroup *group3 = [BaseCellItemGroup createGroupWithHeadView:sectionLabel AndFootView:nil OrItem:@[helpItem,feedbackItem,aboutItem]];
     
     [self.dataList removeAllObjects];
     [self.dataList addObject:group1];

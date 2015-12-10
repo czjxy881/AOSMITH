@@ -25,7 +25,6 @@
 		4E670BA31C151C34009E7B52 /* NotifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B701C151C34009E7B52 /* NotifyViewController.m */; };
 		4E670BA41C151C34009E7B52 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B721C151C34009E7B52 /* SettingViewController.m */; };
 		4E670BA51C151C34009E7B52 /* UserMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B741C151C34009E7B52 /* UserMenuViewController.m */; };
-		4E670BA61C151C34009E7B52 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B761C151C34009E7B52 /* WebViewController.m */; };
 		4E670BA71C151C34009E7B52 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E670B781C151C34009E7B52 /* LaunchScreen.xib */; };
 		4E670BA81C151C34009E7B52 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E670B791C151C34009E7B52 /* Main.storyboard */; };
 		4E670BA91C151C34009E7B52 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B7B1C151C34009E7B52 /* ViewController.m */; };
@@ -35,6 +34,8 @@
 		4E670BAF1C151C34009E7B52 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E670B871C151C34009E7B52 /* main.m */; };
 		4E774D621C15934500906292 /* CustomTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E774D611C15934500906292 /* CustomTimeViewController.m */; };
 		4E774D651C1596B400906292 /* CustomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E774D641C1596B400906292 /* CustomModel.m */; };
+		4E774D681C16856F00906292 /* DeviceDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E774D671C16856F00906292 /* DeviceDataModel.m */; };
+		4EB11C1B1C1842760004FFD4 /* SendCommandModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB11C1A1C1842760004FFD4 /* SendCommandModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,8 +70,6 @@
 		4E670B721C151C34009E7B52 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		4E670B731C151C34009E7B52 /* UserMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMenuViewController.h; sourceTree = "<group>"; };
 		4E670B741C151C34009E7B52 /* UserMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMenuViewController.m; sourceTree = "<group>"; };
-		4E670B751C151C34009E7B52 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		4E670B761C151C34009E7B52 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		4E670B781C151C34009E7B52 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		4E670B791C151C34009E7B52 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4E670B7A1C151C34009E7B52 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -86,6 +85,10 @@
 		4E774D611C15934500906292 /* CustomTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTimeViewController.m; sourceTree = "<group>"; };
 		4E774D631C1596B400906292 /* CustomModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomModel.h; sourceTree = "<group>"; };
 		4E774D641C1596B400906292 /* CustomModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomModel.m; sourceTree = "<group>"; };
+		4E774D661C16856F00906292 /* DeviceDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceDataModel.h; sourceTree = "<group>"; };
+		4E774D671C16856F00906292 /* DeviceDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceDataModel.m; sourceTree = "<group>"; };
+		4EB11C191C1842760004FFD4 /* SendCommandModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendCommandModel.h; sourceTree = "<group>"; };
+		4EB11C1A1C1842760004FFD4 /* SendCommandModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendCommandModel.m; sourceTree = "<group>"; };
 		860118F5987DF732F218A50D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A31544459E35E22BBD73D725 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -182,6 +185,10 @@
 			children = (
 				4E774D631C1596B400906292 /* CustomModel.h */,
 				4E774D641C1596B400906292 /* CustomModel.m */,
+				4E774D661C16856F00906292 /* DeviceDataModel.h */,
+				4E774D671C16856F00906292 /* DeviceDataModel.m */,
+				4EB11C191C1842760004FFD4 /* SendCommandModel.h */,
+				4EB11C1A1C1842760004FFD4 /* SendCommandModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -248,8 +255,6 @@
 				4E670B721C151C34009E7B52 /* SettingViewController.m */,
 				4E670B731C151C34009E7B52 /* UserMenuViewController.h */,
 				4E670B741C151C34009E7B52 /* UserMenuViewController.m */,
-				4E670B751C151C34009E7B52 /* WebViewController.h */,
-				4E670B761C151C34009E7B52 /* WebViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -415,6 +420,7 @@
 				4E774D651C1596B400906292 /* CustomModel.m in Sources */,
 				4E670BAB1C151C34009E7B52 /* AppDelegate.m in Sources */,
 				4E670BA31C151C34009E7B52 /* NotifyViewController.m in Sources */,
+				4E774D681C16856F00906292 /* DeviceDataModel.m in Sources */,
 				4E670BAC1C151C34009E7B52 /* HFConst.m in Sources */,
 				4E670BA21C151C34009E7B52 /* HelpViewController.m in Sources */,
 				4E670BA91C151C34009E7B52 /* ViewController.m in Sources */,
@@ -422,6 +428,7 @@
 				4E670B9B1C151C34009E7B52 /* HomeTopStateView.m in Sources */,
 				4E670BA01C151C34009E7B52 /* SelectWeekView.m in Sources */,
 				4E670BA41C151C34009E7B52 /* SettingViewController.m in Sources */,
+				4EB11C1B1C1842760004FFD4 /* SendCommandModel.m in Sources */,
 				4E670B951C151C34009E7B52 /* ASValueTrackingSlider.m in Sources */,
 				4E774D621C15934500906292 /* CustomTimeViewController.m in Sources */,
 				4E670B941C151C34009E7B52 /* ASValuePopUpView.m in Sources */,
@@ -429,7 +436,6 @@
 				4E670B8B1C151C34009E7B52 /* HomeViewController.m in Sources */,
 				4E670B9E1C151C34009E7B52 /* selectDataPickView.m in Sources */,
 				4E670B981C151C34009E7B52 /* HomeCollectionView.m in Sources */,
-				4E670BA61C151C34009E7B52 /* WebViewController.m in Sources */,
 				4E670B991C151C34009E7B52 /* HomeCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -523,10 +529,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/AOSMITH/Classes/Main/Lib/Pgy_SDK",
-				);
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/AOSMITH/Classes/Main/Other/PCH.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/AOSMITH/Classes/Main/Other/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -542,10 +546,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/AOSMITH/Classes/Main/Lib/Pgy_SDK",
-				);
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/AOSMITH/Classes/Main/Other/PCH.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/AOSMITH/Classes/Main/Other/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

@@ -9,7 +9,7 @@
 #import "BaseTableViewController.h"
 #import <SkywareDeviceInfoModel.h>
 
-@interface CustomTimeViewController : BaseTableViewController
+@interface CustomTimeViewController : BaseCellTableViewController
 
 @property (nonatomic,strong) SkywareDeviceInfoModel *skywareInfo;
 

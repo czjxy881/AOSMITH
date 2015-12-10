@@ -10,11 +10,13 @@
 
 @implementation BaseSwitchCellItem
 
-+(instancetype)createBaseCellItemWithIcon:(NSString *)icon AndTitle:(NSString *)title SubTitle:(NSString *)subTitle ClickOption:(switchCellOption)switchOption
++ (instancetype)createBaseCellItemWithIcon:(NSString *)icon AndTitle:(NSString *)title SubTitle:(NSString *)subTitle defaultOpen:(BOOL)open ClickOption:(cellOption) cellOption SwitchOption:(switchCellOption) switchOption
 {
-    BaseSwitchCellItem *baseSwitchCell = [super createBaseCellItemWithIcon:icon AndTitle:title SubTitle:subTitle ClickOption:nil];
+    BaseSwitchCellItem *baseSwitchCell = [super createBaseCellItemWithIcon:icon AndTitle:title SubTitle:subTitle ClickOption:cellOption];
     baseSwitchCell.switchOption = switchOption;
+    baseSwitchCell.open = open;
     return baseSwitchCell;
 }
+
 
 @end

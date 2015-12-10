@@ -75,4 +75,7 @@ LXSingletonH(SkywareSDKManager)
  */
 - (void) PostApplicationDidBecomeActive;
 
+
+- (void) changeCurrentDeviceWithMac:(NSString *) mac;
+
 @end

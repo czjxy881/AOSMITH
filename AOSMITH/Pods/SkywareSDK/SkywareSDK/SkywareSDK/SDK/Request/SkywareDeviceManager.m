@@ -105,8 +105,8 @@
                     manager.currentDevice = [manager.bind_Devices_Array firstObject];
                 }
             }
-            [SkywareHttpTool responseHttpToolWithJson:json Success:success failure:failure];
         }
+        [SkywareHttpTool responseHttpToolWithJson:json Success:success failure:failure];
     } failure:^(NSError *error) {
         [SkywareHttpTool ErrorLogDispose:error];
     }];

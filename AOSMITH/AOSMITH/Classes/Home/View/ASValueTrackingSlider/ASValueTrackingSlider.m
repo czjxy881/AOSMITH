@@ -255,7 +255,7 @@ static void * ASValueTrackingSliderBoundsContext = &ASValueTrackingSliderBoundsC
     CGFloat thumbH = thumbRect.size.height;
     
     CGRect popUpRect = CGRectInset(thumbRect, (thumbW - _popUpViewSize.width)/2, (thumbH - _popUpViewSize.height)/2);
-//    popUpRect.origin.y = thumbRect.origin.y - _popUpViewSize.height;
+    //    popUpRect.origin.y = thumbRect.origin.y - _popUpViewSize.height;
     popUpRect.origin.y = thumbRect.origin.y + thumbRect.size.height;
     
     // determine if popUpRect extends beyond the frame of the UISlider
@@ -392,6 +392,7 @@ static void * ASValueTrackingSliderBoundsContext = &ASValueTrackingSliderBoundsC
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     [super endTrackingWithTouch:touch withEvent:event];
+    [kNotificationCenter postNotificationName:@"endTrackingWithTouch" object:nil];
     [self positionAndUpdatePopUpView];
     if (self.popUpViewAlwaysOn == NO) [self.popUpView hide];
 }

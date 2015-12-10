@@ -29,7 +29,7 @@
     
     // 设置 App_id
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-    manager.app_id = 1;
+    manager.app_id = 17;
     manager.service_type = testing_new;
     
     SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];

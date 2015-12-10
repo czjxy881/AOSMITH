@@ -67,6 +67,8 @@
         self.accessoryView = self.imgArrowView;
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
     }else if ([items isKindOfClass:[BaseSwitchCellItem class]]){
+        BaseSwitchCellItem *switchItem = (BaseSwitchCellItem *)items;
+        self.rightSwitch.on = switchItem.open;
         self.accessoryView = self.rightSwitch;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }else if ([items isKindOfClass:[BaseCenterTitleCellItem class]]){
@@ -211,7 +213,7 @@
 {
     BaseSwitchCellItem *switchItem = (BaseSwitchCellItem *) _items;
     if (switchItem.switchOption) {
-        switchItem.switchOption();
+        switchItem.switchOption(self.rightSwitch);
     }
 }
 

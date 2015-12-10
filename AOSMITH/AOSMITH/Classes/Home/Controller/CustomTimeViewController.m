@@ -9,7 +9,9 @@
 #import "CustomTimeViewController.h"
 #import "selectDataPickView.h"
 #import "CustomModel.h"
-@interface CustomTimeViewController ()<UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
+#import "SendCommandModel.h"
+#import "DeviceDataModel.h"
+@interface CustomTimeViewController ()<UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
     selectDataPickView *_pick;
     NSIndexPath *_indexPath; // 点击的Cell indexPath ，设置选中的时间
@@ -22,18 +24,51 @@
 
 @implementation CustomTimeViewController
 
+static const SendCommandModel *sendCmdModel;
+
++ (void)initialize
+{
+    sendCmdModel = [[SendCommandModel alloc] init];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavTitle:@"定时设置"];
-    [self.dataList addObjectsFromArray:@[@"开启",@"关闭"]];
     [self addNavRightBtn];
+    [self setCellData];
     [kNotificationCenter addObserver:self selector:@selector(selectDatePickViewCenterBtnClick:) name:kSelectCustomDatePickNotification object:nil];
-    
-    NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
-    self.customModel = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
-    if (!self.customModel) {
-        self.customModel = [[CustomModel alloc] init];
+}
+
+- (void)setCellData
+{
+    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    DeviceDataModel *model = manager.currentDevice.device_data;
+    BOOL isOpenTime = YES;
+    if ([model.openTime rangeOfString:@"--"].location != NSNotFound) {
+        isOpenTime = NO;
     }
+    
+    BaseSwitchCellItem *item1 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"开启" SubTitle:self.customModel.openTime  defaultOpen:isOpenTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
+        if (cellSwitch.on) {
+            sendCmdModel.openTime = self.customModel.openTime;
+        }else{
+            sendCmdModel.openTime = @"ffff";
+        }
+    }];
+    
+    BOOL isCloseTime = YES;
+    if ([model.closeTime rangeOfString:@"--"].location != NSNotFound) {
+        isCloseTime = NO;
+    }
+    BaseSwitchCellItem *item2 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"关闭" SubTitle:self.customModel.closeTime defaultOpen:isCloseTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
+        if (cellSwitch.on) {
+            sendCmdModel.closeTime = self.customModel.openTime;
+        }else{
+            sendCmdModel.closeTime = @"ffff";
+        }
+    }];
+    
+    BaseCellItemGroup  *group = [BaseCellItemGroup createGroupWithItem:@[item1,item2]];
+    [self.dataList addObject:group];
 }
 
 #pragma mark - Method
@@ -46,6 +81,9 @@
         NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
         [NSKeyedArchiver archiveRootObject:weakSelf.customModel toFile:file];
         [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        
+        sendCmdModel.openTime = [weakSelf.customModel.openTime stringByReplacingOccurrencesOfString:@":" withString:@""];
+        sendCmdModel.closeTime = [weakSelf.customModel.closeTime stringByReplacingOccurrencesOfString:@":" withString:@""];
     }];
 }
 
@@ -58,43 +96,6 @@
 }
 
 #pragma mark - UITableViewDelegate,UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.dataList.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
-}
-
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *CustomTimeViewControllerCellID = @"CustomTimeViewControllerCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CustomTimeViewControllerCellID];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CustomTimeViewControllerCellID];
-    }
-    cell.textLabel.text = self.dataList[indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
-    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-    cell.detailTextLabel.textAlignment = NSTextAlignmentCenter;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (indexPath.row == 0) {
-        cell.detailTextLabel.text = self.customModel.openTime;
-    }else if (indexPath.row == 1){
-        cell.detailTextLabel.text = self.customModel.closeTime;
-    }
-    return cell;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -196,6 +197,18 @@
         }
     }
     return _minuteArray;
+}
+
+- (CustomModel *)customModel
+{
+    if (!_customModel) {
+        NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
+        _customModel = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+        if (!_customModel) {
+            _customModel = [[CustomModel alloc] init];
+        }
+    }
+    return _customModel;
 }
 
 @end

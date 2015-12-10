@@ -15,41 +15,53 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="智能电热水器" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o2j-Ay-Q1t">
-                        <rect key="frame" x="146" y="10" width="84" height="22"/>
+                        <rect key="frame" x="143" y="10" width="90" height="22"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="Txe-tq-u3F"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="1" green="0.71372549019999998" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="collectionViewCellScale" translatesAutoresizingMaskIntoConstraints="NO" id="LcD-MY-mOr">
-                        <rect key="frame" x="52" y="47" width="271" height="271"/>
+                        <rect key="frame" x="48" y="42" width="279" height="279"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="LcD-MY-mOr" secondAttribute="height" multiplier="1:1" id="0JD-tW-0yf"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCw-P6-dt4">
-                        <rect key="frame" x="110" y="123" width="125" height="120"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="100"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <rect key="frame" x="104" y="116" width="137" height="132"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="110"/>
+                        <color key="textColor" red="0.8666666666666667" green="0.87450980392156863" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="centigrade" translatesAutoresizingMaskIntoConstraints="NO" id="jZk-Z8-yX0">
-                        <rect key="frame" x="235" y="137" width="10" height="10"/>
+                        <rect key="frame" x="241" y="136" width="10" height="10"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="5mB-Ga-gY7"/>
                             <constraint firstAttribute="width" constant="10" id="PKQ-7e-jkx"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thermometer" translatesAutoresizingMaskIntoConstraints="NO" id="np8-OG-LOj">
-                        <rect key="frame" x="246" y="187" width="16" height="31"/>
+                        <rect key="frame" x="252" y="186" width="16" height="31"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="31" id="3Hb-zJ-dvB"/>
                             <constraint firstAttribute="width" constant="16" id="XK8-Fc-HNT"/>
                         </constraints>
                     </imageView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已关机" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p66-NP-QB6" userLabel="power">
+                        <rect key="frame" x="120" y="155" width="135" height="54"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="45"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加热中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQh-yg-wnz">
+                        <rect key="frame" x="157" y="251" width="62" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -57,21 +69,30 @@
             <animations/>
             <color key="backgroundColor" red="0.0" green="0.10588235294117647" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="LcD-MY-mOr" firstAttribute="top" secondItem="o2j-Ay-Q1t" secondAttribute="bottom" constant="15" id="HDG-q9-nht"/>
+                <constraint firstItem="p66-NP-QB6" firstAttribute="centerY" secondItem="LcD-MY-mOr" secondAttribute="centerY" id="Erb-ur-94f"/>
+                <constraint firstItem="LcD-MY-mOr" firstAttribute="top" secondItem="o2j-Ay-Q1t" secondAttribute="bottom" constant="10" id="HDG-q9-nht"/>
                 <constraint firstItem="np8-OG-LOj" firstAttribute="leading" secondItem="PCw-P6-dt4" secondAttribute="trailing" constant="11" id="HTW-qk-ufm"/>
                 <constraint firstItem="LcD-MY-mOr" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Tb3-WD-cK7"/>
+                <constraint firstItem="bQh-yg-wnz" firstAttribute="top" secondItem="PCw-P6-dt4" secondAttribute="bottom" constant="3" id="W8k-6j-Zi8"/>
                 <constraint firstAttribute="centerX" secondItem="o2j-Ay-Q1t" secondAttribute="centerX" id="Z5l-bn-40b"/>
                 <constraint firstItem="np8-OG-LOj" firstAttribute="centerY" secondItem="LcD-MY-mOr" secondAttribute="centerY" constant="20" id="cGX-TQ-DWe"/>
                 <constraint firstItem="o2j-Ay-Q1t" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="gmR-Su-a7D"/>
+                <constraint firstItem="p66-NP-QB6" firstAttribute="centerX" secondItem="LcD-MY-mOr" secondAttribute="centerX" id="kPl-6E-sc5"/>
+                <constraint firstItem="bQh-yg-wnz" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="mck-PF-8zu"/>
                 <constraint firstItem="jZk-Z8-yX0" firstAttribute="leading" secondItem="PCw-P6-dt4" secondAttribute="trailing" id="pGC-1h-kur"/>
                 <constraint firstItem="np8-OG-LOj" firstAttribute="top" secondItem="jZk-Z8-yX0" secondAttribute="bottom" constant="40" id="qOP-q9-V1A"/>
                 <constraint firstItem="PCw-P6-dt4" firstAttribute="centerY" secondItem="LcD-MY-mOr" secondAttribute="centerY" id="tAY-NE-nGj"/>
-                <constraint firstAttribute="bottom" secondItem="LcD-MY-mOr" secondAttribute="bottom" constant="20" id="wzB-wp-D5d"/>
+                <constraint firstAttribute="bottom" secondItem="LcD-MY-mOr" secondAttribute="bottom" constant="17" id="wzB-wp-D5d"/>
                 <constraint firstItem="PCw-P6-dt4" firstAttribute="centerX" secondItem="LcD-MY-mOr" secondAttribute="centerX" constant="-15" id="yU6-LP-ZVF"/>
             </constraints>
             <size key="customSize" width="390" height="318"/>
             <connections>
+                <outlet property="centigradeImg" destination="jZk-Z8-yX0" id="YSp-cy-JmU"/>
                 <outlet property="deviceName" destination="o2j-Ay-Q1t" id="lG5-jX-eSv"/>
+                <outlet property="hotUpLabel" destination="bQh-yg-wnz" id="swu-Pz-6zQ"/>
+                <outlet property="powerLabel" destination="p66-NP-QB6" id="Rxt-oG-j22"/>
+                <outlet property="temp" destination="PCw-P6-dt4" id="A32-hH-9CZ"/>
+                <outlet property="thermometer" destination="np8-OG-LOj" id="4W8-FM-K7u"/>
             </connections>
             <point key="canvasLocation" x="510" y="385.5"/>
         </collectionViewCell>

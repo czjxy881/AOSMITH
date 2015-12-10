@@ -27,6 +27,14 @@ static NSArray *service_type_array ;
     [[NSNotificationCenter defaultCenter] postNotificationName:kApplicationDidBecomeActive object:nil];
 }
 
+- (void) changeCurrentDeviceWithMac:(NSString *) mac
+{
+    SkywareDeviceInfoModel *model = [self.bind_Devices_Dict objectForKey:mac];
+    if (model) {
+        self.currentDevice = model;
+    }
+}
+
 - (NSString *)service
 {
     // 先从本地加载设置值，

@@ -38,6 +38,7 @@
 - (void)dealloc
 {
     self.returnKeyHandler = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated

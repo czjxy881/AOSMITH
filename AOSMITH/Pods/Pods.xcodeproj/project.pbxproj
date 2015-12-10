@@ -143,6 +143,9 @@
 		4CA5826527466D61868C31F636D9FF24 /* MQTTSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F57E40C9D58E0E60459F4D483C2FC /* MQTTSessionManager.m */; };
 		4CC3600CE78BEFC6161A0B39E96861CC /* SkywareDeviceTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7EC5F333798732001AE1C3980B0739 /* SkywareDeviceTool.m */; };
 		4D52A3322C997F947CE14FDA11632275 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 5066F4713C926E59D268D6456AE5D372 /* ioapi.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4EB11C1F1C1954050004FFD4 /* GTMBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EB11C1C1C1954050004FFD4 /* GTMBase64.h */; };
+		4EB11C201C1954050004FFD4 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB11C1D1C1954050004FFD4 /* GTMBase64.m */; };
+		4EB11C211C1954050004FFD4 /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EB11C1E1C1954050004FFD4 /* GTMDefines.h */; };
 		4EF02A182112280039B830CF76D032D6 /* MQTTEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 741D90551BB61C96EA034B54F103B7CB /* MQTTEncoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F1214743763031E1C5E2064EE393163 /* IQKeyboardReturnKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF7C5F4601B87E1EE260E8C78592364 /* IQKeyboardReturnKeyHandler.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		4F1726A64425CC0A4CA25CC4E97AD8A6 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = FA96475E91163E2FC6776EA99FD21067 /* MJPropertyKey.m */; };
@@ -829,6 +832,9 @@
 		4E762F23EC34ED4A6FF3312D84E33A40 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
 		4E98DA8C5F38E4F89097D31894DC072B /* NSString+RegularExpression.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSString+RegularExpression.h"; path = "LXFrameWork_OC/LXFrameWork_OC/LXFrameWork/Class/Category/NSString+RegularExpression.h"; sourceTree = "<group>"; };
 		4E9E9DEB4447D4AC6DA0E7E0C084A4EC /* MJRefreshBackNormalFooter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MJRefreshBackNormalFooter.m; path = MJRefresh/Custom/Footer/Back/MJRefreshBackNormalFooter.m; sourceTree = "<group>"; };
+		4EB11C1C1C1954050004FFD4 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
+		4EB11C1D1C1954050004FFD4 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
+		4EB11C1E1C1954050004FFD4 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		50485C09097A43356DEAF7822D1C276D /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVIndefiniteAnimatedView.h; path = SVProgressHUD/SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		5066F4713C926E59D268D6456AE5D372 /* ioapi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = SSZipArchive/minizip/ioapi.h; sourceTree = "<group>"; };
 		509F73EFF1BC01D1A81D785BB4A4CB55 /* PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PureLayout.h; path = PureLayout/PureLayout/PureLayout.h; sourceTree = "<group>"; };
@@ -2169,6 +2175,9 @@
 		FD5378D5FA55BF2A275434DA02D1A432 /* LXFrameWork_OC */ = {
 			isa = PBXGroup;
 			children = (
+				4EB11C1C1C1954050004FFD4 /* GTMBase64.h */,
+				4EB11C1D1C1954050004FFD4 /* GTMBase64.m */,
+				4EB11C1E1C1954050004FFD4 /* GTMDefines.h */,
 				39DEA397FB6699CA3038B68DEC7EBB0F /* BaseArrowCellItem.h */,
 				03C43DC1CE8028CCB1C81BD726969CC7 /* BaseArrowCellItem.m */,
 				474CC6AF15270DC82274D1ED03B1A265 /* BaseCellItem.h */,
@@ -2594,6 +2603,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EB11C211C1954050004FFD4 /* GTMDefines.h in Headers */,
 				211D4EA06F5920376A069ACB55DF6006 /* AFHTTPRequestOperation.h in Headers */,
 				F4A1512E8C4D8C8194CBB276BF72A552 /* AFHTTPRequestOperationManager.h in Headers */,
 				DECD5915774351B8473476B041DD87D7 /* AFHTTPSessionManager.h in Headers */,
@@ -2610,6 +2620,7 @@
 				3A5B54373A45916EC8DE74D060DE5503 /* UIButton+AFNetworking.h in Headers */,
 				903A0E1F82A29D285902CBB5A0828BE9 /* UIImage+AFNetworking.h in Headers */,
 				D4A65C2E29ACB340587FD41196176F8A /* UIImageView+AFNetworking.h in Headers */,
+				4EB11C1F1C1954050004FFD4 /* GTMBase64.h in Headers */,
 				F4B03681047157E5C357E584147F5A46 /* UIKit+AFNetworking.h in Headers */,
 				C7ACDDE36465ACAF629FEC233B1BF172 /* UIProgressView+AFNetworking.h in Headers */,
 				C58268D5A4D2A786576E0EAA5B50FB93 /* UIRefreshControl+AFNetworking.h in Headers */,
@@ -3152,6 +3163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				876C2EF5FE318346CDCB4BFE25A9D5B2 /* AFHTTPRequestOperation.m in Sources */,
+				4EB11C201C1954050004FFD4 /* GTMBase64.m in Sources */,
 				472A6BFCC6207D98F787649BDF44A1BE /* AFHTTPRequestOperationManager.m in Sources */,
 				2CF66E8669A348C421E93F2F67C6A61E /* AFHTTPSessionManager.m in Sources */,
 				B2B5DEC33B644F946C59F656AAAA8146 /* AFNetworkActivityIndicatorManager.m in Sources */,

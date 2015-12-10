@@ -20,31 +20,45 @@
 #define kSystemLoginViewBackageColor kRGBColor(255, 255, 255, 1)
 #define kSystemBtnBGColor kRGBColor(95, 194, 6, 1)
 
+typedef enum {
+    one_level = 1,      // 一档
+    tow_level,         // 二档
+    three_level       // 三档
+} level_type;
+
+typedef enum {
+    device_right,               // 正常
+    device_sensor_open,        // 传感器开路
+    device_sensor_short,      // 传感器短路
+    device_sensor_exceed,    // 传感器超过温度
+    device_leakage,         //  设备漏电
+    device_unknown,        // 未知故障
+} device_error_type;
 
 //  HomeController AllCell Height
 
 //---------------iPhone4、4s、5、5s------------------
-#define HomeiPhone5s_or_less_3 40
-#define HomeiPhone5s_or_less_1 80
-#define HomeiPhone5s_or_less_State 40
-#define HomeiPhone5s_or_less_T_colorsettingimg 24
+#define HomeiPhone4s_3 40
+#define HomeiPhone4s_1 80
+#define HomeiPhone4s_State 30
+#define HomeiPhone4s_T_Font 60
 
 //---------------iPhone5、5s------------------
-//#define HomeiPhone5s_or_less_3 40
-//#define HomeiPhone5s_or_less_1 80
-//#define HomeiPhone5s_or_less_State 40
-//#define HomeiPhone5s_or_less_T_colorsettingimg 24
+#define HomeiPhone5s_3 50
+#define HomeiPhone5s_1 90
+#define HomeiPhone5s_State 40
+#define HomeiPhone5s_T_Font 85
 //---------------iPhone6------------------
 #define HomeiPhone6_3 54
 #define HomeiPhone6_1 95
 #define HomeiPhone6_State 50
-#define HomeiPhone6_T_colorsettingimg 30
+#define HomeiPhone6_T_Font 100
 
 //---------------iPhone6 plus------------------
-#define HomeiPhone6plus_3 60
-#define HomeiPhone6plus_1 100
+#define HomeiPhone6plus_3 70
+#define HomeiPhone6plus_1 110
 #define HomeiPhone6plus_State 55
-#define HomeiPhone6plus_T_colorsettingimg 36
+#define HomeiPhone6plus_T_Font 130
 
 
 //自定义模式-----
