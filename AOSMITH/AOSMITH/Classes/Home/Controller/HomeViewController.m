@@ -124,7 +124,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
                 }
             }];
             // 更新设备信息
-            [self updateDeviceStatus:manager.currentDevice.device_data];
+            [self updateDeviceStatus:manager.currentDevice];
             // 设置 分页数
             self.pageVC.numberOfPages = self.dataList.count;
         }
@@ -160,13 +160,42 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     }];
 }
 
-/**
- *  更新设备状态
- */
--(void)updateDeviceStatus:(DeviceDataModel *)deviceM
+
+- (void) updateDeviceStatus:(SkywareDeviceInfoModel *)deviceM
 {
+    DeviceDataModel *deviceData = deviceM.device_data;
     _btnPower.hidden = NO;
-    self.btnPower.selected = deviceM.power; // 电源
+    if ([deviceM.device_online integerValue]) {
+        self.btnPower.enabled = YES;
+        self.btnPower.selected = deviceData.power; // 电源
+    }else{
+        self.btnPower.enabled = NO;
+    }
+    [self updateDeviceStatusWithModel:deviceData];
+}
+
+/**
+ *  MQTT 更新设备状态
+ */
+-(void)updateMQTTDeviceStatus:(SkywareMQTTModel *)MqttM
+{
+    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    NSString *deCode_deviceData = [NSString decodeBase64String:[MqttM.data firstObject]];
+    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
+    manager.currentDevice.device_data = deviceM;
+    
+    _btnPower.hidden = NO;
+    if (MqttM.device_online) {
+        self.btnPower.enabled = YES;
+        self.btnPower.selected = deviceM.power; // 电源
+    }else{
+        self.btnPower.enabled = NO;
+    }
+    [self updateDeviceStatusWithModel:deviceM];
+}
+
+- (void) updateDeviceStatusWithModel:(DeviceDataModel *)deviceM
+{
     [self.tempretureSliderView setValue:deviceM.settingTemp animated:YES]; // 温度设置
     if (deviceM.power) {
         _powerLoding.hidden = YES;
@@ -302,13 +331,8 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 #pragma mark - MQTT 消息推送
 - (void)MQTTMessage:(NSNotification *)not
 {
-    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-    NSDictionary *dict = [not.userInfo objectForKey:@"MQTT_Data"];
-    NSString *deCode_deviceData = [NSString decodeBase64String:dict[@"data"][0]];
-    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
-    manager.currentDevice.device_data = deviceM;
-    // 更新设备信息
-    [self updateDeviceStatus:deviceM];
+    SkywareMQTTModel *model = [not.userInfo objectForKey:kSkywareMQTTuserInfoKey];
+    [self updateMQTTDeviceStatus:model];
 }
 
 #pragma mark - CollectionViewDelegate / DataSource
@@ -347,7 +371,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
         SkywareDeviceInfoModel *model = self.dataList[page];
         SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
         manager.currentDevice = model;
-        [self updateDeviceStatus:model.device_data];
+        [self updateDeviceStatus:model];
     }
     NSLog(@"----------切换下一个设备--------");
 }
@@ -375,12 +399,16 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  */
 - (IBAction)changePower:(UIButton *)sender {
     if (self.dataList.count) {
-        _powerLoding.hidden = NO;
-        _btnPower.hidden = YES;
-        if (sender.selected) {  // 开机
+        if (!sender.enabled) {  // 去配网
+            // 去配网
+        }else if (sender.selected) {  // 开机
+            _powerLoding.hidden = NO;
+            _btnPower.hidden = YES;
             _powerLoding.text = @"开机中";
             sendCmdModel.power = YES;
         }else{ // 关机
+            _powerLoding.hidden = NO;
+            _btnPower.hidden = YES;
             _powerLoding.text = @"关机中";
             sendCmdModel.power = NO;
         }

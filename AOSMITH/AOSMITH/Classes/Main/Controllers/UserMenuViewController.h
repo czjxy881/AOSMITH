@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 skyware. All rights reserved.
 //
 
-@interface UserMenuViewController : BaseCellTableViewController
+#import <MenuViewController.h>
+
+@interface UserMenuViewController : MenuViewController
 
 @end

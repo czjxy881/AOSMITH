@@ -49,8 +49,8 @@
 #pragma mark - MQTT 消息推送
 - (void)MQTTMessage:(NSNotification *)not
 {
-    NSDictionary *dict = [not.userInfo objectForKey:@"MQTT_Data"];
-    NSString *deCode_deviceData = [NSString decodeBase64String:dict[@"data"][0]];
+    SkywareMQTTModel *model = [not.userInfo objectForKey:kSkywareMQTTuserInfoKey];
+    NSString *deCode_deviceData = [NSString decodeBase64String:[model.data firstObject]];
     DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
     _deviceData = deviceM;
 }
