@@ -39,6 +39,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavTitle:@"设备管理"];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     BOOL device_lock = [_DeviceInfo.device_lock boolValue];
     [self setStateWithState:!device_lock];
     self.device_name.text = _DeviceInfo.device_name;

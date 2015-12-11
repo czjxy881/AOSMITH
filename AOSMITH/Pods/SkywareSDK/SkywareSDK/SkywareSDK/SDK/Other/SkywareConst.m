@@ -12,6 +12,8 @@
 
 NSString * const kSkywareNotificationCenterCurrentDeviceMQTT = @"kSkywareNotificationCenterCurrentDeviceMQTT";
 
+NSString * const kSkywareFindBindUserAllDeviceSuccess = @"kSkywareFindBindUserAllDeviceSuccess";
+
 NSString * const kSkywareMQTTuserInfoKey = @"MQTT_Model";
 
 NSString * const kApplicationDidBecomeActive = @"kApplicationDidBecomeActive";

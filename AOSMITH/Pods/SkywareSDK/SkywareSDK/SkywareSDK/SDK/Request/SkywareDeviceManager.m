@@ -101,6 +101,7 @@
                 [manager.bind_Devices_Dict setObject:dev forKey:dev.device_mac];
             }];
             if (manager.bind_Devices_Array.count) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareFindBindUserAllDeviceSuccess object:nil];
                 if (!manager.currentDevice) {
                     manager.currentDevice = [manager.bind_Devices_Array firstObject];
                 }

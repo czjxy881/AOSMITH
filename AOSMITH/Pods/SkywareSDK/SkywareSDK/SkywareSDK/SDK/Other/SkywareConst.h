@@ -16,6 +16,9 @@ extern NSString * const kSkywareNotificationCenterCurrentDeviceMQTT;
 /** 推送消息发送通知 userInfo 的 Key  */
 extern NSString * const kSkywareMQTTuserInfoKey;
 
+/** 查询用户所有绑定设备完成发送通知  */
+extern NSString * const kSkywareFindBindUserAllDeviceSuccess;
+
 #pragma mark - 保留类型
 
 /** 设备从后台进入前台注册 MQTT 监听 */
