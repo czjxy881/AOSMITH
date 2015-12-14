@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LXFrameWorkInstance.h"
+#import "LXFrameWorkManager.h"
 #import "PureLayout.h"
 
 @interface NavigationBar : UIView

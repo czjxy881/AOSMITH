@@ -7,8 +7,13 @@
 //
 
 #import "DeviceBindingView.h"
-@interface DeviceBindingView ()
+#import "SelectCityViewController.h"
 
+@interface DeviceBindingView ()
+{
+    CoreLocationTool *locationTool;
+    CLLocation *_location;
+}
 /**
  *  设备名称
  */
@@ -22,9 +27,17 @@
  */
 @property (weak, nonatomic) IBOutlet UISwitch *switchBtn;
 /**
+ * 修改地址按钮
+ */
+@property (weak, nonatomic) IBOutlet UIButton *changeLocationBtn;
+/**
  *  绑定完成按钮
  */
 @property (weak, nonatomic) IBOutlet UIButton *finishBtn;
+/**
+ *  位置显示
+ */
+@property (weak, nonatomic) IBOutlet UITextField *locationLabel;
 
 @end
 
@@ -32,8 +45,9 @@
 
 - (void)awakeFromNib
 {
-    SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];
+    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     self.backgroundColor = UIM.Device_view_bgColor == nil? UIM.All_view_bgColor :UIM.Device_view_bgColor;
+    [self.changeLocationBtn setBackgroundColor:UIM.Device_button_bgColor == nil ? UIM.All_button_bgColor :UIM.Device_button_bgColor];
     [self.finishBtn setBackgroundColor:UIM.Device_button_bgColor == nil? UIM.All_button_bgColor : UIM.Device_button_bgColor];
 }
 
@@ -50,10 +64,16 @@
 - (void)setParams:(NSDictionary *)params
 {
     [super setParams:params];
-    NSString *deviceName = params[@"deviceName"];
-    BOOL device_lock = [params[@"deviceLock"] boolValue];
-    [self setStateWithState:!device_lock];
-    self.name.text = deviceName;
+    if (params.count) {
+        NSString *deviceName = params[@"deviceName"];
+        NSString *deviceLocaion = params[@"deviceLocaion"];
+        BOOL device_lock = [params[@"deviceLock"] boolValue];
+        [self setStateWithState:!device_lock];
+        self.name.text = deviceName;
+        self.locationLabel.text = deviceLocaion;
+    }else{
+        [self setAddressLocation];
+    }
 }
 
 - (IBAction)switchChange:(UISwitch *)sender {
@@ -72,6 +92,14 @@
     }
 }
 
+- (IBAction)selectLocationClick:(UIButton *)sender {
+    SelectCityViewController *selectCity = [[SelectCityViewController alloc] init];
+    selectCity.cellClick = ^(NSString *addressText){
+        _locationLabel.text = addressText;
+    };
+    self.option(selectCity);
+}
+
 - (IBAction)commitBtnClick:(UIButton *)sender {
     if (!self.name.text.length) {
         [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteDeviceName];
@@ -81,8 +109,20 @@
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         [params setValue:self.name.text forKey:@"deviceName"];
         [params setValue:@(!self.switchBtn.isOn) forKey:@"switchState"];
+        [params setValue:self.locationLabel.text forKey:@"deviceLocaion"];
         self.otherOption(params);
     }
+}
+
+- (void) setAddressLocation
+{
+    locationTool = [[CoreLocationTool alloc] init];
+    [locationTool getLocation:^(CLLocation *location) {
+        _location = location;
+        [locationTool reverseGeocodeLocation:location userAddress:^(UserAddressModel *userAddress){
+            self.locationLabel.text = userAddress.City;
+        }];
+    }];
 }
 
 @end

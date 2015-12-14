@@ -1,9 +1,9 @@
 //
-//  SkywareUIInstanceModel.h
-//  WebIntegration
+//  SkywareUIManager.h
+//  SkywareUI
 //
-//  Created by 李晓 on 15/8/20.
-//  Copyright (c) 2015年 skyware. All rights reserved.
+//  Created by 李晓 on 15/12/14.
+//  Copyright © 2015年 skyware. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,8 +11,8 @@
 #import <LXSingleton.h>
 #import <SkywareSDK.h>
 
-@interface SkywareUIInstance : NSObject
-LXSingletonH(SkywareUIInstance)
+@interface SkywareUIManager : NSObject
+LXSingletonH(SkywareUIManager)
 
 /***  所有页面View背景颜色 */
 @property (nonatomic,strong) UIColor *All_view_bgColor;
@@ -63,6 +63,5 @@ LXSingletonH(SkywareUIInstance)
 @property (nonatomic,copy) NSString *company;
 /***  关于页面的版权信息 */
 @property (nonatomic,copy) NSString *copyright;
-
 
 @end

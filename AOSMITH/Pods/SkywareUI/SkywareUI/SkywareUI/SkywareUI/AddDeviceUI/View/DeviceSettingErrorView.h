@@ -7,7 +7,7 @@
 //
 
 #import "StepNextView.h"
-#import "SkywareUIInstance.h"
+#import "SkywareUIManager.h"
 
 @interface DeviceSettingErrorView : StepNextView
 

@@ -10,7 +10,13 @@
 
 @interface LXFrameWorkConst : NSObject
 
-/** */
-extern NSString * const kpopToRootViewControllerAnimated;
+/** 与互联网断开连接 */
+extern NSString * const kUseDisconnectInternet;
+
+/** 使用 WiFi 连接互联网 */
+extern NSString * const kUseWiFiConnectInternet;
+
+/** 使用移动蜂窝数据连接互联网 */
+extern NSString * const kUseMobileNetworkConnectInternet;
 
 @end

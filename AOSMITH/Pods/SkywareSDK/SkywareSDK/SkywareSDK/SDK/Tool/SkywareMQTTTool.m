@@ -16,6 +16,8 @@
     SkywareMQTTModel *model = [SkywareMQTTModel mj_objectWithKeyValues:dataDict];
     if (model.data.count) { // 手动添加，如果data.cout 有值，说明设备在线
         model.device_online = 1;
+    }else{
+        model.device_online = 0;
     }
     NSMutableDictionary *codeDict = [NSMutableDictionary dictionary];
     [model.data enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {

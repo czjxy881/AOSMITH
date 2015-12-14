@@ -7,8 +7,9 @@
 //
 
 #import "UserLoginViewController.h"
+#import "BaseNetworkTool.h"
 
-@interface UserLoginViewController ()
+@interface UserLoginViewController ()<UIAlertViewDelegate>
 /*** 登录名 */
 @property (weak, nonatomic) IBOutlet UITextField *phone;
 /*** 密码 */
@@ -30,7 +31,7 @@
     self.navView.hidden = YES;
     
     // 设置页面元素
-    SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];
+    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     [_loginBtn setBackgroundColor:UIM.User_button_bgColor == nil? UIM.All_button_bgColor : UIM.User_button_bgColor];
     _loginLogo.image = UIM.User_loginView_logo;
     self.view.backgroundColor = UIM.User_view_bgColor == nil? UIM.All_view_bgColor :UIM.User_view_bgColor;
@@ -70,6 +71,12 @@
 
 - (void) userLoginWithparams:(NSDictionary *) params
 {
+    // 判断是否有网
+    if (![BaseNetworkTool isConnectNetWork]) {
+        [SVProgressHUD dismiss];
+        [[[UIAlertView alloc] initWithTitle:@"手机网络异常" message:@"您的网络出现一点问题，请检查网络，并重新刷新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"刷新", nil]show];
+        return;
+    }
     [SkywareUserManager UserLoginWithParamesers:params Success:^(SkywareResult *result) {
         // 将用户信息保存到本地
         result.phone = self.phone.text;
@@ -85,6 +92,14 @@
         //用户名密码或密码错误
         [SVProgressHUD showErrorWithStatus:kMessageUserNameOrPasswordError];
     }];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self loginBtnClick:nil];
+    }
 }
 
 @end

@@ -18,6 +18,13 @@
 + (void) startNetWrokWithURL:(NSString *) url;
 
 /**
+ *  是否连接上互联网
+ *
+ *  @return YES：连接上  NO：未连接
+ */
++ (BOOL)isConnectNetWork;
+
+/**
  *  是否WIFI
  */
 + (BOOL)isConnectWIFI;

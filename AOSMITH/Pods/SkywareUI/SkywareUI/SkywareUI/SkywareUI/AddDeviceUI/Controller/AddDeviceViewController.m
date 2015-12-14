@@ -7,6 +7,7 @@
 //
 
 #import "AddDeviceViewController.h"
+#import "SelectCityViewController.h"
 
 @interface AddDeviceViewController ()
 {
@@ -32,8 +33,19 @@
     [self reloadData];
     
     // 判断是配置网络还是添加设备
-    if (!self.isAddDevice) {// 配网
+    if (!self.isAddDevice) {// 只配网
+        self.stepHeadView.hidden = YES;
+        [self.stepHeadView.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.constant == 44) {
+                [self.stepHeadView removeConstraint:obj];
+                *stop = YES;
+            }
+        }];
+        [self.stepHeadView autoSetDimension:ALDimensionHeight toSize:0];
         [self toPage:2];
+    }else{
+        self.stepHeadView.hidden = NO;
+        [self.stepHeadView autoSetDimension:ALDimensionHeight toSize:44];
     }
     
     // 初始化 smtlkLink
@@ -103,9 +115,17 @@
         }
     }else if (number == 3){
         DeviceBindingView *bindingView = [DeviceBindingView createDeviceBindingView];
+        
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
         if (_deviceInfo.device_name.length) {
-            bindingView.params = @{@"deviceName":_deviceInfo.device_name,@"deviceLock":_deviceInfo.device_lock};
+            [params setObject:_deviceInfo.device_name forKey:@"deviceName"];
+            [params setObject:_deviceInfo.device_lock forKey:@"deviceLock"];
+            [params setObject:_deviceInfo.device_address forKey:@"deviceLocaion"];
         }
+        bindingView.params = params;
+        bindingView.option = ^(SelectCityViewController *selectCity){
+            [self.navigationController pushViewController:selectCity animated:YES];
+        };
         bindingView.otherOption = ^(id obj){
             // 更新设备信息
             NSDictionary *params = (NSDictionary *) obj;
@@ -196,6 +216,7 @@
     updateInfo.device_mac = _deviceInfo.device_mac; // 必须设置，因为要根据 MAC 地址更新设备
     updateInfo.device_name = dict[@"deviceName"];
     updateInfo.device_lock = dict[@"switchState"];
+    updateInfo.device_address = dict[@"deviceLocaion"];
     if (self.code.length) {
         updateInfo.device_sn = self.code;
     }
@@ -217,7 +238,6 @@
     [params setObject:_deviceInfo.device_mac forKey:@"device_mac"];
     [SkywareDeviceManager DeviceBindUser:params Success:^(SkywareResult *result) {
         [SVProgressHUD showSuccessWithStatus:kMessageDeviceBindDeviceSuccess];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceRelseaseUserRefreshTableView object:nil];
         [self.navigationController popToRootViewControllerAnimated:YES];
     } failure:^(SkywareResult *result) {
         [SVProgressHUD showErrorWithStatus:kMessageDeviceBindDeviceError];

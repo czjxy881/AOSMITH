@@ -22,9 +22,9 @@
 {
     [super viewDidLoad];
     // 设置默认的View背景颜色
-    LXFrameWorkInstance *instance = [LXFrameWorkInstance sharedLXFrameWorkInstance];
+    LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
     if (!self.view.backgroundColor) {
-        self.view.backgroundColor = instance.ViewController_bgColor;
+        self.view.backgroundColor = manager.ViewController_bgColor;
     }
     // 添加自定义的NavigationBar
     [self setNavigationBarView];
@@ -84,10 +84,10 @@
 - (UIButton *)setNavBackBtn
 {
     UIButton *button = [UIButton newAutoLayoutView];
-    LXFrameWorkInstance *instance = [LXFrameWorkInstance sharedLXFrameWorkInstance];
-    if (instance.backState == writeBase) {
+    LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
+    if (manager.backState == writeBase) {
         [button setImage:[BundleTool getImage:@"Navigationbar_back_write" FromBundle:LXFrameWorkBundle] forState:UIControlStateNormal];
-    }else if(instance.backState == blackBase){
+    }else if(manager.backState == blackBase){
         [button setImage:[BundleTool getImage:@"navigationbar_back" FromBundle:LXFrameWorkBundle] forState:UIControlStateNormal];
     }
     [button addTarget:self action:@selector(NavBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -97,11 +97,11 @@
 
 - (UILabel *)setNavTitle:(NSString *)title
 {
-    LXFrameWorkInstance *instance = [LXFrameWorkInstance sharedLXFrameWorkInstance];
+    LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
     UILabel *centerTitle = [UILabel newAutoLayoutView];
     centerTitle.textAlignment = NSTextAlignmentCenter;
     centerTitle.font = BaseNavBarTextFont;
-    centerTitle.textColor = instance.NavigationBar_textColor;
+    centerTitle.textColor = manager.NavigationBar_textColor;
     centerTitle.text = title;
     [self setCenterView:centerTitle];
     return centerTitle;
@@ -153,7 +153,7 @@
 
 - (UIButton *) setBtnWithNormalImage:(UIImage *)normalImg HighlightedImage:(UIImage *)highlightedImg SelectedImage:(UIImage *)selectedImg DisabledImage:(UIImage *)disableImg OrTitle:(NSString *) title ClickOption:(ClickButton) clickOption
 {
-    LXFrameWorkInstance *instance = [LXFrameWorkInstance sharedLXFrameWorkInstance];
+    LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
     BlockButton *button = [[BlockButton alloc] init];
     button.titleLabel.font = BaseNavBarTextFont;
     if (normalImg) {
@@ -170,7 +170,7 @@
     }
     if (title.length) {
         [button setTitle:title forState:UIControlStateNormal];
-        [button setTitleColor:instance.NavigationBar_textColor forState:UIControlStateNormal];
+        [button setTitleColor:manager.NavigationBar_textColor forState:UIControlStateNormal];
     }
     button.ClickOption = clickOption;
     return button;

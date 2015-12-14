@@ -173,7 +173,8 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
+    return manager.statusBarStyle;
 }
 
 @end

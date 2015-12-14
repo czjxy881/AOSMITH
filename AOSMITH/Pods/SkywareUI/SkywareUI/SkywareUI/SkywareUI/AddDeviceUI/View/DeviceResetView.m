@@ -29,7 +29,7 @@
 - (void)awakeFromNib
 {
     [self beginAnimationImages];
-    SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];
+    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     [self.NOBtn setBackgroundColor:UIM.Device_button_bgColor == nil ? UIM.All_button_bgColor : UIM.Device_button_bgColor];
     [self.YESBtn setBackgroundColor:UIM.Device_button_bgColor == nil ? UIM.All_button_bgColor : UIM.Device_button_bgColor];
     self.backgroundColor = UIM.Device_view_bgColor == nil? UIM.All_view_bgColor :UIM.Device_view_bgColor;
@@ -61,7 +61,7 @@
 - (void) beginAnimationImages
 {
     if(self.imageView.isAnimating) return ;
-    SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];
+    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     self.imageView.animationImages = UIM.Device_bickerArray;
     self.imageView.animationRepeatCount = MAXFLOAT;
     self.imageView.animationDuration = 0.3;

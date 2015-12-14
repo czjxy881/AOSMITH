@@ -58,6 +58,7 @@
  *  将 String 类型转化位 Date 类型 YYYY-MM-DD
  */
 - (NSDate *) FormatterDateFromYMD;
+
 /**
  *  将 String 类型进行 Base64 编码
  *
@@ -93,4 +94,5 @@
  *  @return 解码后 String
  */
 + (NSString*)decodeBase64Data:(NSData *)data;
+
 @end

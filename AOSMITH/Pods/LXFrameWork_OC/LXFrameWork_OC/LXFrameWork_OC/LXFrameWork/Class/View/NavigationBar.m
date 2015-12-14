@@ -18,8 +18,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // 设置 NavBar 背景颜色
-        LXFrameWorkInstance *instance = [LXFrameWorkInstance sharedLXFrameWorkInstance];
-        self.backgroundColor = _BackColor = instance.NavigationBar_bgColor;
+        LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
+        self.backgroundColor = _BackColor = manager.NavigationBar_bgColor;
         
         // 设置Button View
         _btnView = [UIView newAutoLayoutView];

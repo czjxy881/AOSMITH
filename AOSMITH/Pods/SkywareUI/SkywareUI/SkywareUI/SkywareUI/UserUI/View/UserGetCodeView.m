@@ -14,7 +14,7 @@
 
 - (void)awakeFromNib
 {
-    SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];
+    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     [self.getCodeBtn setBackgroundColor:UIM.User_button_bgColor == nil? UIM.All_button_bgColor : UIM.User_button_bgColor];
     self.backgroundColor = UIM.User_view_bgColor == nil? UIM.All_view_bgColor : UIM.User_view_bgColor;
 }

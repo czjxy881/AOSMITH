@@ -11,7 +11,7 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 #import <SMS_SDK/SMSSDK.h>
 #import <SMS_SDK/SMSSDK+AddressBookMethods.h>
-#import <SkywareUIInstance.h>
+#import <SkywareUIManager.h>
 #import "UserLoginViewController.h"
 
 #define SMS_SDKAppKey    @"a6137b7d9ee4"
@@ -32,14 +32,14 @@
     manager.app_id = 17;
     manager.service_type = testing_new;
     
-    SkywareUIInstance *UIM = [SkywareUIInstance sharedSkywareUIInstance];
+    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     UIM.All_button_bgColor = kSystemBtnBGColor;
     UIM.All_view_bgColor = kSystemLoginViewBackageColor;
     
-    LXFrameWorkInstance *LXM = [LXFrameWorkInstance sharedLXFrameWorkInstance];
-    LXM.NavigationBar_bgColor = [UIColor colorWithHexString:@"#001b38"];
-    LXM.NavigationBar_textColor = [UIColor whiteColor];
-    LXM.backState = writeBase;
+    LXFrameWorkManager *LXManager = [LXFrameWorkManager sharedLXFrameWorkManager];
+    LXManager.NavigationBar_bgColor = [UIColor colorWithHexString:@"#001b38"];
+    LXManager.NavigationBar_textColor = [UIColor whiteColor];
+    LXManager.backState = writeBase;
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

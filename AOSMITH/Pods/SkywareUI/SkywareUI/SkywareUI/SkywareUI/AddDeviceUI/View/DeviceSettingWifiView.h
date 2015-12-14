@@ -7,7 +7,7 @@
 //
 
 #import "StepNextView.h"
-#import "SkywareUIInstance.h"
+#import "SkywareUIManager.h"
 #import <Reachability.h>
 #import <BaseNetworkTool.h>
 

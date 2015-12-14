@@ -1,15 +1,16 @@
 //
-//  SkywareUIInstanceModel.m
-//  WebIntegration
+//  SkywareUIManager.m
+//  SkywareUI
 //
-//  Created by 李晓 on 15/8/20.
-//  Copyright (c) 2015年 skyware. All rights reserved.
+//  Created by 李晓 on 15/12/14.
+//  Copyright © 2015年 skyware. All rights reserved.
 //
 
-#import "SkywareUIInstance.h"
+#import "SkywareUIManager.h"
 
-@implementation SkywareUIInstance
-LXSingletonM(SkywareUIInstance)
+@implementation SkywareUIManager
+
+LXSingletonM(SkywareUIManager)
 
 - (UIColor *)All_view_bgColor
 {
@@ -28,8 +29,5 @@ LXSingletonM(SkywareUIInstance)
         return _All_button_bgColor;
     }
 }
-
-
-
 
 @end

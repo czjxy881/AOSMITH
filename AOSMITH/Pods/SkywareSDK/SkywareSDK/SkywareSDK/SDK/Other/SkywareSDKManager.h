@@ -75,7 +75,11 @@ LXSingletonH(SkywareSDKManager)
  */
 - (void) PostApplicationDidBecomeActive;
 
-
+/**
+ *  切换当前使用的设备
+ *
+ *  @param mac 要切换的设备的MAC
+ */
 - (void) changeCurrentDeviceWithMac:(NSString *) mac;
 
 @end

@@ -40,7 +40,7 @@
 /** ---------------------------AFNetWorking GET 方法------------------------------- **/
 + (void)HttpToolGetWithUrl:(NSString *)url paramesers:(NSDictionary *)parameser timeoutInterval:(NSTimeInterval)timeout requestHeaderField:(NSDictionary *)header Serializer:(serializer)serializer Success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     if (timeout) {
         manager.requestSerializer.timeoutInterval = timeout;
     }
@@ -58,16 +58,16 @@
             [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
         }];
     }
-    [manager GET:url parameters:parameser success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [manager GET:url parameters:parameser progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (failure) {
             failure(error);
         }
     }];
-    
 }
 
 +(void)HttpToolGetWithUrl:(NSString *)url paramesers:(NSDictionary *)parameser Success:(void (^)(id))success failure:(void (^)(NSError *))failure
@@ -113,7 +113,7 @@
 
 +(void)HttpToolPostWithUrl:(NSString *)url paramesers:(NSDictionary *)parameser timeoutInterval:(NSTimeInterval)timeout requestHeaderField:(NSDictionary *)header Data:(NSData *)data Name:(NSString *)name FileName:(NSString *)fileName MainType:(NSString *)mainType Serializer:(serializer)serializer Success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     if (timeout) {
         manager.requestSerializer.timeoutInterval = timeout;
     }
@@ -133,23 +133,28 @@
     }
     
     if (data) {
-        [manager POST:url parameters:parameser constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        [manager POST:url parameters:parameser constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             [formData appendPartWithFileData:data name:name fileName:fileName mimeType:mainType];
-        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        } progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if (success) {
                 success(responseObject);
             }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (failure) {
                 failure(error);
             }
         }];
     }else{
-        [manager POST:url parameters:parameser success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [manager POST:url parameters:parameser progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if (success) {
                 success(responseObject);
             }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (failure) {
                 failure(error);
             }
@@ -228,7 +233,7 @@
 
 +(void)HttpToolPutWithUrl:(NSString *)url paramesers:(NSDictionary *)parameser timeoutInterval:(NSTimeInterval)timeout requestHeaderField:(NSDictionary *)header Serializer:(serializer)serializer Success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     if (timeout) {
         manager.requestSerializer.timeoutInterval = timeout;
     }
@@ -242,16 +247,16 @@
     manager.responseSerializer = ser;
     
     if (header) {
-        [header enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
+        [header enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [manager.requestSerializer setValue:obj forKey:key];
         }];
     }
     
-    [manager PUT:url parameters:parameser success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager PUT:url parameters:parameser success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (failure) {
             failure(error);
         }
@@ -301,7 +306,7 @@
 
 + (void)HttpToolDeleteWithUrl:(NSString *)url paramesers:(NSDictionary *)parameser timeoutInterval:(NSTimeInterval)timeout requestHeaderField:(NSDictionary *)header Serializer:(serializer)serializer Success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     if (timeout) {
         manager.requestSerializer.timeoutInterval = timeout;
     }
@@ -320,16 +325,15 @@
         }];
     }
     
-    [manager DELETE:url parameters:parameser success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager DELETE:url parameters:parameser success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error) {
             failure(error);
         }
     }];
-    
 }
 
 + (void)HttpToolDeleteWithUrl:(NSString *)url paramesers:(NSDictionary *)parameser Success:(void (^)(id))success failure:(void (^)(NSError *))failure

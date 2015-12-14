@@ -107,11 +107,11 @@
 }
 
 
-+ (void)load
-{
-    Method existing = class_getInstanceMethod(self, @selector(layoutSubviews));
-    Method new = class_getInstanceMethod(self, @selector(_autolayout_replacementLayoutSubviews));
-    method_exchangeImplementations(existing, new);
-}
+//+ (void)load
+//{
+//    Method existing = class_getInstanceMethod(self, @selector(layoutSubviews));
+//    Method new = class_getInstanceMethod(self, @selector(_autolayout_replacementLayoutSubviews));
+//    method_exchangeImplementations(existing, new);
+//}
 
 @end

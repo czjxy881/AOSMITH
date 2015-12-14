@@ -1,16 +1,15 @@
 //
-//  LXFrameWorkInstance.m
+//  LXFrameWorkManager.m
 //  LXFrameWork_OC
 //
-//  Created by 李晓 on 15/8/21.
-//  Copyright (c) 2015年 LXFrameWork. All rights reserved.
+//  Created by 李晓 on 15/12/10.
+//  Copyright © 2015年 LXFrameWork. All rights reserved.
 //
 
-#import "LXFrameWorkInstance.h"
+#import "LXFrameWorkManager.h"
 
-@implementation LXFrameWorkInstance
-LXSingletonM(LXFrameWorkInstance);
-
+@implementation LXFrameWorkManager
+LXSingletonM(LXFrameWorkManager);
 
 - (UIColor *)NavigationBar_bgColor
 {

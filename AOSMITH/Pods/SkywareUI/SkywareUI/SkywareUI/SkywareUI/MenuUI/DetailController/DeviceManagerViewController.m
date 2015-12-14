@@ -21,8 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavTitle:@"设备管理"];
+    [SkywareDeviceManager DeviceGetAllDevicesSuccess:nil failure:nil];
     [self addItemCellWithBindDevices];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addItemCellWithBindDevices) name:kSkywareFindBindUserAllDeviceSuccess object:nil];
 }
 
@@ -60,9 +60,8 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     if (buttonIndex == 0) { // 解绑
-        alertView.message = @"您确定要解绑这台设备吗？（设备解绑后将无法再查看该设备）";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要解绑这台设备吗？（设备解绑后将无法再查看该设备）" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.tag = buttonIndex;
         [alertView show];
     }else if(buttonIndex == 1){ // 编辑
@@ -74,7 +73,7 @@
             [SVProgressHUD showErrorWithStatus:@"该设备已锁定"];
             return;
         }
-        alertView.message = @"您确定要锁定这台设备吗？（设备锁定后不能再被其他人建立绑定关系）";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要锁定这台设备吗？（设备锁定后不能再被其他人建立绑定关系）" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.tag = buttonIndex;
         [alertView show];
     }
@@ -88,9 +87,7 @@
     if (alertView.tag == 0) { //解绑
         [SVProgressHUD show];
         [SkywareDeviceManager DeviceReleaseUser:@[self.deviceModel.device_id] Success:^(SkywareResult *result) {
-            [SVProgressHUD dismiss];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceRelseaseUserRefreshTableView object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+            [SVProgressHUD showSuccessWithStatus:@"设备解绑成功"];
         } failure:^(SkywareResult *result) {
             [SVProgressHUD showErrorWithStatus:@"解绑失败,请稍后重试"];
         }];

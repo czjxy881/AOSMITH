@@ -10,6 +10,10 @@
 
 @implementation LXFrameWorkConst
 
-NSString * const kpopToRootViewControllerAnimated = @"kEditUserNickNameRefreshTableView";
+NSString * const kUseDisconnectInternet = @"kUseDisconnectInternet";
+
+NSString * const kUseWiFiConnectInternet = @"kUseWiFiConnectInternet";
+
+NSString * const kUseMobileNetworkConnectInternet = @"kUseMobileNetworkConnectInternet";
 
 @end

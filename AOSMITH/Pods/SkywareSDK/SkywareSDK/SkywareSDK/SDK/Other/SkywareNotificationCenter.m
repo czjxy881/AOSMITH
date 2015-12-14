@@ -45,7 +45,8 @@ static NSMutableDictionary *_subscribeDic;
 {
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
     if ([topic rangeOfString:manager.currentDevice.device_mac].location != NSNotFound) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareNotificationCenterCurrentDeviceMQTT object:nil userInfo:@{@"MQTT_Data":data}];
+        SkywareMQTTModel *model = [SkywareMQTTTool conversionMQTTResultWithData:data];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareNotificationCenterCurrentDeviceMQTT object:nil userInfo:@{kSkywareMQTTuserInfoKey:model}];
     }
 }
 

@@ -8,6 +8,7 @@
 
 #import "BaseNetworkTool.h"
 #import <Reachability.h>
+#import "LXFrameWorkConst.h"
 
 @interface BaseNetworkTool ()
 
@@ -18,10 +19,7 @@
 +(void)startNetWrokWithURL:(NSString *)url
 {
     Reachability *reach = [Reachability reachabilityWithHostname:url];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:kReachabilityChangedNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     [reach startNotifier];
 }
 
@@ -30,27 +28,29 @@
     
     if(![reach isReachable])
     {
-        //        [SVProgressHUD showInfoWithStatus:@"网络不可用,请检查设置"];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kUseDisconnectInternet object:nil];
         return;
     }
     
     if (reach.isReachableViaWiFi) {
-        //        [SVProgressHUD showInfoWithStatus:@"通过wifi连接"];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kUseWiFiConnectInternet object:nil];
         return;
     }
     
     if (reach.isReachableViaWWAN) {
-        //        [SVProgressHUD showInfoWithStatus:@"使用的流量数据"];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kUseMobileNetworkConnectInternet object:nil];
         return;
     }
 }
 
-// 是否WIFI
++ (BOOL)isConnectNetWork{
+    return (![[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == NotReachable);
+}
+
 + (BOOL)isConnectWIFI {
     return ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == ReachableViaWiFi);
 }
 
-// 是否3G
 + (BOOL)isConnect3G4G {
     return ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == ReachableViaWWAN);
 }

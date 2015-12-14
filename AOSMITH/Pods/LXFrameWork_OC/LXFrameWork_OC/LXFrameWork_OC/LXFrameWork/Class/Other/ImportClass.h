@@ -17,7 +17,7 @@
 
 // 全局使用的分类引用
 #ifdef __OBJC__
-#import "LXFrameWorkInstance.h"
+#import "LXFrameWorkManager.h"
 #import "NSString+Hash.h"
 #import "UIView+Extension.h"
 #import "NSString+Extension.h"
