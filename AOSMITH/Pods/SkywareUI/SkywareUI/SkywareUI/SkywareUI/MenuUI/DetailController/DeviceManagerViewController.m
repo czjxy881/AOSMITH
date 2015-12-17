@@ -21,7 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavTitle:@"设备管理"];
-    [SkywareDeviceManager DeviceGetAllDevicesSuccess:nil failure:nil];
     [self addItemCellWithBindDevices];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addItemCellWithBindDevices) name:kSkywareFindBindUserAllDeviceSuccess object:nil];
 }
@@ -31,11 +30,38 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+
+- (void) getUserAllBindDevices
+{
+    [SVProgressHUD show];
+    NSMutableArray *deviceArray= [NSMutableArray array];
+    [self.dataList removeAllObjects];
+    [SkywareDeviceManager DeviceGetAllDevicesSuccess:^(SkywareResult *result) {
+        NSArray *array = [SkywareDeviceInfoModel mj_objectArrayWithKeyValuesArray:result.result];
+        [array enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel *DeviceInfo, NSUInteger idx, BOOL * _Nonnull stop) {
+            BaseArrowCellItem *item = [BaseArrowCellItem createBaseCellItemWithIcon:nil AndTitle:DeviceInfo.device_name SubTitle:[DeviceInfo.device_lock integerValue]== 1? @"未锁定": @"已锁定" ClickOption:nil];
+            [deviceArray addObject:item];
+        }];
+        BaseCellItemGroup *group = [BaseCellItemGroup createGroupWithItem:deviceArray];
+        [self.dataList addObject:group];
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+    } failure:^(SkywareResult *result) {
+        if ([result.message isEqualToString:@"404"]) {
+            [SVProgressHUD showInfoWithStatus:@"暂无设备"];
+        }
+    }];
+}
+
 - (void) addItemCellWithBindDevices
 {
     NSMutableArray *deviceArray= [NSMutableArray array];
     [self.dataList removeAllObjects];
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    if (!manager.bind_Devices_Array.count){
+        [self getUserAllBindDevices];
+        return;
+    }
     [manager.bind_Devices_Array enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel *DeviceInfo, NSUInteger idx, BOOL * _Nonnull stop) {
         BaseArrowCellItem *item = [BaseArrowCellItem createBaseCellItemWithIcon:nil AndTitle:DeviceInfo.device_name SubTitle:[DeviceInfo.device_lock integerValue]== 1? @"未锁定": @"已锁定" ClickOption:nil];
         [deviceArray addObject:item];

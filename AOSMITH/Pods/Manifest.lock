@@ -1,18 +1,18 @@
 PODS:
-  - AFNetworking (3.0.1):
-    - AFNetworking/NSURLSession (= 3.0.1)
-    - AFNetworking/Reachability (= 3.0.1)
-    - AFNetworking/Security (= 3.0.1)
-    - AFNetworking/Serialization (= 3.0.1)
-    - AFNetworking/UIKit (= 3.0.1)
-  - AFNetworking/NSURLSession (3.0.1):
+  - AFNetworking (3.0.2):
+    - AFNetworking/NSURLSession (= 3.0.2)
+    - AFNetworking/Reachability (= 3.0.2)
+    - AFNetworking/Security (= 3.0.2)
+    - AFNetworking/Serialization (= 3.0.2)
+    - AFNetworking/UIKit (= 3.0.2)
+  - AFNetworking/NSURLSession (3.0.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.0.1)
-  - AFNetworking/Security (3.0.1)
-  - AFNetworking/Serialization (3.0.1)
-  - AFNetworking/UIKit (3.0.1):
+  - AFNetworking/Reachability (3.0.2)
+  - AFNetworking/Security (3.0.2)
+  - AFNetworking/Serialization (3.0.2)
+  - AFNetworking/UIKit (3.0.2):
     - AFNetworking/NSURLSession
   - FMDB (2.5):
     - FMDB/standard (= 2.5)
@@ -21,7 +21,7 @@ PODS:
     - FMDB/common
   - HF_SmartLink (1.0.0)
   - IQKeyboardManager (3.3.4)
-  - LXFrameWork_OC (2.5.4):
+  - LXFrameWork_OC (2.5.6):
     - AFNetworking
     - FMDB
     - IQKeyboardManager
@@ -46,7 +46,7 @@ PODS:
     - HF_SmartLink
     - LXFrameWork_OC
     - MQTTClient
-  - SkywareUI (1.1.6):
+  - SkywareUI (1.1.7):
     - SkywareSDK
     - SMS_SDK
   - SMS_SDK (1.2.0)
@@ -59,11 +59,11 @@ DEPENDENCIES:
   - SkywareUI
 
 SPEC CHECKSUMS:
-  AFNetworking: 20d8749e03e45f1e5c046ad0b647e0b07bcdd91f
+  AFNetworking: 2f30b7db399a405b12b24e049c654f108fc8c54d
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   HF_SmartLink: f9759d4ace7f4f6771ec39fb14929b30312f5747
   IQKeyboardManager: ac803e61e5b50efae6b3aeedd95a02c7c7d3b2b3
-  LXFrameWork_OC: d89e28ab904208464b3b6653a0e5fcab2435fd37
+  LXFrameWork_OC: 854cb21e5ed540a633abb38dffd6978f74e92040
   MJExtension: 290cc966f0f849b12b6391a38e296e0004ae8e5e
   MJRefresh: f3e1228ec3d38c7ba5208d58032631a52f39f495
   MQTTClient: 9e765972d0cc584a2c35e3281b9ede94911e784f
@@ -73,7 +73,7 @@ SPEC CHECKSUMS:
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SkywareSDK: df397f74d3b80629667fbfa6e3cc6f9764bcbcee
-  SkywareUI: 3aab8a6dcffeb79ac012e07392e1b005ec8a7e37
+  SkywareUI: 530ff54de053c554291cd2df18fa12a56b964c41
   SMS_SDK: b25cca6db6063520f7e4f66faa0bc9c13cb58365
   SSZipArchive: 5f30a0af2cb3d48c0ff83b1e18029f7041ac3c38
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1

@@ -28,7 +28,25 @@
  *
  *  @return UIViewController
  */
-+ (id) getViewControllerNibName:(NSString *) name FromBundle:(NSString *) bundle;;
++ (id) getViewControllerNibName:(NSString *) name FromBundle:(NSString *) bundle;
 
+/**
+ *  从 boundle中获取资源文件
+ *
+ *  @param name 文件名称
+ *
+ *  @return NSData
+ */
++ (NSData *)getFileDataWithName:(NSString *)name FromBundle:(NSString *)bundle;
+
+/**
+ *  从 boundle 中获取ArrayPlist
+ *
+ *  @param name   文件名
+ *  @param bundle bundle名
+ *
+ *  @return NSArray
+ */
++ (NSArray *)getArrayWithName:(NSString *)name FromBundle:(NSString *)bundle;
 
 @end

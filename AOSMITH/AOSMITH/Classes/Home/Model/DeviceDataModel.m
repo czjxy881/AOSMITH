@@ -16,7 +16,7 @@ static const long kLength = 2; // 占16进制2位
 
 +(void)initialize
 {
-    tempArray = @[@35,@40,@45,@50,@55,@60,@65,@70,@75];
+    tempArray = @[@0,@35,@40,@45,@50,@55,@60,@65,@70,@75];
 }
 
 -(instancetype)initWithBase64String:(NSString *)base64String
@@ -28,39 +28,47 @@ static const long kLength = 2; // 占16进制2位
             NSString *cmdKey = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
             if ([cmdKey isEqualToString:@"10"]) { // 开关机
                 locationStar += kLength;
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength)];
                 self.power = [cmdValue removeStringFrontZero].length ? YES :NO;
                 locationStar += kLength;
             }else if ([cmdKey isEqualToString:@"21"]){ // 温度设定
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength)];
                 self.settingTemp = [[cmdValue removeStringFrontZero] integerValue];
                 locationStar += kLength;
             }else if ([cmdKey isEqualToString:@"22"]){ // 档位设置
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength)];
                 self.level = (level_type)[[cmdValue removeStringFrontZero]integerValue];
                 locationStar += kLength;
             }else if ([cmdKey isEqualToString:@"23"]){ // 实时温度
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
-                self.temp = [cmdValue integerValue];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength)];
+                self.temp = cmdValue;
                 locationStar += kLength;
             }else if ([cmdKey isEqualToString:@"24"]){ // 加热状态
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength)];
                 self.hot = [cmdValue removeStringFrontZero].length ? YES :NO;
                 locationStar += kLength;
             }else if ([cmdKey isEqualToString:@"31"]){ // 定时开机
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength *2)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength*2)];
                 self.openTime = cmdValue;
                 locationStar += kLength *2;
             }else if ([cmdKey isEqualToString:@"32"]){ // 定时关机
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength *2)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength*2)];
                 self.closeTime = cmdValue;
                 locationStar += kLength *2;
             }else if ([cmdKey isEqualToString:@"41"]){ // 时间校准
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength *3)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength*3)];
                 self.deviceTime = cmdValue;
                 locationStar += kLength *3;
             }else if ([cmdKey isEqualToString:@"0f"]){  //故障状态
-                cmdValue = [base64String substringWithRange:NSMakeRange(locationStar, kLength)];
+                locationStar += kLength;
+                cmdValue = [self subString:base64String WithRange:NSMakeRange(locationStar, kLength)];
                 //                self.deviceError = (device_error_type)[[cmdValue removeStringFrontZero] integerValue];
                 self.deviceError = cmdValue;
                 locationStar += kLength;
@@ -70,6 +78,15 @@ static const long kLength = 2; // 占16进制2位
     return self;
 }
 
+- (NSString *) subString:(NSString *)str WithRange:(NSRange) range
+{
+    NSInteger count = str.length;
+    if (range.location + range.length < count){
+        return [str substringWithRange:range];
+    }
+    return @"";
+}
+
 - (void)setSettingTemp:(NSInteger)settingTemp
 {
     if (settingTemp <= tempArray.count) {
@@ -77,31 +94,34 @@ static const long kLength = 2; // 占16进制2位
     }
 }
 
-- (void)setTemp:(NSInteger)temp
+- (void)setTemp:(NSString *)temp
 {
-    _temp = temp;
+    _temp = [[NSString stringWithFormat:@"%ld",strtol([temp UTF8String], nil, 16)] removeStringFrontZero];
 }
 
 - (void)setOpenTime:(NSString *)openTime
 {
-    if ([openTime isEqualToString:@"ffff"]) {
+    if ([openTime isEqualToString:@"ffff"] || [openTime isEqualToString:@"0000"]) {
         _openTime = @"--:--";
+        _settingOpenTime = @"--:--";
     }else{
         NSString *h =[openTime substringToIndex:2];
         NSString *m = [openTime substringFromIndex:2];
-        _openTime = [self getDiscreTimeWithSetting:[NSString stringWithFormat:@"%@:%@",h,m]];
-        
+        _settingOpenTime = [NSString stringWithFormat:@"%02ld:%02ld",strtol([h UTF8String], nil, 16),strtol([m UTF8String], nil, 16)];
+        _openTime = [self getDiscreTimeWithSetting:[NSString stringWithFormat:@"%02ld:%02ld",strtol([h UTF8String], nil, 16),strtol([m UTF8String], nil, 16)] WithType:YES];
     }
 }
 
 - (void)setCloseTime:(NSString *)closeTime
 {
-    if ([closeTime isEqualToString:@"ffff"]) {
+    if ([closeTime isEqualToString:@"ffff"] ||[closeTime isEqualToString:@"0000"]) {
         _closeTime = @"--:--";
+        _settingCloseTime = @"--:--";
     }else{
         NSString *h =[closeTime substringToIndex:2];
         NSString *m = [closeTime substringFromIndex:2];
-        _closeTime = [self getDiscreTimeWithSetting:[NSString stringWithFormat:@"%@:%@",h,m]];
+        _settingCloseTime = [NSString stringWithFormat:@"%02ld:%02ld",strtol([h UTF8String], nil, 16),strtol([m UTF8String], nil, 16)];
+        _closeTime = [self getDiscreTimeWithSetting:[NSString stringWithFormat:@"%02ld:%02ld",strtol([h UTF8String], nil, 16),strtol([m UTF8String], nil, 16)] WithType:NO];
     }
 }
 
@@ -111,52 +131,76 @@ static const long kLength = 2; // 占16进制2位
         _deviceTime = @"--:--:--";
     }else{
         NSString *h =[deviceTime substringToIndex:2];
-        NSString *m = [deviceTime substringWithRange:NSMakeRange(2, 3)];
+        NSString *m = [deviceTime substringWithRange:NSMakeRange(2, 2)];
         NSString *s = [deviceTime substringFromIndex:4];
-        _closeTime = [NSString stringWithFormat:@"%@:%@:%@",h,m,s];
+        _deviceTime = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",strtol([h UTF8String], nil, 16),strtol([m UTF8String], nil, 16),strtol([s UTF8String], nil, 16)];
     }
 }
 
-- (NSString *) getDiscreTimeWithSetting:(NSString *) setting
+- (NSString *)settingCloseTime
+{
+    if ([_settingCloseTime rangeOfString:@"00:00"].location != NSNotFound) {
+        return @"--:--";
+    }
+    return _settingCloseTime;
+}
+
+- (NSString *)settingOpenTime
+{
+    if ([_settingOpenTime rangeOfString:@"00:00"].location != NSNotFound) {
+        return @"--:--";
+    }
+    return _settingOpenTime;
+}
+
+- (NSString *) getDiscreTimeWithSetting:(NSString *) setting WithType:(BOOL) type
 {
     NSMutableString *ymdhms = [NSMutableString string];
     NSArray *timeArray = [[[NSDate date] FormatterYMDHMS] componentsSeparatedByString:@" "];
     if (timeArray.count) {
-        [ymdhms appendString:[[timeArray firstObject] stringValue]];
+        [ymdhms appendString:[timeArray firstObject]];
         [ymdhms appendFormat:@" %@:00",setting];
     }
     
     NSDate *date = [ymdhms FormatterDateFromYMDHMS];
     NSInteger result =[NSDate compareData:[NSDate date] WithDate:date];
-    NSTimeInterval timer = 0;
     if (result >= 1) { // 今天
-        timer = [NSDate getDiscrepancyData:[NSDate date] WithDate:date];
+        return [self getcomponentData:date WithType:type];
     }else{  // 明天
-        timer =  [NSDate getDiscrepancyData: date WithDate:[NSDate date]];
-        timer += 24 * 360;
+        NSDate *date2 = [NSDate dateWithTimeInterval:24 * 3600 sinceDate:date];
+        return [self getcomponentData:date2 WithType:type];
     }
-    NSDate *discreTime = [NSDate dateWithTimeIntervalSince1970:timer];
-    
+}
+
+- (NSString *) getcomponentData:(NSDate*)date WithType:(BOOL) type
+{
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *compoents = [calendar components:NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:discreTime];
-    
+    NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour;
+    NSDateComponents *compoents =   [calendar components:unit fromDate:[NSDate date] toDate:date options:0];
     // 获取秒数
-    //    CGFloat sec = compoents.second;
+    //    NSInteger sec = compoents.second;
     
     // 获取分钟
-    CGFloat minute = compoents.minute;
+    NSInteger minute = compoents.minute;
+    if (minute == 0) {
+        minute = 1;
+    }
     
     // 获取小时
-    CGFloat hour = compoents.hour;
+    NSInteger hour = compoents.hour;
     
     NSMutableString *resultStr = [NSMutableString string];
     if (hour > 0) {
-        [resultStr appendFormat:@"%f小时",hour];
+        [resultStr appendFormat:@"%ld小时",hour];
     }
     if (minute > 0) {
-        [resultStr appendFormat:@"%f分钟",minute];
+        [resultStr appendFormat:@"%ld分钟",minute];
     }
-    [resultStr appendString:@"后执行"];
+    if (type) {
+        [resultStr appendString:@"后开启"];
+    }else{
+        [resultStr appendString:@"后关闭"];
+    }
     return resultStr;
 }
 
@@ -176,5 +220,6 @@ static const long kLength = 2; // 占16进制2位
         _deviceError = @"";
     }
 }
+
 
 @end

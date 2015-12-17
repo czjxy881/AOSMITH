@@ -120,7 +120,9 @@
         if (_deviceInfo.device_name.length) {
             [params setObject:_deviceInfo.device_name forKey:@"deviceName"];
             [params setObject:_deviceInfo.device_lock forKey:@"deviceLock"];
-            [params setObject:_deviceInfo.device_address forKey:@"deviceLocaion"];
+            if (_deviceInfo.device_address.length) {
+                [params setObject:_deviceInfo.device_address forKey:@"deviceLocaion"];
+            }
         }
         bindingView.params = params;
         bindingView.option = ^(SelectCityViewController *selectCity){

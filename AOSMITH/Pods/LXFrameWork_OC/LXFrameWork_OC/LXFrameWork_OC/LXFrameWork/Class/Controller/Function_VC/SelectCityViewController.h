@@ -6,7 +6,7 @@
 //  Copyright © 2015年 skyware. All rights reserved.
 //
 
-#import <BaseTableViewController.h>
+#import "BaseTableViewController.h"
 
 typedef void (^cityCellClick)(NSString *);
 

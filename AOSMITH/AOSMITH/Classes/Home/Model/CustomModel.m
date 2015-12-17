@@ -17,7 +17,7 @@ MJCodingImplementation
     CustomModel *custom = [[CustomModel alloc] init];
     custom.openTime = openTime;
     custom.closeTime = closeTime;
-    custom.isOpen = isOpen;
+    custom.open = isOpen;
     return custom;
 }
 

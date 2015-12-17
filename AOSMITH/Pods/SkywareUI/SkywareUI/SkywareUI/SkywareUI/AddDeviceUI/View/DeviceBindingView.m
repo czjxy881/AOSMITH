@@ -7,7 +7,7 @@
 //
 
 #import "DeviceBindingView.h"
-#import "SelectCityViewController.h"
+#import <SelectCityViewController.h>
 
 @interface DeviceBindingView ()
 {
@@ -64,16 +64,17 @@
 - (void)setParams:(NSDictionary *)params
 {
     [super setParams:params];
-    if (params.count) {
-        NSString *deviceName = params[@"deviceName"];
-        NSString *deviceLocaion = params[@"deviceLocaion"];
-        BOOL device_lock = [params[@"deviceLock"] boolValue];
-        [self setStateWithState:!device_lock];
-        self.name.text = deviceName;
+    if (!params.count) return;
+    NSString *deviceLocaion = params[@"deviceLocaion"];
+    if (deviceLocaion.length) {
         self.locationLabel.text = deviceLocaion;
     }else{
         [self setAddressLocation];
     }
+    NSString *deviceName = params[@"deviceName"];
+    BOOL device_lock = [params[@"deviceLock"] boolValue];
+    [self setStateWithState:!device_lock];
+    self.name.text = deviceName;
 }
 
 - (IBAction)switchChange:(UISwitch *)sender {

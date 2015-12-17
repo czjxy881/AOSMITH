@@ -9,6 +9,9 @@
 #import "BaseViewController.h"
 @interface HomeViewController : BaseViewController
 
+/**
+ *  小btn
+ */
 @property (weak, nonatomic) IBOutlet UIButton *btnPower;
 
 

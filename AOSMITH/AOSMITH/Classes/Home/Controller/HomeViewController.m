@@ -69,7 +69,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     [super viewDidLoad];
     [self setNavBarBtn];
     // 获取定时信息
-    [self getTimingTime];
+    //    [self getTimingTime];
     // 注册 Cell
     [self registerCollectionNib];
     //设置温度指示
@@ -87,6 +87,8 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    // 获取设备列表
+    [self downloadDeviceList];
 }
 
 /**
@@ -115,8 +117,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
             
             [self.dataList removeAllObjects];
             [manager.bind_Devices_Array enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel* obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSString *deCode_deviceData = [NSString decodeBase64String: obj.device_data[@"bin"]];
-                DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
+                DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String: [obj.device_data[@"bin"] toHexStringFromBase64String]];
                 obj.device_data = deviceM;
                 [self.dataList addObject:obj];
                 if ([obj.device_mac isEqualToString:manager.currentDevice.device_mac]) {
@@ -127,12 +128,12 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
             [self updateDeviceStatus:manager.currentDevice];
             // 设置 分页数
             self.pageVC.numberOfPages = self.dataList.count;
+            [self.CollectionView reloadData];
         }
     } failure:^(SkywareResult *result) {
         [SVProgressHUD dismiss];
         if([result.message intValue] == 404) {//没有设备
             self.pageVC.numberOfPages = 1;
-            
         }else{
             [SVProgressHUD showErrorWithStatus:@"获取设备列表失败"];
         }
@@ -155,7 +156,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     }];
     [self setRightBtnWithImage:[UIImage imageNamed:@"addDevice"] orTitle:nil ClickOption:^{
         AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
-        add.isAddDevice = YES;
+        add.addDevice = YES;
         [MainDelegate.navigationController pushViewController:add animated:YES];
     }];
 }
@@ -166,10 +167,11 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     DeviceDataModel *deviceData = deviceM.device_data;
     _btnPower.hidden = NO;
     if ([deviceM.device_online integerValue]) {
-        self.btnPower.enabled = YES;
-        self.btnPower.selected = deviceData.power; // 电源
+        _btnPower.enabled = YES;
+        _btnPower.selected = deviceData.power; // 电源
     }else{
-        self.btnPower.enabled = NO;
+        _btnPower.enabled = NO;
+        [self setVisibleItemPowerCellWith:@"已离线"];
     }
     [self updateDeviceStatusWithModel:deviceData];
 }
@@ -180,29 +182,37 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 -(void)updateMQTTDeviceStatus:(SkywareMQTTModel *)MqttM
 {
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-    NSString *deCode_deviceData = [NSString decodeBase64String:[MqttM.data firstObject]];
-    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
+    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:[[MqttM.data firstObject] toHexStringFromBase64String]];
     manager.currentDevice.device_data = deviceM;
     
     _btnPower.hidden = NO;
     if (MqttM.device_online) {
-        self.btnPower.enabled = YES;
-        self.btnPower.selected = deviceM.power; // 电源
+        _btnPower.enabled = YES;
+        _btnPower.selected = deviceM.power; // 电源
     }else{
-        self.btnPower.enabled = NO;
+        _btnPower.enabled = NO;
+        [self setVisibleItemPowerCellWith:@"已离线"];
     }
     [self updateDeviceStatusWithModel:deviceM];
 }
 
 - (void) updateDeviceStatusWithModel:(DeviceDataModel *)deviceM
 {
-    [self.tempretureSliderView setValue:deviceM.settingTemp animated:YES]; // 温度设置
+    [self setSilderViewTemp:deviceM.settingTemp]; // 温度设置
     if (deviceM.power) {
         _powerLoding.hidden = YES;
-        _deviceModelLabel.text = deviceM.closeTime;
+        if ([deviceM.closeTime rangeOfString:@"--"].location == NSNotFound) {
+            _deviceModelLabel.text = deviceM.closeTime;
+        }else{
+            _deviceModelLabel.text = @"未开启";
+        }
     }else{
         _powerLoding.hidden = YES;
-        _deviceModelLabel.text = deviceM.openTime;
+        if ([deviceM.openTime rangeOfString:@"--"].location == NSNotFound) {
+            _deviceModelLabel.text = deviceM.openTime;
+        }else{
+            _deviceModelLabel.text = @"未开启";
+        }
     }
     
     switch (deviceM.level) {  // 档位
@@ -262,40 +272,47 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 
 - (void)sliderValueChange:(ASValueTrackingSlider *)slider
 {
-    NSInteger value = round(slider.value);
-    if (30 < value && value <=35) {
-        [slider setValue:35 animated:YES];
-    }else if (35< value && value <=40){
-        [slider setValue:40 animated:YES];
-    }else if (40< value && value <=45){
-        [slider setValue:45 animated:YES];
-    }else if (45< value && value <=50){
-        [slider setValue:50 animated:YES];
-    }else if (50< value && value <=55){
-        [slider setValue:55 animated:YES];
-    }else if (55< value && value <=60){
-        [slider setValue:60 animated:YES];
-    }else if (60< value && value <=65){
-        [slider setValue:65 animated:YES];
-    }else if (65< value && value <=70){
-        [slider setValue:70 animated:YES];
-    }else if (70 < value && value <=75){
-        [slider setValue:75 animated:YES];
-    }
-    
-    if (value > 70 || value < 35) {
-        [slider hidePopUpView];
-    }else{
-        [slider showPopUpView];
-    }
+    [self setSilderViewTemp:slider.value];
 }
 
+/**
+ *  发送设定的温度
+ */
 - (void)sliderValueChangeEnd
 {
+    [self setVisibleItemCellWith:@"温度设置中"];
     sendCmdModel.settingTemp = self.tempretureSliderView.value;
-    NSLog(@"---%f",self.tempretureSliderView.value);
 }
 
+- (void) setSilderViewTemp:(NSInteger) temp
+{
+    NSInteger value = round(temp);
+    if (value <=35) {
+        [self.tempretureSliderView setValue:35 animated:YES];
+    }else if (35< value && value <=40){
+        [self.tempretureSliderView setValue:40 animated:YES];
+    }else if (40< value && value <=45){
+        [self.tempretureSliderView setValue:45 animated:YES];
+    }else if (45< value && value <=50){
+        [self.tempretureSliderView setValue:50 animated:YES];
+    }else if (50< value && value <=55){
+        [self.tempretureSliderView setValue:55 animated:YES];
+    }else if (55< value && value <=60){
+        [self.tempretureSliderView setValue:60 animated:YES];
+    }else if (60< value && value <=65){
+        [self.tempretureSliderView setValue:65 animated:YES];
+    }else if (65< value && value <=70){
+        [self.tempretureSliderView setValue:70 animated:YES];
+    }else if (70 < value && value <=75){
+        [self.tempretureSliderView setValue:75 animated:YES];
+    }
+    
+    if (value > 70 || value < 40) {
+        [self.tempretureSliderView hidePopUpView];
+    }else{
+        [self.tempretureSliderView showPopUpView];
+    }
+}
 
 /**
  *  适配屏幕大小
@@ -364,7 +381,6 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    // 计算当前页数
     NSInteger page = scrollView.contentOffset.x / scrollView.bounds.size.width;
     self.pageVC.currentPage = page;
     if (self.dataList.count) {
@@ -373,7 +389,6 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
         manager.currentDevice = model;
         [self updateDeviceStatus:model];
     }
-    NSLog(@"----------切换下一个设备--------");
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -399,19 +414,22 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  */
 - (IBAction)changePower:(UIButton *)sender {
     if (self.dataList.count) {
-        if (!sender.enabled) {  // 去配网
-            // 去配网
-        }else if (sender.selected) {  // 开机
-            _powerLoding.hidden = NO;
-            _btnPower.hidden = YES;
-            _powerLoding.text = @"开机中";
-            sendCmdModel.power = YES;
-        }else{ // 关机
+        if (!_btnPower.enabled) {  // 去配网
+            AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
+            add.addDevice = NO;
+            [self.navigationController pushViewController: add animated:YES];
+        }else if (_btnPower.selected) {  // 开机中，执行关机
             _powerLoding.hidden = NO;
             _btnPower.hidden = YES;
             _powerLoding.text = @"关机中";
             sendCmdModel.power = NO;
+        }else{ // 关机中，执行开机
+            _powerLoding.hidden = NO;
+            _btnPower.hidden = YES;
+            _powerLoding.text = @"开机中";
+            sendCmdModel.power = YES;
         }
+        _btnPower.selected = !_btnPower.selected;
     }else{
         [self showAlterView:@"您还未添加设备"];
     }
@@ -420,6 +438,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  *  1档
  */
 - (IBAction)oneGearsClick:(UIButton *)sender {
+    [self setVisibleItemCellWith:@"切换档位中"];
     sendCmdModel.level = one_level;
 }
 
@@ -427,6 +446,7 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  *  2档
  */
 - (IBAction)twoGearsClick:(UIButton *)sender {
+    [self setVisibleItemCellWith:@"切换档位中"];
     sendCmdModel.level = tow_level;
 }
 
@@ -434,7 +454,20 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  *  3档
  */
 - (IBAction)threeGearsClick:(UIButton *)sender {
+    [self setVisibleItemCellWith:@"切换档位中"];
     sendCmdModel.level = three_level;
+}
+
+- (void) setVisibleItemCellWith:(NSString *) alert
+{
+    HomeCollectionViewCell *collectionCell = (HomeCollectionViewCell *) [self.CollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageVC.currentPage inSection:0]];
+    collectionCell.hotUpLabel.text  = alert;
+}
+
+- (void) setVisibleItemPowerCellWith:(NSString *) alert
+{
+    HomeCollectionViewCell *collectionCell = (HomeCollectionViewCell *) [self.CollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageVC.currentPage inSection:0]];
+    collectionCell.powerLabel.text  = alert;
 }
 
 /**

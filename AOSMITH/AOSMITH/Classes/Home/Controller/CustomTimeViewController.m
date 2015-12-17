@@ -45,25 +45,31 @@ static const SendCommandModel *sendCmdModel;
     BOOL isOpenTime = YES;
     if ([model.openTime rangeOfString:@"--"].location != NSNotFound) {
         isOpenTime = NO;
+        self.customModel.open = NO;
+    }else{
+        self.customModel.open = YES;
     }
     
-    BaseSwitchCellItem *item1 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"开启" SubTitle:self.customModel.openTime  defaultOpen:isOpenTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
+    BaseSwitchCellItem *item1 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"开启" SubTitle:model.settingOpenTime  defaultOpen:isOpenTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
         if (cellSwitch.on) {
-            sendCmdModel.openTime = self.customModel.openTime;
+            self.customModel.open = YES;
         }else{
-            sendCmdModel.openTime = @"ffff";
+            self.customModel.open = NO;
         }
     }];
     
     BOOL isCloseTime = YES;
     if ([model.closeTime rangeOfString:@"--"].location != NSNotFound) {
         isCloseTime = NO;
+        self.customModel.close = NO;
+    }else{
+        self.customModel.close = YES;
     }
-    BaseSwitchCellItem *item2 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"关闭" SubTitle:self.customModel.closeTime defaultOpen:isCloseTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
+    BaseSwitchCellItem *item2 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"关闭" SubTitle:model.settingCloseTime defaultOpen:isCloseTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
         if (cellSwitch.on) {
-            sendCmdModel.closeTime = self.customModel.openTime;
+            self.customModel.close = YES;
         }else{
-            sendCmdModel.closeTime = @"ffff";
+            self.customModel.close = NO;
         }
     }];
     
@@ -76,14 +82,34 @@ static const SendCommandModel *sendCmdModel;
 {
     __weak typeof (self) weakSelf = self;
     [self setRightBtnWithImage:nil orTitle:@"确定" ClickOption:^{
-        weakSelf.customModel.openTime  = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
-        weakSelf.customModel.closeTime = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].detailTextLabel.text;
-        NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
-        [NSKeyedArchiver archiveRootObject:weakSelf.customModel toFile:file];
+        if (weakSelf.customModel.open) {
+            weakSelf.customModel.openTime  = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
+            NSArray *arry = [weakSelf.customModel.openTime componentsSeparatedByString:@":"];
+            NSMutableString *mustr = [NSMutableString string];
+            [arry enumerateObjectsUsingBlock:^(NSString  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [mustr appendFormat:@"%02lx",[obj integerValue] & 0xff];
+            }];
+            sendCmdModel.openTime = mustr;
+        }else{
+            sendCmdModel.openTime = @"ffff";
+        }
+        
+        if (weakSelf.customModel.close) {
+            weakSelf.customModel.closeTime = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].detailTextLabel.text;
+            NSArray *arry = [weakSelf.customModel.closeTime componentsSeparatedByString:@":"];
+            NSMutableString *mustr = [NSMutableString string];
+            [arry enumerateObjectsUsingBlock:^(NSString  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [mustr appendFormat:@"%02lx",[obj integerValue] & 0xff];
+            }];
+            sendCmdModel.closeTime = mustr;
+        }else{
+            sendCmdModel.closeTime = @"ffff";
+        }
+        
         [weakSelf.navigationController popToRootViewControllerAnimated:YES];
         
-        sendCmdModel.openTime = [weakSelf.customModel.openTime stringByReplacingOccurrencesOfString:@":" withString:@""];
-        sendCmdModel.closeTime = [weakSelf.customModel.closeTime stringByReplacingOccurrencesOfString:@":" withString:@""];
+        //        NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
+        //        [NSKeyedArchiver archiveRootObject:weakSelf.customModel toFile:file];
     }];
 }
 

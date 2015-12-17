@@ -23,7 +23,7 @@
 /**
  *  实时温度
  */
-@property (nonatomic,assign) NSInteger temp;
+@property (nonatomic,copy) NSString *temp;
 /**
  *  加热状态
  */
@@ -47,9 +47,15 @@
 /**
  *  机器故障
  */
-//@property (nonatomic,assign) device_error_type deviceError;
-
 @property (nonatomic,copy) NSString *deviceError;
+/**
+ * 设置界面使用开机时间
+ */
+@property (nonatomic,copy) NSString *settingOpenTime;
+/**
+ * 设置界面使用关机时间
+ */
+@property (nonatomic,copy) NSString *settingCloseTime;
 
 
 @end

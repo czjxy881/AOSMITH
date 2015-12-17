@@ -40,6 +40,6 @@ typedef enum {
 /**
  *  设备的状态，是添加设备，还是离线配置WiFi
  */
-@property (nonatomic,assign) BOOL isAddDevice;
+@property (nonatomic,assign,getter = isAddDevice) BOOL addDevice;
 
 @end

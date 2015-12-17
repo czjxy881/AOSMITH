@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YhD-Yu-eef">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YhD-Yu-eef">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -83,7 +83,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <state key="selected" image="heating_room_select">
+                                                <state key="selected">
                                                     <color key="titleColor" red="1" green="0.71372549019607845" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -98,7 +98,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <state key="selected" image="hot_water_select">
+                                                <state key="selected">
                                                     <color key="titleColor" red="1" green="0.71372549019607845" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -112,7 +112,7 @@
                                                 <state key="normal" title="Ⅰ 档">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <state key="selected" image="heating_room_select">
+                                                <state key="selected">
                                                     <color key="titleColor" red="1" green="0.71372549019607845" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -203,7 +203,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30℃" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LD0-h0-8l2">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35℃" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LD0-h0-8l2">
                                                 <rect key="frame" x="20" y="70" width="29" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -215,13 +215,13 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="T_settingt" translatesAutoresizingMaskIntoConstraints="NO" id="qp8-P0-osi">
+                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="T_settingt" translatesAutoresizingMaskIntoConstraints="NO" id="qp8-P0-osi">
                                                 <rect key="frame" x="20" y="40" width="560" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="KJE-zo-JY3"/>
                                                 </constraints>
                                             </imageView>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="30" maxValue="75" translatesAutoresizingMaskIntoConstraints="NO" id="wfg-Ln-Qtd" customClass="ASValueTrackingSlider">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="45" minValue="35" maxValue="75" translatesAutoresizingMaskIntoConstraints="NO" id="wfg-Ln-Qtd" customClass="ASValueTrackingSlider">
                                                 <rect key="frame" x="18" y="40" width="564" height="16"/>
                                             </slider>
                                         </subviews>
@@ -280,7 +280,7 @@
                                         <state key="disabled" image="off_line"/>
                                         <state key="selected" image="home_power"/>
                                         <connections>
-                                            <action selector="changePower:" destination="Z2f-sn-rIC" eventType="touchUpInside" id="suF-Zm-PPc"/>
+                                            <action selector="changePower:" destination="Z2f-sn-rIC" eventType="touchUpInside" id="zVl-MO-GSD"/>
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开机中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlx-UK-Ux4" userLabel="loding">
@@ -358,10 +358,8 @@
     </scenes>
     <resources>
         <image name="T_settingt" width="43" height="17"/>
-        <image name="heating_room_select" width="15" height="12"/>
         <image name="home_power" width="28" height="30"/>
         <image name="home_power_off" width="28" height="30"/>
-        <image name="hot_water_select" width="10" height="14"/>
         <image name="line-middle" width="375" height="55"/>
         <image name="moreRight" width="6" height="12"/>
         <image name="off_line" width="32" height="24"/>

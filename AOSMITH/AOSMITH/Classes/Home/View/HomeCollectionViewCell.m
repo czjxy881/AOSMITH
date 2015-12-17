@@ -21,14 +21,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *deviceName;
 /***  温度 Lable */
 @property (weak, nonatomic) IBOutlet UILabel *temp;
-/***  开关机 Lable */
-@property (weak, nonatomic) IBOutlet UILabel *powerLabel;
 /***  度的image */
 @property (weak, nonatomic) IBOutlet UIImageView *centigradeImg;
 /***  温度计image */
 @property (weak, nonatomic) IBOutlet UIImageView *thermometer;
-/***  加热中 */
-@property (weak, nonatomic) IBOutlet UILabel *hotUpLabel;
 
 @end
 
@@ -50,9 +46,9 @@
 - (void)MQTTMessage:(NSNotification *)not
 {
     SkywareMQTTModel *model = [not.userInfo objectForKey:kSkywareMQTTuserInfoKey];
-    NSString *deCode_deviceData = [NSString decodeBase64String:[model.data firstObject]];
-    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
-    _deviceData = deviceM;
+    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:[[model.data firstObject] toHexStringFromBase64String]];
+    
+    self.deviceData = deviceM;
 }
 
 - (void)layoutSubviews
@@ -75,7 +71,7 @@
 {
     _skywareInfo = skywareInfo;
     _deviceName.text = skywareInfo.device_name;
-    _deviceData = skywareInfo.device_data;
+    self.deviceData = skywareInfo.device_data;
 }
 
 - (void)setDeviceData:(DeviceDataModel *)deviceData
@@ -88,21 +84,27 @@
         self.centigradeImg.hidden = NO;
         self.thermometer.hidden = NO;
     }else{
+        self.powerLabel.text = @"已关机";
         self.powerLabel.hidden = NO;
+        self.hotUpLabel.hidden = YES;
         self.temp.hidden = YES;
         self.centigradeImg.hidden = YES;
         self.thermometer.hidden = YES;
     }
     // 温度
-    self.temp.text = [NSString stringWithFormat:@"%ld",deviceData.temp];
+    self.temp.text = deviceData.temp;
     
     // 设置温度计图片
     if (deviceData.hot) {
         self.thermometer.image = [UIImage imageNamed:@"thermometer_preservation"];
         self.hotUpLabel.hidden = NO;
+        self.hotUpLabel.text = @"加热中...";
     }else{
         self.thermometer.image = [UIImage imageNamed:@"thermometer"];
-        self.hotUpLabel.hidden = YES;
+        if (deviceData.power) {
+            self.hotUpLabel.hidden = NO;
+            self.hotUpLabel.text = @"保温中";
+        }
     }
 }
 

@@ -248,7 +248,7 @@
     
     if (header) {
         [header enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [manager.requestSerializer setValue:obj forKey:key];
+            [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
         }];
     }
     

@@ -44,6 +44,8 @@ static const SendCommandModel *sendCmdModel;
     //    BaseArrowCellItem *item2 = [BaseArrowCellItem  createBaseCellItemWithIcon:nil AndTitle:@"位置校准" SubTitle:nil ClickOption:^{
     //        [SVProgressHUD showSuccessWithStatus:@"敬请期待！"];
     //    }];
+    
+    [self.dataList removeAllObjects];
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
     DeviceDataModel *model = manager.currentDevice.device_data;
     BaseSubtitleCellItem *item1 = [BaseSubtitleCellItem createBaseCellItemWithIcon:nil AndTitle:@"时间校准" SubTitle:model.deviceTime ClickOption:^{
@@ -59,11 +61,13 @@ static const SendCommandModel *sendCmdModel;
 - (void)MQTTMessage:(NSNotification *)not
 {
     SkywareMQTTModel *model = [not.userInfo objectForKey:kSkywareMQTTuserInfoKey];
-    NSString *deCode_deviceData = [NSString decodeBase64String:[model.data firstObject]];
-    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:deCode_deviceData];
+    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:[[model.data firstObject] toHexStringFromBase64String]];
     NSTimeInterval inster =[NSDate getDiscrepancyData: [self setdataYMD:_sendTime] WithDate:[self setdataYMD:deviceM.deviceTime]];
+    
     if (inster <= 60) {
         [SVProgressHUD showSuccessWithStatus:@"时间校准成功"];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        cell.detailTextLabel.text = _sendTime;
     }else{
         [SVProgressHUD showSuccessWithStatus:@"时间校准失败"];
     }
@@ -74,7 +78,7 @@ static const SendCommandModel *sendCmdModel;
     NSMutableString *ymdhms = [NSMutableString string];
     NSArray *timeArray = [[[NSDate date] FormatterYMDHMS] componentsSeparatedByString:@" "];
     if (timeArray.count) {
-        [ymdhms appendString:[[timeArray firstObject] stringValue]];
+        [ymdhms appendString:[timeArray firstObject]];
         [ymdhms appendFormat:@" %@",hms];
     }
     return [ymdhms FormatterDateFromYMDHMS];
@@ -85,12 +89,12 @@ static const SendCommandModel *sendCmdModel;
     if (buttonIndex) {
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDateComponents *compoents = [calendar components:NSCalendarUnitSecond | NSCalendarUnitMinute |  NSCalendarUnitHour fromDate:[NSDate date]];
-        NSInteger sec = compoents.second;
-        NSInteger minute = compoents.minute;
-        NSInteger hour = compoents.hour;
-        NSString *timeStr = [NSString stringWithFormat:@"%02ld%02ld%02ld",hour,minute,sec];
-        _sendTime = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",hour,minute,sec];
-        sendCmdModel.deviceTime = timeStr;
+        NSMutableString *mustr = [NSMutableString string];
+        [mustr appendFormat:@"%02lx",compoents.hour & 0xff];
+        [mustr appendFormat:@"%02lx",compoents.minute & 0xff];
+        [mustr appendFormat:@"%02lx",compoents.second & 0xff];
+        _sendTime = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",compoents.hour,compoents.minute,compoents.second];
+        sendCmdModel.deviceTime  = mustr;
         [kNotificationCenter addObserver:self selector:@selector(MQTTMessage:) name:kSkywareNotificationCenterCurrentDeviceMQTT object:nil];
     }
 }

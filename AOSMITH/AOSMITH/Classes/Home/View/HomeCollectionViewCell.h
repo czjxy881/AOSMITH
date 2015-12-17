@@ -14,4 +14,9 @@
 @property (nonatomic,strong)  SkywareDeviceInfoModel *skywareInfo;//设备信息
 @property (nonatomic,strong)  DeviceDataModel *deviceData;//设备状态
 
+/***  加热中 */
+@property (weak, nonatomic) IBOutlet UILabel *hotUpLabel;
+/***  开关机 Lable */
+@property (weak, nonatomic) IBOutlet UILabel *powerLabel;
+
 @end

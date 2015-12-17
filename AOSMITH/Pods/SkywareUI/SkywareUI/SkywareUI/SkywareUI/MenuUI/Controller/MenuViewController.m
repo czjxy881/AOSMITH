@@ -55,7 +55,7 @@
     BaseArrowCellItem *addDeviceItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_scan" AndTitle:@"添加设备" SubTitle:nil ClickOption:^{
         // 添加设备操作
         AddDeviceViewController *deviceVC = [[AddDeviceViewController alloc] init];
-        deviceVC.isAddDevice = YES;
+        deviceVC.addDevice = YES;
         [self.navigationController pushViewController:deviceVC animated:YES];
     }];
     BaseCellItemGroup *group3 = [BaseCellItemGroup createGroupWithItem:@[addDeviceItem]];

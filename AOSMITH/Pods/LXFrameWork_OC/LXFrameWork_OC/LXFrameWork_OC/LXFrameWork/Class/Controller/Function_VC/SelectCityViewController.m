@@ -8,7 +8,8 @@
 
 #import "SelectCityViewController.h"
 #import "SelectCityGroups.h"
-#import <CoreLocationTool.h>
+#import "CoreLocationTool.h"
+#import "BundleTool.h"
 #import <MJExtension/MJExtension.h>
 
 @interface SelectCityViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchDisplayDelegate>
@@ -27,6 +28,11 @@
     [super viewDidLoad];
     [self setNavTitle:@"城市定位"];
     [self addSearchDisplayController];
+    [self.dataList removeAllObjects];
+    NSArray *array = [self.cityList valueForKeyPath:@"citys.name"];
+    [array enumerateObjectsUsingBlock:^(NSArray *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.dataList addObjectsFromArray:obj];
+    }];
 }
 
 - (void) addSearchDisplayController
@@ -97,7 +103,6 @@
     }else{
         return nil;
     }
-    
 }
 
 // 设置每一组 标题的高度
@@ -108,7 +113,6 @@
     }else{
         return 0;
     }
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -151,12 +155,7 @@
 - (NSMutableArray *)cityList
 {
     if (!_cityList) {
-        _cityList = [SelectCityGroups mj_objectArrayWithFilename:@"citys.plist"];
-        [self.dataList removeAllObjects];
-        NSArray *array = [self.cityList valueForKeyPath:@"citys.name"];
-        [array enumerateObjectsUsingBlock:^(NSArray *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self.dataList addObjectsFromArray:obj];
-        }];
+        _cityList = [SelectCityGroups mj_objectArrayWithKeyValuesArray:[BundleTool getArrayWithName:@"citys.plist" FromBundle:LXFrameWorkBundle]];
     }
     return _cityList;
 }

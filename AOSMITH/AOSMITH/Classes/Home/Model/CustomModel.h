@@ -16,7 +16,9 @@
 @property (nonatomic,copy) NSString *closeTime;
 
 /***  是否开启 */
-@property (nonatomic,assign) BOOL isOpen;
+@property (nonatomic,assign,getter = isOpenTime) BOOL open;
+@property (nonatomic,assign,getter = isCloseTIme) BOOL close;
+
 
 + (instancetype) createCustomModelWithOpenTime:(NSString *) openTime CloseTime:(NSString *)closeTime isOpen:(BOOL)isOpen;
 
