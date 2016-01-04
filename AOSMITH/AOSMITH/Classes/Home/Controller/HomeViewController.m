@@ -204,14 +204,14 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
         if ([deviceM.closeTime rangeOfString:@"--"].location == NSNotFound) {
             _deviceModelLabel.text = deviceM.closeTime;
         }else{
-            _deviceModelLabel.text = @"未开启";
+            _deviceModelLabel.text = @"定时未开启";
         }
     }else{
         _powerLoding.hidden = YES;
         if ([deviceM.openTime rangeOfString:@"--"].location == NSNotFound) {
             _deviceModelLabel.text = deviceM.openTime;
         }else{
-            _deviceModelLabel.text = @"未开启";
+            _deviceModelLabel.text = @"定时未开启";
         }
     }
     

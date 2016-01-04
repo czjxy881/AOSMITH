@@ -33,7 +33,7 @@
     manager.service_type = testing_new;
     
     SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
-    UIM.All_button_bgColor = kSystemBtnBGColor;
+    UIM.All_button_bgColor = [UIColor colorWithHexString:@"#001b38"] ;//kSystemBtnBGColor;
     UIM.All_view_bgColor = kSystemLoginViewBackageColor;
     
     LXFrameWorkManager *LXManager = [LXFrameWorkManager sharedLXFrameWorkManager];

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     [self addUserInfoManagerGroup];
-    [self addBuyDeviceGroup];
+//    [self addBuyDeviceGroup];
     [self addDeviceManagerGroup];
     [self addDeviceGroup];
     [self setUpOtherItemGroup];
@@ -43,13 +43,13 @@
 
 - (void)setUpOtherItemGroup
 {
-    BaseArrowCellItem *settingItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"user_setting" AndTitle:@"设置" SubTitle:nil ClickOption:^{
-        SettingViewController *settingVC = [[SettingViewController alloc]init];
-        [self.navigationController pushViewController:settingVC animated:YES];
-    }];
+//    BaseArrowCellItem *settingItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"user_setting" AndTitle:@"设置" SubTitle:nil ClickOption:^{
+//        SettingViewController *settingVC = [[SettingViewController alloc]init];
+//        [self.navigationController pushViewController:settingVC animated:YES];
+//    }];
     
-    BaseCellItemGroup *group2 = [BaseCellItemGroup createGroupWithItem:@[settingItem]];
-    [self.dataList addObject:group2];
+//    BaseCellItemGroup *group2 = [BaseCellItemGroup createGroupWithItem:@[settingItem]];
+//    [self.dataList addObject:group2];
     
     BaseArrowCellItem *helpItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_help" AndTitle:@"帮助中心" SubTitle:nil ClickOption:^{
         HelpViewController *helpVC = [[HelpViewController alloc]init];
