@@ -20,7 +20,17 @@
     coverTransparentView.alpha = 0.6;
     [[UIWindow getCurrentWindow] addSubview:coverTransparentView];
     
-    [coverTransparentView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(74+height, 0, 55, 0)];
+    float bottomMargin;
+    if (IS_IPHONE_4_OR_LESS) {
+        bottomMargin = HomeiPhone4s_3;
+    }else if (IS_IPHONE_5_OR_5S) {
+        bottomMargin = HomeiPhone5s_3;
+    }else if (IS_IPHONE_6_OR_6S){
+        bottomMargin = 50;
+    }else if (IS_IPHONE_6P_OR_6PS){
+        bottomMargin = HomeiPhone6plus_3;
+    }
+    [coverTransparentView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(74+height, 0, bottomMargin, 0)];
     
 }
 +(void)addCoverErrorViewWithHeight:(CGFloat)height
