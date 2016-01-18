@@ -323,28 +323,28 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
             self.twoGearsBtn.selected = NO;
             self.threeGearsBtn.selected = NO;
         }
-        break;
+            break;
         case tow_level:
         {
             self.oneGearsBtn.selected = NO;
             self.twoGearsBtn.selected = YES;
             self.threeGearsBtn.selected = NO;
         }
-        break;
+            break;
         case three_level:
         {
             self.oneGearsBtn.selected = NO;
             self.twoGearsBtn.selected = NO;
             self.threeGearsBtn.selected = YES;
         }
-        break;
+            break;
         default:
         {
             self.oneGearsBtn.selected = NO;
             self.twoGearsBtn.selected = NO;
             self.threeGearsBtn.selected = NO;
         }
-        break;
+            break;
     }
     //    if (deviceM.deviceError.length) { // 设备报警
     //        if (_errorAlertView == nil) {
@@ -539,8 +539,12 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  *  跳转到定时页面
  */
 - (IBAction)pushModeVC:(UITapGestureRecognizer *)sender {
-    CustomTimeViewController *timeVC = [[CustomTimeViewController alloc] init];
-    [self.navigationController pushViewController:timeVC animated:YES];
+    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    DeviceDataModel *model = manager.currentDevice.device_data;
+    if (model && model.openTime.length){
+        CustomTimeViewController *timeVC = [[CustomTimeViewController alloc] init];
+        [self.navigationController pushViewController:timeVC animated:YES];
+    }
 }
 
 /**
@@ -578,9 +582,9 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     if ([self isCurrentLevel:one_level]) {
         return   ;
     }else{
-            [self setVisibleItemCellWith:@"切换档位中"];
-            sendCmdModel.level = one_level;
-        }
+        [self setVisibleItemCellWith:@"切换档位中"];
+        sendCmdModel.level = one_level;
+    }
 }
 
 /**

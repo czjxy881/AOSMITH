@@ -7,8 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SystemAboutViewController">
             <connections>
-                <outlet property="company" destination="kXu-5L-2EI" id="ef9-mn-P19"/>
-                <outlet property="copyright" destination="oa0-IY-25A" id="jH6-Uh-1lx"/>
                 <outlet property="imageView" destination="RZP-wJ-jrp" id="uEy-0k-fuC"/>
                 <outlet property="version" destination="D9L-sm-6DR" id="b8y-kX-1Xz"/>
                 <outlet property="view" destination="QvI-YF-x5l" id="uGL-oG-oOQ"/>
@@ -26,20 +24,6 @@
                         <constraint firstAttribute="width" secondItem="RZP-wJ-jrp" secondAttribute="height" multiplier="136:190" id="3pO-wL-IbM"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2011-2015 BeijingSkyware WebIntegration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oa0-IY-25A">
-                    <rect key="frame" x="43" y="645" width="288.5" height="13.5"/>
-                    <animations/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="北京鼎甲微联公司  版权所有" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kXu-5L-2EI">
-                    <rect key="frame" x="99" y="618" width="176" height="17"/>
-                    <animations/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="软件版本信息: 0.9.3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9L-sm-6DR">
                     <rect key="frame" x="125" y="591" width="124" height="17"/>
                     <animations/>
@@ -52,18 +36,14 @@
             <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="RZP-wJ-jrp" secondAttribute="trailing" constant="10" id="43L-o7-gg2"/>
-                <constraint firstItem="kXu-5L-2EI" firstAttribute="top" secondItem="D9L-sm-6DR" secondAttribute="bottom" constant="10" id="8cU-Iy-nqV"/>
                 <constraint firstItem="RZP-wJ-jrp" firstAttribute="top" secondItem="QvI-YF-x5l" secondAttribute="top" constant="150" id="DeJ-aZ-HyR"/>
-                <constraint firstAttribute="centerX" secondItem="oa0-IY-25A" secondAttribute="centerX" id="G0P-bk-VIw"/>
-                <constraint firstAttribute="centerX" secondItem="kXu-5L-2EI" secondAttribute="centerX" id="KiY-lY-SbF"/>
                 <constraint firstAttribute="centerX" secondItem="D9L-sm-6DR" secondAttribute="centerX" id="MJ6-JH-N7D"/>
                 <constraint firstAttribute="trailing" secondItem="RZP-wJ-jrp" secondAttribute="trailing" constant="8" id="Nyl-vO-9xy"/>
                 <constraint firstItem="RZP-wJ-jrp" firstAttribute="centerY" secondItem="QvI-YF-x5l" secondAttribute="centerY" id="QsN-dU-fCJ"/>
                 <constraint firstItem="RZP-wJ-jrp" firstAttribute="leading" secondItem="QvI-YF-x5l" secondAttribute="leading" constant="10" id="SYo-5H-L4j"/>
+                <constraint firstAttribute="bottom" secondItem="D9L-sm-6DR" secondAttribute="bottom" constant="59" id="UXY-Uh-Leb"/>
                 <constraint firstItem="D9L-sm-6DR" firstAttribute="top" secondItem="RZP-wJ-jrp" secondAttribute="bottom" constant="30" id="VJ5-HZ-gD1"/>
-                <constraint firstItem="oa0-IY-25A" firstAttribute="top" secondItem="kXu-5L-2EI" secondAttribute="bottom" constant="10" id="coa-t0-IjK"/>
                 <constraint firstItem="RZP-wJ-jrp" firstAttribute="leading" secondItem="QvI-YF-x5l" secondAttribute="leading" constant="8" id="fWR-sD-QRl"/>
-                <constraint firstAttribute="bottom" secondItem="oa0-IY-25A" secondAttribute="bottom" constant="8" id="pHh-86-hgb"/>
                 <constraint firstItem="RZP-wJ-jrp" firstAttribute="centerX" secondItem="QvI-YF-x5l" secondAttribute="centerX" id="tfs-zD-F1u"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

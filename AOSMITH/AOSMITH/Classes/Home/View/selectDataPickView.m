@@ -44,6 +44,7 @@
     [UIView animateWithDuration:0.4f animations:^{
         self.y = kWindowHeight;
     } completion:^(BOOL finished) {
+        [self.pickView removeFromSuperview];
         [self removeFromSuperview];
         if (self.cleanClick) {
             self.cleanClick();

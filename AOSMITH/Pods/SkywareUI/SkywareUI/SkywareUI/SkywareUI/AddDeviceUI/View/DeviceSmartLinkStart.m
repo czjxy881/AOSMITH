@@ -56,6 +56,7 @@
         SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
         self.circleProgressView.progressTintColor = UIM.Device_button_bgColor;
         [self addSubview:self.circleProgressView];
+        
     }
     [self initCircleProgressView];
 }

@@ -39,12 +39,18 @@ static const SendCommandModel *sendCmdModel;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNavTitle:@"时间设定"];
-//    [self addNavRightBtn];
     [self setCellData];
     [kNotificationCenter addObserver:self selector:@selector(selectDatePickViewCenterBtnClick:) name:kSelectCustomDatePickNotification object:nil];
     [kNotificationCenter addObserver:self selector:@selector(refreshCalculateTime) name:NotifactionUpdateCaculateTime object:nil];
     //获取当前设备的更新时间，计算设备的校准时间
     [kNotificationCenter addObserver:self selector:@selector(downloadDeviceUpdateTime) name:kSkywareNotificationCenterCurrentDeviceMQTT object:nil];
+    _indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [kNotificationCenter removeObserver:self];
 }
 
 
@@ -68,10 +74,6 @@ static const SendCommandModel *sendCmdModel;
         }
     }];
 }
-- (void)dealloc
-{
-    [kNotificationCenter removeObserver:self];
-}
 
 
 #pragma mark - MQTT 消息推送
@@ -82,7 +84,7 @@ static const SendCommandModel *sendCmdModel;
     NSTimeInterval inster =[NSDate getDiscrepancyData: [self setdataYMD:_sendTime] WithDate:[self setdataYMD:deviceM.deviceTime]];
     if (inster <= 60) {
         [SVProgressHUD showSuccessWithStatus:@"时间校准成功"];
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:1]];
         cell.detailTextLabel.text = _sendTime;
     }else{
         [SVProgressHUD showSuccessWithStatus:@"时间校准失败"];
@@ -124,6 +126,9 @@ static const SendCommandModel *sendCmdModel;
         }else{
             self.customModel.open = NO;
             sendCmdModel.openTime = @"ffff";
+            _indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:_indexPath];
+            cell.detailTextLabel.text =@"--:--";
         }
     }];
     
@@ -148,6 +153,9 @@ static const SendCommandModel *sendCmdModel;
         }else{
             self.customModel.close = NO;
             sendCmdModel.closeTime = @"ffff";
+            _indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:_indexPath];
+            cell.detailTextLabel.text =@"--:--";
         }
     }];
     
@@ -164,47 +172,12 @@ static const SendCommandModel *sendCmdModel;
     [self.dataList addObject:group2];
 }
 
-#pragma mark - Method
-- (void) addNavRightBtn
-{
-    __weak typeof (self) weakSelf = self;
-    [self setRightBtnWithImage:nil orTitle:@"确定" ClickOption:^{
-        if (weakSelf.customModel.open) {
-            weakSelf.customModel.openTime  = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
-            NSArray *arry = [weakSelf.customModel.openTime componentsSeparatedByString:@":"];
-            NSMutableString *mustr = [NSMutableString string];
-            [arry enumerateObjectsUsingBlock:^(NSString  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [mustr appendFormat:@"%02lx",[obj integerValue] & 0xff];
-            }];
-            sendCmdModel.openTime = mustr;
-        }else{
-            sendCmdModel.openTime = @"ffff";
-        }
-        
-        if (weakSelf.customModel.close) {
-            weakSelf.customModel.closeTime = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].detailTextLabel.text;
-            NSArray *arry = [weakSelf.customModel.closeTime componentsSeparatedByString:@":"];
-            NSMutableString *mustr = [NSMutableString string];
-            [arry enumerateObjectsUsingBlock:^(NSString  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [mustr appendFormat:@"%02lx",[obj integerValue] & 0xff];
-            }];
-            sendCmdModel.closeTime = mustr;
-        }else{
-            sendCmdModel.closeTime = @"ffff";
-        }
-        
-        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
-        
-        //        NSString *file = [[NSString getApplicationDocumentsDirectory] stringByAppendingPathComponent:@"/timing.data"];
-        //        [NSKeyedArchiver archiveRootObject:weakSelf.customModel toFile:file];
-    }];
-}
-
 #pragma mark - NotificationCenter   时间“确定”按钮
 - (void)selectDatePickViewCenterBtnClick:(NSNotification *) nsf
 {
     NSString *selectWeekStr = nsf.userInfo[@"selectPick"];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:_indexPath];
+    NSLog(@"the indexPath is section= %ld,row = %ld",_indexPath.section,_indexPath.row);
     cell.detailTextLabel.text = selectWeekStr;
     if (_indexPath.row == 0) { //开启
         self.customModel.openTime  = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
@@ -231,13 +204,13 @@ static const SendCommandModel *sendCmdModel;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _indexPath = indexPath;
     if (indexPath.section == 1) {//时间校准
                [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要进行时间校准吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil]show];
     }else{
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         NSString *selectWeekStr = cell.detailTextLabel.text;
         [self clickSelectDateWithDefine:selectWeekStr];
-        _indexPath = indexPath;
     }
 }
 

@@ -180,9 +180,11 @@ static const long kLength = 2; // 占16进制2位
 //        _deviceTime  = @"测试0000";
         //手机时间-服务器获取的SkywareDeviceInfoModel里面的更新时间
         NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-        NSTimeInterval cha = (now - _serverUpdateTime);
-        _deviceTime = [self getDeviceCalulateTime:_tempCalculateTimeStr withTimeInterval:cha];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotifactionUpdateCaculateTime object:nil];
+        if (_serverUpdateTime!=0) {
+            NSTimeInterval cha = (now - _serverUpdateTime);
+            _deviceTime = [self getDeviceCalulateTime:_tempCalculateTimeStr withTimeInterval:cha];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotifactionUpdateCaculateTime object:nil];
+        }
     }
 }
 
