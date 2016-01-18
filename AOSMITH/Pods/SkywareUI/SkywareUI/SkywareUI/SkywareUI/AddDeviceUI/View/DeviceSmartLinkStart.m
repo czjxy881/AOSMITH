@@ -7,12 +7,21 @@
 //
 
 #import "DeviceSmartLinkStart.h"
+#import "DALabeledCircularProgressView.h"
 
 @interface DeviceSmartLinkStart ()
-/***  ImageView */
-@property (weak, nonatomic) IBOutlet UIImageView *centerImageView;
+{
+    NSTimer *_timer;
+    int progressTime;
+}
 /***  取消按钮 */
 @property (weak, nonatomic) IBOutlet UIButton *cleanBtn;
+
+
+#define SCREEN_WIDTH      ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT     ([[UIScreen mainScreen] bounds].size.height)
+
+@property (nonatomic,strong) DALabeledCircularProgressView *circleProgressView;
 
 @end
 
@@ -38,17 +47,46 @@
 }
 
 - (void) beginAnimationImages{
-    if(self.centerImageView.isAnimating) return ;
-    SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
-    self.centerImageView.animationImages = UIM.Device_smartLink_array;
-    self.centerImageView.animationRepeatCount = MAXFLOAT;
-    self.centerImageView.animationDuration = 4 * 0.6;
-    [self.centerImageView startAnimating];
+    //进度条
+    if (self.circleProgressView==nil) {
+        self.circleProgressView = [[DALabeledCircularProgressView alloc] initWithFrame:CGRectMake(200.0f, 40.0f, 90.0f, 90.0f)];
+        self.circleProgressView.roundedCorners = NO;
+        CGPoint center = CGPointMake(SCREEN_WIDTH/2.0, 200-80);
+        self.circleProgressView.center = center;
+        SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
+        self.circleProgressView.progressTintColor = UIM.Device_button_bgColor;
+        [self addSubview:self.circleProgressView];
+    }
+    [self initCircleProgressView];
 }
 
-- (void)dealloc
+
+-(void)initCircleProgressView
 {
-    [self.centerImageView performSelector:@selector(setAnimationImages:) withObject:nil afterDelay:self.centerImageView.animationDuration];
+    progressTime = 0;
+    [self.circleProgressView setProgress:0.0 animated:YES];
+    self.circleProgressView.progressLabel.text = [NSString stringWithFormat:@"%.0f%%", self.circleProgressView.progress];
+    [self startTimer];
 }
 
+-(void)startTimer
+{
+    if (_timer == nil) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgressView) userInfo:nil repeats:YES];
+    }
+}
+
+-(void)updateProgressView
+{
+    progressTime++;
+    CGFloat progress = progressTime/ 40.0 ;
+    [self.circleProgressView setProgress:progress animated:YES];
+    self.circleProgressView.progressLabel.text = [NSString stringWithFormat:@"%.0f%%", self.circleProgressView.progress*100];
+}
+
+-(void)dealloc
+{
+    [_timer invalidate];
+    _timer = nil;
+}
 @end

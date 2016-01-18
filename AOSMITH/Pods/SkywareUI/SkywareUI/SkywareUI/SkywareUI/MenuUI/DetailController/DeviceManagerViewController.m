@@ -7,7 +7,7 @@
 //
 
 #import "DeviceManagerViewController.h"
-
+#import "AddDeviceViewController.h"
 @interface DeviceManagerViewController ()<UIActionSheetDelegate,UIAlertViewDelegate,UITableViewDelegate>
 /**
  *  记录当前点击的DeviceModel
@@ -37,6 +37,7 @@
     NSMutableArray *deviceArray= [NSMutableArray array];
     [self.dataList removeAllObjects];
     [SkywareDeviceManager DeviceGetAllDevicesSuccess:^(SkywareResult *result) {
+        [self.dataList removeAllObjects];
         NSArray *array = [SkywareDeviceInfoModel mj_objectArrayWithKeyValuesArray:result.result];
         [array enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel *DeviceInfo, NSUInteger idx, BOOL * _Nonnull stop) {
             BaseArrowCellItem *item = [BaseArrowCellItem createBaseCellItemWithIcon:nil AndTitle:DeviceInfo.device_name SubTitle:[DeviceInfo.device_lock integerValue]== 1? @"未锁定": @"已锁定" ClickOption:nil];
@@ -48,7 +49,9 @@
         [SVProgressHUD dismiss];
     } failure:^(SkywareResult *result) {
         if ([result.message isEqualToString:@"404"]) {
+            [self.dataList removeAllObjects];
             [SVProgressHUD showInfoWithStatus:@"暂无设备"];
+            [self.tableView reloadData];
         }
     }];
 }
@@ -63,7 +66,7 @@
         return;
     }
     [manager.bind_Devices_Array enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel *DeviceInfo, NSUInteger idx, BOOL * _Nonnull stop) {
-        BaseArrowCellItem *item = [BaseArrowCellItem createBaseCellItemWithIcon:nil AndTitle:DeviceInfo.device_name SubTitle:[DeviceInfo.device_lock integerValue]== 1? @"未锁定": @"已锁定" ClickOption:nil];
+        BaseArrowCellItem *item = [BaseArrowCellItem createBaseCellItemWithIcon:@"show_biao" AndTitle:DeviceInfo.device_name SubTitle:[DeviceInfo.device_lock integerValue]== 1? @"未锁定": @"已锁定" ClickOption:nil];
         [deviceArray addObject:item];
     }];
     BaseCellItemGroup *group = [BaseCellItemGroup createGroupWithItem:deviceArray];
@@ -78,7 +81,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
     self.deviceModel = [manager.bind_Devices_Array objectAtIndex:indexPath.row];
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"解绑" otherButtonTitles:@"编辑", @"锁定",nil];
+    NSString *isLock = [self.deviceModel.device_lock integerValue]== 1?@"锁定": @"解锁";
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"解绑" otherButtonTitles:@"编辑",isLock,@"配网",nil];
     [sheet showInView:[UIWindow getCurrentWindow]];
 }
 
@@ -94,14 +98,20 @@
         DeviceEditInfoViewController *edit = [[DeviceEditInfoViewController alloc] initWithNibName:@"DeviceEditInfoViewController" bundle:nil];
         edit.DeviceInfo = self.deviceModel;
         [self.navigationController pushViewController:edit animated:YES];
-    }else if(buttonIndex == 2){ // 锁定
-        if ([_deviceModel.device_lock isEqualToString:@"0"]) {
-            [SVProgressHUD showErrorWithStatus:@"该设备已锁定"];
-            return;
+    }else if(buttonIndex == 2){ // 锁定  解锁
+        if ([_deviceModel.device_lock isEqualToString:@"0"]) { //解锁
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要解锁这台设备吗？\n （设备解锁后可以被他人建立新绑定关系）" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alertView.tag = 3;
+            [alertView show];
+        }else{//锁定
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要锁定这台设备吗？（设备锁定后不能再被其他人建立绑定关系）" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alertView.tag = 2;
+            [alertView show];
         }
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要锁定这台设备吗？（设备锁定后不能再被其他人建立绑定关系）" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag = buttonIndex;
-        [alertView show];
+    }else if (buttonIndex == 3){//配网
+        AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
+        add.addDevice = NO;
+        [self.navigationController pushViewController:add animated:YES];
     }
 }
 
@@ -114,6 +124,7 @@
         [SVProgressHUD show];
         [SkywareDeviceManager DeviceReleaseUser:@[self.deviceModel.device_id] Success:^(SkywareResult *result) {
             [SVProgressHUD showSuccessWithStatus:@"设备解绑成功"];
+            [self getUserAllBindDevices];
         } failure:^(SkywareResult *result) {
             [SVProgressHUD showErrorWithStatus:@"解绑失败,请稍后重试"];
         }];
@@ -127,7 +138,20 @@
         } failure:^(SkywareResult *result) {
             [SVProgressHUD showErrorWithStatus:@"锁定设备失败"];
         }];
+    }else if (alertView.tag == 3){//解锁
+        SkywareDeviceUpdateInfoModel *update = [[SkywareDeviceUpdateInfoModel alloc] init];
+        update.device_mac = _deviceModel.device_mac;
+        update.device_lock = @"1";
+        [SVProgressHUD show];
+        [SkywareDeviceManager DeviceUpdateDeviceInfo:update Success:^(SkywareResult *result) {
+            [SVProgressHUD showSuccessWithStatus:@"解锁成功"];
+        } failure:^(SkywareResult *result) {
+            [SVProgressHUD showErrorWithStatus:@"解锁失败"];
+        }];
     }
+    
+    
+    
 }
 
 @end

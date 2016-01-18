@@ -41,11 +41,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //    [self setNavTitle:@"关于"];
+    [self setNavTitle:@"关于"];
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    [self.navView setBackgroundColor:[UIColor clearColor]];
-    [self.navView setScrollNavigationBarLineBackColor:[UIColor clearColor]];
+//    self.automaticallyAdjustsScrollViewInsets = NO;
+//    [self.navView setBackgroundColor:[UIColor clearColor]];
+//    [self.navView setScrollNavigationBarLineBackColor:[UIColor clearColor]];
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *version = [NSString stringWithFormat:@"软件版本信息: %@",[infoDictionary objectForKey:@"CFBundleShortVersionString"]];

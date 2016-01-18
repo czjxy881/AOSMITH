@@ -13,10 +13,18 @@
 #import <SMS_SDK/SMSSDK+AddressBookMethods.h>
 #import <SkywareUIManager.h>
 #import "UserLoginViewController.h"
+#import "UIColor+Utility.h"
 
-#define SMS_SDKAppKey    @"a6137b7d9ee4"
-#define SMS_SDKAppSecret  @"df67c3d2a08511a78582b4ce0c2b7184"
-#define PGY_SDKAppKey  @"319f79a0d2454b97c32df9fd7da8578f"
+//＝＝＝＝＝＝＝＝＝＝ShareSDK头文件＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+#import <ShareSDK/ShareSDK.h>
+#import "ShareConfig.h"
+#import "WXApi.h"
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+
+#define SMS_SDKAppKey    @"ed73b3e10c78"
+#define SMS_SDKAppSecret  @"a2f955b667eeaa5c60e8a1a9d1ba7517"
+#define PGY_SDKAppKey  @"c209a082cdb4a8295e3d5f4def3a58c1"
 
 @interface AppDelegate ()
 
@@ -35,6 +43,14 @@
     SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     UIM.All_button_bgColor = [UIColor colorWithHexString:@"#001b38"] ;//kSystemBtnBGColor;
     UIM.All_view_bgColor = kSystemLoginViewBackageColor;
+    UIM.User_loginView_logo = [UIImage imageNamed:@"ic_launcher"];
+    UIM.Menu_about_img = [UIImage imageNamed:@"about"];
+    UIM.Device_bickerArray = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"wifi_normal"],[UIImage imageNamed:@"wifi_flick"],nil];
+    
+    //添加设备
+    UIM.Device_setting_error = DeviceConfigureFail;
+    UIM.Device_button_bgColor = [UIColor colorWithHexString:@"#001b38"];
+
     
     LXFrameWorkManager *LXManager = [LXFrameWorkManager sharedLXFrameWorkManager];
     LXManager.NavigationBar_bgColor = [UIColor colorWithHexString:@"#001b38"];
@@ -65,8 +81,48 @@
     // 检查更新
     [[PgyUpdateManager sharedPgyManager] checkUpdate];
     
+    
+    [self initPlat];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHex:0xdcdcdc alpha:0.2]];    
     return YES;
 }
+
+
+/**
+ *初始化分享平台
+ **/
+- (void)initPlat
+{
+    [ShareSDK registerApp:ShareAppKey];
+    //registerWX
+    [WXApi registerApp:WeixinAppId];
+    /**
+     连接微信应用以使用相关功能，此应用需要引用WeChatConnection.framework和微信官方SDK
+     http://open.weixin.qq.com上注册应用，并将相关信息填写以下字段
+     **/
+    [ShareSDK connectWeChatWithAppId:WeixinAppId wechatCls:[WXApi class]];
+    //添加新浪微博应用
+//    [ShareSDK connectSinaWeiboWithAppKey:SinaWeiboAppKey
+//                               appSecret:SinaWeiboAppSecret
+//                             redirectUri:@"http://www.skyware.com"];
+//    
+    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
+    [ShareSDK connectQZoneWithAppKey:QQZoneAppKey
+                           appSecret:QQZoneAppSecret
+                   qqApiInterfaceCls:[QQApiInterface class]
+                     tencentOAuthCls:[TencentOAuth class]];
+    
+    //添加QQ应用  注册网址   http://mobile.qq.com/api/
+    [ShareSDK connectQQWithQZoneAppKey:QQZoneAppKey
+                     qqApiInterfaceCls:[QQApiInterface class]
+                       tencentOAuthCls:[TencentOAuth class]];
+    
+}
+
+
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

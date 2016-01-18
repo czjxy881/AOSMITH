@@ -9,6 +9,7 @@
 #import "UserMenuViewController.h"
 #import "HelpViewController.h"
 #import "SettingViewController.h"
+#import "Util.h"
 
 @interface UserMenuViewController ()
 
@@ -19,12 +20,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setShareBar];
     [self addUserInfoManagerGroup];
 //    [self addBuyDeviceGroup];
     [self addDeviceManagerGroup];
     [self addDeviceGroup];
     [self setUpOtherItemGroup];
     
+}
+-(void)setShareBar
+{
+    [self setRightBtnWithImage:[UIImage imageNamed:@"btn_share"] orTitle:nil ClickOption:^{
+        [Util shareAllButtonClickHandler:self.view withContent:SHARE_CONTENT];
+    }];
 }
 
 - (void)dealloc
@@ -51,12 +59,12 @@
 //    BaseCellItemGroup *group2 = [BaseCellItemGroup createGroupWithItem:@[settingItem]];
 //    [self.dataList addObject:group2];
     
-    BaseArrowCellItem *helpItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_help" AndTitle:@"帮助中心" SubTitle:nil ClickOption:^{
+    BaseArrowCellItem *helpItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_help" AndTitle:@"帮助" SubTitle:nil ClickOption:^{
         HelpViewController *helpVC = [[HelpViewController alloc]init];
         [self.navigationController pushViewController:helpVC animated:YES];
     }];
     
-    BaseArrowCellItem *feedbackItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_feedback" AndTitle:@"问题反馈" SubTitle:nil ClickOption:^{
+    BaseArrowCellItem *feedbackItem = [BaseArrowCellItem  createBaseCellItemWithIcon:@"icon_setting_feedback" AndTitle:@"反馈" SubTitle:nil ClickOption:^{
         SystemFeedBackViewController *feedBack = [[SystemFeedBackViewController alloc] initWithNibName:@"SystemFeedBackViewController" bundle:nil];
         [self.navigationController pushViewController:feedBack animated:YES];
     }];

@@ -11,9 +11,11 @@
 
 @interface DeviceSmartLinkStart : StepNextView
 
+
 /**
  *  创建 SmartLink 配网View
  */
 + (instancetype)createDeviceSmartLinkStartView;
+
 
 @end

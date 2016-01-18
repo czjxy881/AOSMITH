@@ -25,7 +25,7 @@
 /*** 完成按钮 */
 @property (weak, nonatomic) IBOutlet UIButton *finishBtn;
 /*** 定位位置的Label */
-@property (weak, nonatomic) IBOutlet UITextField *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 
 @end
 

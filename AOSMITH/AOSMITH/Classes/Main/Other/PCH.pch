@@ -66,5 +66,18 @@ typedef enum {
 #define kSearchPlan(DeviceId)  [NSString stringWithFormat:@"cronJob/%@",DeviceId]
 
 
+#define DeviceConfigureFail  @"很抱歉，无法顺利连接到净化器设备，可能由于：\n1. 请检查WiFi密码是否输入正确；\n 2. 当前环境内WiFi路由器过多；\n3. 当前路由器禁用某些端口号；\n我们建议：\n1. 长触“定时”按键，听到提示音后5~10秒，快速靠近再试一次；\n2. 重启路由器或换一台手机试一下"
+
+
+
+//分享平台
+#define kDownloadLink [NSString stringWithFormat:@"http://yun.skyware.com.cn/app/%d",[SkywareSDKManager sharedSkywareSDKManager].app_id]
+
+#define SHARE_CONTENT @"智能热水器，温暖新生活"
+
+#define NotifactionUpdateOpenCloseTime @"NotifactionUpdateOpenCloseTime"
+#define NotifactionUpdateCaculateTime @"NotifactionUpdateCaculateTime"
+
+
 #endif
 #endif

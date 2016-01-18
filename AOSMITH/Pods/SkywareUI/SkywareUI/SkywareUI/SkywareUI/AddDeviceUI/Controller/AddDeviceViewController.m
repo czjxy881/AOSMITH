@@ -22,6 +22,8 @@
 @property (strong, nonatomic) NSString *wifiPassword; //无线密码
 @end
 
+static const NSInteger WaitTime=50;
+
 @implementation AddDeviceViewController
 
 - (void)viewDidLoad {
@@ -87,7 +89,7 @@
         }else if (_state == resetDevice){
             DeviceResetView *restView = [DeviceResetView createDeviceResetView];
             restView.option = ^{
-                // 开始配网
+                // 开始配网 --- 点击开始按钮
                 [self startSmartlink];
                 _state = settingStart;
                 [self toPage:2];
@@ -153,10 +155,9 @@
 
 - (void)startSmartlink
 {
-    
     [_smtlk startWithKey:self.wifiPassword processblock:^(NSInteger process) {
-        
     } successBlock:^(HFSmartLinkDeviceInfo *dev) {
+        NSLog(@"正在努力中，请稍后...");
         [self smartLinkSettingSuccessWithDev:dev];
     } failBlock:^(NSString *failmsg) {
         _state = settingError;

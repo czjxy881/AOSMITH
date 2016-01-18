@@ -13,11 +13,28 @@
 #import "CustomTimeViewController.h"
 #import <AddDeviceViewController.h>
 #import "CustomModel.h"
+#import "UIView+Toast.h"
 #import "DeviceDataModel.h"
 #import "SendCommandModel.h"
+#import "CoverView.h"
 #import <SkywareNotificationCenter.h>
 
+
+//#define kToastCurrentLevelInfo @"设备已在该档"
+#define kDeviceOffLine  @"请检查：\n1.设备是否连接电源；\n2.WiFi是否正常；\n3.请尝试重新配置WiFi；\n当检查完毕，请重新刷新；              "
+
 @interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,ASValueTrackingSliderDelegate>
+
+/**
+ * btn_control状态码
+ */
+typedef NS_ENUM(NSInteger,  BTN_CONTROL)
+{
+    ControlAdd = 1,//添加净化器
+    ControlOpen = 2,    //净化器没有开启
+    ControlWifi = 3,    //净化器不在线
+    ControlClose = 4,    //
+};
 
 // ----------------屏幕适配---------------
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *homeBtnH;
@@ -52,6 +69,7 @@
 /*** 开关机loding... */
 @property (weak, nonatomic) IBOutlet UILabel *powerLoding;
 
+@property (nonatomic,assign) BOOL willScroll;
 @end
 
 @implementation HomeViewController
@@ -77,11 +95,13 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     // 适配
     [self setScreenDisplay];
     // 获取设备列表
-    [self downloadDeviceList];
+    //    [self downloadDeviceList];
     //通知
     [self.tempretureSliderView addTarget:self action:@selector(sliderValueChange:) forControlEvents:UIControlEventValueChanged];
     [kNotificationCenter addObserver:self selector:@selector(MQTTMessage:) name:kSkywareNotificationCenterCurrentDeviceMQTT object:nil];
     [kNotificationCenter addObserver:self selector:@selector(sliderValueChangeEnd) name:@"endTrackingWithTouch" object:nil];
+    
+    [kNotificationCenter addObserver:self selector:@selector(updateOpenCloseTime) name:NotifactionUpdateOpenCloseTime object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -90,6 +110,34 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     // 获取设备列表
     [self downloadDeviceList];
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    _willScroll = NO;
+    if (self.dataList.count) {
+        SkywareDeviceInfoModel *deviceInfo = [self.dataList objectAtIndex:self.pageVC.currentPage];
+        NSString *key = [NSString stringWithFormat:@"%@-currrentDeviceIndex", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.device_mac  forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    //移除蒙版
+    [CoverView removeCoverView];
+}
+-(int)getCurrentDeviceIndex
+{
+    NSString *key = [NSString stringWithFormat:@"%@-currrentDeviceIndex", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+    NSString *deviceMac = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    for (int i = 0 ; i < self.dataList.count; i++) {
+        SkywareDeviceInfoModel *deviceInfo = [self.dataList objectAtIndex:i];
+        if ([deviceInfo.device_mac isEqualToString:deviceMac]) {
+            return i;
+            break;
+        }
+    }
+    return 0;//如果没有找到则认为是第一个
+}
+
 
 /**
  *  获取定时信息
@@ -108,37 +156,54 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  */
 -(void)downloadDeviceList
 {
+    [SVProgressHUD showInfoWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeGradient];
     [SkywareDeviceManager DeviceGetAllDevicesSuccess:^(SkywareResult *result) {
-        [SVProgressHUD dismiss];
         if ([result.message intValue] == 200) {
             SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
             // 订阅所有设备
-            [SkywareNotificationCenter subscribeUserBindDevices];
-            
+            [[SkywareNotificationCenter sharedSkywareNotificationCenter] subscribeUserBindAllDevices];
             [self.dataList removeAllObjects];
             [manager.bind_Devices_Array enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel* obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String: [obj.device_data[@"bin"] toHexStringFromBase64String]];
+                if (obj.device_data[@"updatetime"] !=nil) {
+                    deviceM.serverUpdateTime = [obj.device_data[@"updatetime"] integerValue];
+                }
                 obj.device_data = deviceM;
                 [self.dataList addObject:obj];
-                if ([obj.device_mac isEqualToString:manager.currentDevice.device_mac]) {
-                    manager.currentDevice = obj;
-                }
             }];
+            manager.currentDevice =  [self.dataList objectAtIndex:[self getCurrentDeviceIndex]];
+            
+            if (self.dataList.count>1) {
+                self.pageVC.hidden = NO;
+            }else{
+                self.pageVC.hidden = YES;
+            }
             // 更新设备信息
             [self updateDeviceStatus:manager.currentDevice];
             // 设置 分页数
             self.pageVC.numberOfPages = self.dataList.count;
             [self.CollectionView reloadData];
+            //            [SVProgressHUD dismiss];
+        }else
+        {
+            //            [SVProgressHUD dismiss];
         }
     } failure:^(SkywareResult *result) {
-        [SVProgressHUD dismiss];
+        //        [SVProgressHUD dismiss];
         if([result.message intValue] == 404) {//没有设备
+            [self.dataList removeAllObjects];
             self.pageVC.numberOfPages = 1;
+            self.pageVC.hidden = YES;
+            //添加蒙版
+            [CoverView addCoverViewWithHeight:_CollectionView.frame.size.height];
+            [self updateDeviceStatus:nil];
+            [self.CollectionView reloadData];
         }else{
             [SVProgressHUD showErrorWithStatus:@"获取设备列表失败"];
         }
     }];
 }
+
 
 - (void)dealloc
 {
@@ -152,6 +217,9 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     [self setNavTitle:@"智能热水器"];
     [self setLeftBtnWithImage:[UIImage imageNamed:@"menu"] orTitle:nil ClickOption:^{
         UserMenuViewController *menu = [[UserMenuViewController alloc] init];
+        
+        UINavigationController *nav = ((AppDelegate *)[UIApplication sharedApplication].delegate).navigationController;
+        //        [((AppDelegate *)[UIApplication sharedApplication].delegate).navigationController pushViewController:menu animated:YES];
         [MainDelegate.navigationController pushViewController:menu animated:YES];
     }];
     [self setRightBtnWithImage:[UIImage imageNamed:@"addDevice"] orTitle:nil ClickOption:^{
@@ -161,19 +229,38 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
     }];
 }
 
-
 - (void) updateDeviceStatus:(SkywareDeviceInfoModel *)deviceM
 {
-    DeviceDataModel *deviceData = deviceM.device_data;
-    _btnPower.hidden = NO;
-    if ([deviceM.device_online integerValue]) {
-        _btnPower.enabled = YES;
-        _btnPower.selected = deviceData.power; // 电源
+    if (deviceM==nil) { //未添加设备
+        _btnPower.tag = ControlAdd;
+        _btnPower.hidden = NO;
+        [self setImageOnControllButton:_btnPower WithDefaultImage:@"addDevice" seletecdImage:@"addDevice"];
+        DeviceDataModel *nodeviceModel = [[DeviceDataModel alloc] init];
+        nodeviceModel.level = 0;
+        [self updateDeviceStatusWithModel:nodeviceModel];
     }else{
-        _btnPower.enabled = NO;
-        [self setVisibleItemPowerCellWith:@"已离线"];
+        DeviceDataModel *deviceData = deviceM.device_data;
+        if ([deviceM.device_online boolValue]) {
+            if (deviceData.power) {//开机状态下显示关机
+                _btnPower.tag = ControlClose;
+                _btnPower.hidden = NO;
+                _powerLoding.hidden = YES;
+                [self setImageOnControllButton:_btnPower WithDefaultImage:@"home_power_off" seletecdImage:@"home_power_off"];
+            }else{//显示开机
+                _btnPower.tag = ControlOpen;
+                _btnPower.hidden = NO;
+                _powerLoding.hidden = YES;
+                [self setImageOnControllButton:_btnPower WithDefaultImage:@"home_power_on" seletecdImage:@"home_power_on"];
+            }
+            [self updateDeviceStatusWithModel:deviceData];
+        }else{//设备离线
+            _btnPower.tag = ControlWifi;
+            _powerLoding.hidden = YES;
+            _btnPower.hidden = NO;
+            [self setImageOnControllButton:_btnPower WithDefaultImage:@"home_wifi_normal" seletecdImage:@"home_wifi_normal"];
+            [self updateDeviceStatusWithModel:deviceData];
+        }
     }
-    [self updateDeviceStatusWithModel:deviceData];
 }
 
 /**
@@ -181,22 +268,36 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  */
 -(void)updateMQTTDeviceStatus:(SkywareMQTTModel *)MqttM
 {
-    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-    DeviceDataModel *deviceM = [[DeviceDataModel alloc] initWithBase64String:[[MqttM.data firstObject] toHexStringFromBase64String]];
-    manager.currentDevice.device_data = deviceM;
-    
-    _btnPower.hidden = NO;
-    if (MqttM.device_online) {
-        _btnPower.enabled = YES;
-        _btnPower.selected = deviceM.power; // 电源
-    }else{
-        _btnPower.enabled = NO;
-        [self setVisibleItemPowerCellWith:@"已离线"];
+    SkywareDeviceInfoModel *deviceInfo = nil;
+    if (MqttM.mac && [self.dataList count]>0)
+    {
+        for (int i=0; i<self.dataList.count; i++) {
+            deviceInfo= (SkywareDeviceInfoModel *)[self.dataList objectAtIndex:i];
+            if ([deviceInfo.device_mac isEqualToString:MqttM.mac]) {
+                if (MqttM.device_online == 0) { //设备掉线的时候才返回
+                    deviceInfo.device_online =[NSString stringWithFormat:@"%d",MqttM.device_online] ;
+                }else{
+                    deviceInfo.device_online = @"1";////掉线之后再上线
+                }
+                
+                deviceInfo.device_data = [[DeviceDataModel alloc] initWithBase64String:[[MqttM.data firstObject] toHexStringFromBase64String]];
+                //刷新Cell界面
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    HomeCollectionViewCell *collectionCell = (HomeCollectionViewCell *) [self.CollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+                    collectionCell.skywareInfo = deviceInfo;
+                    //只更新当前设备首页信息---ybyao07
+                    SkywareDeviceInfoModel *currentDevice = [self.dataList objectAtIndex:self.pageVC.currentPage];
+                    if ([currentDevice.device_mac isEqualToString:MqttM.mac]) {
+                        [self updateDeviceStatus:deviceInfo];
+                    }
+                });
+            }
+        }
     }
-    [self updateDeviceStatusWithModel:deviceM];
 }
 
-- (void) updateDeviceStatusWithModel:(DeviceDataModel *)deviceM
+
+- (void)updateDeviceStatusWithModel:(DeviceDataModel *)deviceM
 {
     [self setSilderViewTemp:deviceM.settingTemp]; // 温度设置
     if (deviceM.power) {
@@ -222,33 +323,39 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
             self.twoGearsBtn.selected = NO;
             self.threeGearsBtn.selected = NO;
         }
-            break;
+        break;
         case tow_level:
         {
             self.oneGearsBtn.selected = NO;
             self.twoGearsBtn.selected = YES;
             self.threeGearsBtn.selected = NO;
         }
-            break;
+        break;
         case three_level:
         {
             self.oneGearsBtn.selected = NO;
             self.twoGearsBtn.selected = NO;
             self.threeGearsBtn.selected = YES;
         }
-            break;
+        break;
         default:
         {
             self.oneGearsBtn.selected = NO;
             self.twoGearsBtn.selected = NO;
             self.threeGearsBtn.selected = NO;
         }
-            break;
+        break;
     }
-    if (deviceM.deviceError.length) { // 设备报警
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:deviceM.deviceError delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil]show];
-    }
+    //    if (deviceM.deviceError.length) { // 设备报警
+    //        if (_errorAlertView == nil) {
+    //            _errorAlertView = [[UIAlertView alloc] initWithTitle:@"提示" message:deviceM.deviceError delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    //            [_errorAlertView show];
+    //            [CoverView addCoverErrorViewWithHeight:_CollectionView.frame.size.height];
+    //        }
+    //    }
 }
+
+
 
 #pragma mark -----------温度指示
 
@@ -374,13 +481,28 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 {
     HomeCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellID forIndexPath:indexPath];
     if (self.dataList.count > 0) {
-        collectionViewCell.skywareInfo = self.dataList[indexPath.row];
+        if (_willScroll) {
+        }else{
+            collectionViewCell.skywareInfo = self.dataList[indexPath.row];
+        }
+    }else{//没有设备
+        collectionViewCell.powerLabel.text = @"未绑定";
+        collectionViewCell.powerLabel.hidden = NO;
+        collectionViewCell.hotUpLabel.hidden = YES;
+        collectionViewCell.temp.hidden = YES;
+        collectionViewCell.centigradeImg.hidden = YES;
+        collectionViewCell.thermometer.hidden = YES;
+        collectionViewCell.deviceName.text = @"热水器";
     }
     return collectionViewCell;
 }
-
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _willScroll = YES;
+}
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    [CoverView removeCoverView];
     NSInteger page = scrollView.contentOffset.x / scrollView.bounds.size.width;
     self.pageVC.currentPage = page;
     if (self.dataList.count) {
@@ -388,12 +510,26 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
         SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
         manager.currentDevice = model;
         [self updateDeviceStatus:model];
+        HomeCollectionViewCell *collectionCell = (HomeCollectionViewCell *) [self.CollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageVC.currentPage inSection:0]];
+        collectionCell.skywareInfo = self.dataList[page];
     }
 }
+
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%ld",indexPath.row);
+}
+
+
+
+-(void)updateOpenCloseTime
+{
+    if (self.dataList.count) {
+        SkywareDeviceInfoModel *model = self.dataList[self.pageVC.currentPage];
+        [self updateDeviceStatus:model];
+    }
 }
 
 
@@ -414,48 +550,78 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  */
 - (IBAction)changePower:(UIButton *)sender {
     if (self.dataList.count) {
-        if (!_btnPower.enabled) {  // 去配网
-            AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
-            add.addDevice = NO;
-            [self.navigationController pushViewController: add animated:YES];
-        }else if (_btnPower.selected) {  // 开机中，执行关机
+        if([sender tag] == ControlOpen){
             _powerLoding.hidden = NO;
-            _btnPower.hidden = YES;
-            _powerLoding.text = @"关机中";
-            sendCmdModel.power = NO;
-        }else{ // 关机中，执行开机
-            _powerLoding.hidden = NO;
-            _btnPower.hidden = YES;
             _powerLoding.text = @"开机中";
+            _btnPower.hidden = YES;
             sendCmdModel.power = YES;
+        }else if ([sender tag] == ControlClose){
+            _powerLoding.hidden = NO;
+            _powerLoding.text = @"关机中";
+            _btnPower.hidden = YES;
+            sendCmdModel.power = NO;
         }
-        _btnPower.selected = !_btnPower.selected;
+        else if([sender tag] == ControlWifi){
+            [self showAlterWifiView];
+        }
     }else{
-        [self showAlterView:@"您还未添加设备"];
+        //直接进入添加设备
+        AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
+        add.addDevice = YES;
+        [MainDelegate.navigationController pushViewController:add animated:YES];
     }
 }
 /**
  *  1档
  */
 - (IBAction)oneGearsClick:(UIButton *)sender {
-    [self setVisibleItemCellWith:@"切换档位中"];
-    sendCmdModel.level = one_level;
+    if ([self isCurrentLevel:one_level]) {
+        return   ;
+    }else{
+            [self setVisibleItemCellWith:@"切换档位中"];
+            sendCmdModel.level = one_level;
+        }
 }
 
 /**
  *  2档
  */
 - (IBAction)twoGearsClick:(UIButton *)sender {
-    [self setVisibleItemCellWith:@"切换档位中"];
-    sendCmdModel.level = tow_level;
+    if ([self isCurrentLevel:tow_level]) {
+        
+        
+        return;
+    }else{
+        [self setVisibleItemCellWith:@"切换档位中"];
+        sendCmdModel.level = tow_level;
+    }
 }
 
 /**
  *  3档
  */
 - (IBAction)threeGearsClick:(UIButton *)sender {
-    [self setVisibleItemCellWith:@"切换档位中"];
-    sendCmdModel.level = three_level;
+    if ([self isCurrentLevel:three_level]) {
+        return ;
+    }else{
+        [self setVisibleItemCellWith:@"切换档位中"];
+        sendCmdModel.level = three_level;
+    }
+}
+/**
+ *  如果是当前挡位的话，提醒是当前挡位，不用发送指令
+ */
+-(BOOL)isCurrentLevel:(level_type)level
+{
+    SkywareDeviceInfoModel *model = self.dataList[self.pageVC.currentPage];
+    
+    DeviceDataModel *dataModel = model.device_data;
+    if (level == dataModel.level) {
+        NSString *toastStr =[NSString stringWithFormat:@"设备已在%@档",(level == one_level?@"I":(level == tow_level?@"II":@"III"))] ;
+        [self.view makeToast:toastStr];
+        return YES;
+    }
+    return NO;
 }
 
 - (void) setVisibleItemCellWith:(NSString *) alert
@@ -473,11 +639,33 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 /**
  *  设备不在线
  */
--(void)showAlterView:(NSString *)msg
+-(void)showAlterWifiView
 {
-    UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alterView show];
+    UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"设备已离线" message:kDeviceOffLine delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新配置WiFi",@"刷新", nil];
+    [view show];
 }
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) { //重新配网
+        AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
+        add.addDevice = NO;
+        [self.navigationController pushViewController: add animated:YES];
+    }
+    if (buttonIndex == 2) { //刷新列表
+        [self downloadDeviceList];
+    }
+}
+
+
+#pragma mark show btnButton image
+-(void)setImageOnControllButton:(UIButton *)button WithDefaultImage:(NSString *)defaultImgStr seletecdImage:(NSString *)pressedImgStr
+{
+    [button setImage:[UIImage imageNamed:defaultImgStr] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:pressedImgStr] forState:UIControlStateHighlighted];
+    [button setImage:[UIImage imageNamed:pressedImgStr] forState:UIControlStateSelected];
+}
+
+
 
 #pragma mark - 懒加载
 - (NSMutableArray *)dataList

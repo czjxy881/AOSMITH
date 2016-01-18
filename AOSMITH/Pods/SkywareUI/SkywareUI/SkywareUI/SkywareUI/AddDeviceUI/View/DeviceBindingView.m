@@ -37,7 +37,7 @@
 /**
  *  位置显示
  */
-@property (weak, nonatomic) IBOutlet UITextField *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 
 @end
 
@@ -104,6 +104,10 @@
 - (IBAction)commitBtnClick:(UIButton *)sender {
     if (!self.name.text.length) {
         [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteDeviceName];
+        return;
+    }
+    if (!self.locationLabel.text.length) {
+        [SVProgressHUD showErrorWithStatus:@"请输入设备地址"];
         return;
     }
     if (self.otherOption) {

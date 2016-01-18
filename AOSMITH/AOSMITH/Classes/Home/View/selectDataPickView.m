@@ -35,8 +35,8 @@
         selectDate = select.attributedText.string;
     }
     
-    [kNotificationCenter postNotificationName:kSelectCustomDatePickNotification object:nil userInfo:@{@"selectPick":selectDate}];
     [self cleanMethod];
+    [kNotificationCenter postNotificationName:kSelectCustomDatePickNotification object:nil userInfo:@{@"selectPick":selectDate}];
 }
 
 - (void) cleanMethod

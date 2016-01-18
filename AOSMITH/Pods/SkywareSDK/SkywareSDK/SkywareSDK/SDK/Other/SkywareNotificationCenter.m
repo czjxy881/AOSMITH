@@ -8,35 +8,36 @@
 
 #import "SkywareNotificationCenter.h"
 #import "SkywareSDK.h"
+#import <SystemDeviceTool.h>
 
 @interface SkywareNotificationCenter ()<MQTTSessionDelegate>
-
+@property (nonatomic,strong) MQTTSession *session;
 @end
-
 
 @implementation SkywareNotificationCenter
 
 LXSingletonM(SkywareNotificationCenter)
 
-static MQTTSession *_secction;
-static NSMutableDictionary *_subscribeDic;
-
-+ (void)initialize
+- (instancetype)init
 {
-    _subscribeDic = [NSMutableDictionary dictionary];
-    // 创建 MQTT
-    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-    NSString *clintId = [NSString stringWithFormat:@"%ld",manager.app_id];
-    _secction = [[MQTTSession alloc] initWithClientId: clintId];
-    [_secction setDelegate:[SkywareNotificationCenter sharedSkywareNotificationCenter]];
-    NSString *serviceURL = [NSString stringWithFormat:kMQTTServerHost,[SkywareSDKManager sharedSkywareSDKManager].service];
-    [_secction connectAndWaitToHost:serviceURL port:1883 usingSSL:NO];
-    
-    if (_subscribeDic.count) {
-        [_subscribeDic enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-            [_secction subscribeAndWaitToTopic:value atLevel:MQTTQosLevelAtLeastOnce];
-        }];
+    self = [super init];
+    if (self) {
+        if (!self.session) {
+            self.session = [[MQTTSession alloc] initWithClientId: [SystemDeviceTool getUUID]];
+            [self.session setDelegate:self];
+            [self connectionMQTT];
+        }
     }
+    return self;
+}
+
+/**
+ *  创建MQTT 连接
+ */
+- (void) connectionMQTT
+{
+    NSString *serviceURL = [NSString stringWithFormat:kMQTTServerHost,[SkywareSDKManager sharedSkywareSDKManager].service];
+    [self.session connectAndWaitToHost:serviceURL port:1883 usingSSL:NO];
 }
 
 #pragma mark - MQTT_ToolDelegate
@@ -44,39 +45,54 @@ static NSMutableDictionary *_subscribeDic;
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-    if ([topic rangeOfString:manager.currentDevice.device_mac].location != NSNotFound) {
+//    if ([topic rangeOfString:manager. currentDevice.device_mac].location != NSNotFound) {
         SkywareMQTTModel *model = [SkywareMQTTTool conversionMQTTResultWithData:data];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareNotificationCenterCurrentDeviceMQTT object:nil userInfo:@{kSkywareMQTTuserInfoKey:model}];
-    }
+//    }
+}
+
+- (void)connected:(MQTTSession *)session{
+    NSLog(@"MQTT 连接成功!");
+}
+
+- (void)connectionClosed:(MQTTSession *)session
+{
+    [self connectionMQTT];
+    [self subscribeUserBindAllDevices];
+    NSLog(@"MQTT 连接断开");
+}
+
+- (void)connectionError:(MQTTSession *)session error:(NSError *)error
+{
+    NSLog(@"MQTT 连接错误 = [%@]",error);
 }
 
 #pragma mark - Method
 
-+ (void) subscribeToTopicWithMAC:(NSString *)mac atLevel:(MQTTQosLevel)qosLevel
+- (void) subscribeToTopicWithMAC:(NSString *)mac atLevel:(MQTTQosLevel)qosLevel
 {
-    if (!_secction) {
-        return;
+    if (!self.session) return;
+    if (!mac.length) return;
+    
+    if (self.session.status == MQTTSessionStatusDisconnecting || self.session.status == MQTTSessionStatusClosed || self.session.status == MQTTSessionStatusError) {
+        [self.session close];
+        [self connectionMQTT];
     }
+    
     BOOL subscribeTure;
     if (qosLevel == 0) {
-        subscribeTure = [_secction subscribeAndWaitToTopic:kTopic(mac) atLevel:MQTTQosLevelAtLeastOnce];
+        subscribeTure = [self.session subscribeAndWaitToTopic:kTopic(mac) atLevel:MQTTQosLevelAtLeastOnce];
     }else{
-        subscribeTure =  [_secction subscribeAndWaitToTopic:kTopic(mac) atLevel:qosLevel];
-    }
-    if (subscribeTure) {
-        [_subscribeDic setValue:kTopic(mac) forKey:mac];
+        subscribeTure =  [self.session subscribeAndWaitToTopic:kTopic(mac) atLevel:qosLevel];
     }
 }
 
-+ (void) unbscribeToTopicWithMAC:(NSString *)mac
+- (void) unbscribeToTopicWithMAC:(NSString *)mac
 {
-    BOOL subscribeTure = [_secction unsubscribeTopic:mac];
-    if (subscribeTure) {
-        [_subscribeDic removeObjectForKey:mac];
-    }
+    [self.session unsubscribeTopic:kTopic(mac)];
 }
 
-+ (void)subscribeUserBindDevices
+- (void)subscribeUserBindAllDevices
 {
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
     NSArray *devices =manager.bind_Devices_Array;
@@ -85,10 +101,12 @@ static NSMutableDictionary *_subscribeDic;
     }];
 }
 
-+ (void)unbscribeAllAlreadyDevices
+- (void)unbscribeAllAlreadyDevices
 {
-    [_subscribeDic enumerateKeysAndObjectsUsingBlock:^(NSString  *mac, id obj, BOOL * _Nonnull stop) {
-        [self unbscribeToTopicWithMAC:mac];
+    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    NSArray *devices =manager.bind_Devices_Array;
+    [devices enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self unbscribeToTopicWithMAC:obj.device_mac];
     }];
 }
 

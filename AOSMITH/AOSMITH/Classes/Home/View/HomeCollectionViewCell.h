@@ -19,4 +19,12 @@
 /***  开关机 Lable */
 @property (weak, nonatomic) IBOutlet UILabel *powerLabel;
 
+/***  设备的名称 */
+@property (weak, nonatomic) IBOutlet UILabel *deviceName;
+/***  温度 Lable */
+@property (weak, nonatomic) IBOutlet UILabel *temp;
+/***  度的image */
+@property (weak, nonatomic) IBOutlet UIImageView *centigradeImg;
+/***  温度计image */
+@property (weak, nonatomic) IBOutlet UIImageView *thermometer;
 @end

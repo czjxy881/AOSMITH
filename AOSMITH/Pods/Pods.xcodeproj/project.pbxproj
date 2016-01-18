@@ -253,6 +253,10 @@
 		8A42796D5637F8C65DE2468375E4B4AD /* SkywareUserManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D21E482B5923049A8A9B2813151865 /* SkywareUserManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B6D2BD4216B5D607AB57A3A8D5E000B /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 862022CB5AD90777B32CA496A0FE55FD /* NSArray+PureLayout.m */; };
 		8BD925728AC9BAB93D83B82C19BC43D2 /* PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 6440AA28CD6C92B70538CBBA0CB65203 /* PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8BE1F3661C48E1A600CC2BB6 /* DACircularProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BE1F3621C48E1A600CC2BB6 /* DACircularProgressView.h */; };
+		8BE1F3671C48E1A600CC2BB6 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE1F3631C48E1A600CC2BB6 /* DACircularProgressView.m */; };
+		8BE1F3681C48E1A600CC2BB6 /* DALabeledCircularProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BE1F3641C48E1A600CC2BB6 /* DALabeledCircularProgressView.h */; };
+		8BE1F3691C48E1A600CC2BB6 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE1F3651C48E1A600CC2BB6 /* DALabeledCircularProgressView.m */; };
 		8C28B4D53517D766B7DE5DBE496A0C04 /* MJRefreshBackFooter.h in Headers */ = {isa = PBXBuildFile; fileRef = ACFE1534EFB4F698B77A598CD19D232B /* MJRefreshBackFooter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8CDF10943BA1BD5E44BC8EBC592018F4 /* DeviceSmartLinkStart.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D29FA196762AC38D506BC02A4CC8A9D /* DeviceSmartLinkStart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DE5177251C87EC4F038CDB91AD6FA07 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 9763C036A221F1E6907B3CF21FE6F57B /* ioapi.c */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
@@ -930,6 +934,10 @@
 		8990BADF56A1B166C20FE416C1CB2C78 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFNetworkActivityIndicatorManager.m; path = "UIKit+AFNetworking/AFNetworkActivityIndicatorManager.m"; sourceTree = "<group>"; };
 		8A5E73E067C1F0CF9F9F7761593CA305 /* UITextView+Extension.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UITextView+Extension.h"; path = "LXFrameWork_OC/LXFrameWork_OC/LXFrameWork/Class/Category/UITextView+Extension.h"; sourceTree = "<group>"; };
 		8AAAF1D66BCDA5AD814B13FBAD4EBF5D /* NSObject+MJProperty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+MJProperty.h"; path = "MJExtension/NSObject+MJProperty.h"; sourceTree = "<group>"; };
+		8BE1F3621C48E1A600CC2BB6 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		8BE1F3631C48E1A600CC2BB6 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		8BE1F3641C48E1A600CC2BB6 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		8BE1F3651C48E1A600CC2BB6 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
 		8C3DF8E3DD0CFBF9D8B124833B7AE25B /* TimeButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TimeButton.m; path = LXFrameWork_OC/LXFrameWork_OC/LXFrameWork/Class/View/TimeButton.m; sourceTree = "<group>"; };
 		8CAA14DE53FFE2CDFC05AAA2CAEEEAAC /* NSObject+MJKeyValue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+MJKeyValue.m"; path = "MJExtension/NSObject+MJKeyValue.m"; sourceTree = "<group>"; };
 		8D7E81C95ED1F5F01789AF0E27F3D750 /* BaseArrowCellItem.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BaseArrowCellItem.m; path = LXFrameWork_OC/LXFrameWork_OC/LXFrameWork/Class/Model/BaseTableViewCellItem/BaseArrowCellItem.m; sourceTree = "<group>"; };
@@ -1643,6 +1651,7 @@
 		4048C7D0A8BA32F60B415F994F17E90C /* SkywareUI */ = {
 			isa = PBXGroup;
 			children = (
+				8BE1F3611C48E1A600CC2BB6 /* DACircularProgress */,
 				F9A3355930417436F6C906E07AD36B32 /* AddDeviceViewController.h */,
 				DF4D73645B046901685288467C089178 /* AddDeviceViewController.m */,
 				20BDF595C5E40B7D226E37B933DFF431 /* DeviceBindingView.h */,
@@ -1947,6 +1956,17 @@
 				657A3AEE225CC709C7FFB4A9109F66A9 /* Support Files */,
 			);
 			path = MQTTClient;
+			sourceTree = "<group>";
+		};
+		8BE1F3611C48E1A600CC2BB6 /* DACircularProgress */ = {
+			isa = PBXGroup;
+			children = (
+				8BE1F3621C48E1A600CC2BB6 /* DACircularProgressView.h */,
+				8BE1F3631C48E1A600CC2BB6 /* DACircularProgressView.m */,
+				8BE1F3641C48E1A600CC2BB6 /* DALabeledCircularProgressView.h */,
+				8BE1F3651C48E1A600CC2BB6 /* DALabeledCircularProgressView.m */,
+			);
+			path = DACircularProgress;
 			sourceTree = "<group>";
 		};
 		8F177DE8B090B476ABE1A5FFA554B912 /* Resources */ = {
@@ -2525,6 +2545,7 @@
 			files = (
 				14D6E8D5A048DB056FDBE5BF6029BE31 /* AddDeviceViewController.h in Headers */,
 				F603EA443631C587296715B9A8BDB55E /* DeviceBindingView.h in Headers */,
+				8BE1F3661C48E1A600CC2BB6 /* DACircularProgressView.h in Headers */,
 				9AD9126EB370F6A4ABDA11B7BB759FEB /* DeviceEditInfoViewController.h in Headers */,
 				C33F36799D124DFFCB8C140CA15FDF03 /* DeviceManagerViewController.h in Headers */,
 				5AB93A15A6C8CB5F1B7EB204C7D08D8C /* DeviceResetView.h in Headers */,
@@ -2544,6 +2565,7 @@
 				749A54DFF3D51DEA6C665A19F7B7A47D /* UserEditNickNameViewController.h in Headers */,
 				F9569F7DE43CE573CD8D8E8647392167 /* UserEditPasswordViewController.h in Headers */,
 				4F1E0FFD1A9D79183FDA8F138AC1D0FE /* UserGetCodeView.h in Headers */,
+				8BE1F3681C48E1A600CC2BB6 /* DALabeledCircularProgressView.h in Headers */,
 				9A35D97BF409F668DE2AD3359793EAD5 /* UserLoginViewController.h in Headers */,
 				F70D3A29C4222CDB61EFBE9FF2FDA06F /* UserRegisterViewController.h in Headers */,
 				7C2340B33B152290CFAA8701BF96AF67 /* UserRetrievePasswordViewController.h in Headers */,
@@ -3250,6 +3272,7 @@
 				FD8BB0185BC08FE2EECE74156E63E8AD /* DeviceBindingView.m in Sources */,
 				3D5DFE18B9F94D85E6DEC9D4B8D599CB /* DeviceEditInfoViewController.m in Sources */,
 				1FDF1B290AAB669BDCAB25B9D096379F /* DeviceManagerViewController.m in Sources */,
+				8BE1F3671C48E1A600CC2BB6 /* DACircularProgressView.m in Sources */,
 				8EA5DAFCB31776F317A0F00008689F5A /* DeviceResetView.m in Sources */,
 				91D4A923FA63AEE205D4648E12A32B24 /* DeviceSettingErrorView.m in Sources */,
 				5F58036B1F3C692817A230C734977487 /* DeviceSettingSNView.m in Sources */,
@@ -3270,6 +3293,7 @@
 				EE28A3B3496A673782BC0717D91EEE18 /* UserGetCodeView.m in Sources */,
 				B428CBDC0A84D49AB9B19CC17F3F0AEF /* UserLoginViewController.m in Sources */,
 				86A0DE11703604125B7C8F47DBBC7635 /* UserRegisterViewController.m in Sources */,
+				8BE1F3691C48E1A600CC2BB6 /* DALabeledCircularProgressView.m in Sources */,
 				44D398ED525AD82F006A49D30AB3A3E6 /* UserRetrievePasswordViewController.m in Sources */,
 				136711E91D09009B07BC581290DCED6D /* UserSettingPasswordView.m in Sources */,
 			);

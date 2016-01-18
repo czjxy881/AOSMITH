@@ -57,5 +57,7 @@
  */
 @property (nonatomic,copy) NSString *settingCloseTime;
 
+@property (nonatomic,assign) NSTimeInterval serverUpdateTime;
+
 
 @end

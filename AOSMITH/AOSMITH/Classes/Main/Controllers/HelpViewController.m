@@ -8,48 +8,67 @@
 
 #import "HelpViewController.h"
 
-@interface HelpViewController ()
-
+@interface HelpViewController ()<UIWebViewDelegate>
+{
+    UIActivityIndicatorView *_activityView;
+    UIWebView *protWebView;
+}
 @end
 
 @implementation HelpViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavTitle:@"帮助中心"];
-    [self addDataList];
+    [self setNavTitle:@"帮助"];
+    [self setupWebView];
+}
+/**
+ *  网页布局
+ */
+- (void)setupWebView
+{
+    UIWebView *webView=[[UIWebView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    NSURLRequest *request=[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://yun.skyware.com.cn/help/17"]];
+    [webView loadRequest:request];
+    webView.scrollView.bounces = NO;
+    webView.delegate=self;
+    webView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:webView];
 }
 
-- (void) addDataList
+#pragma mark Web运行
+//开始加载
+- (void)webViewDidStartLoad:(UIWebView *)webView
 {
-//    BaseArrowCellItem *item1 = [BaseArrowCellItem  createBaseCellItemWithIcon:nil AndTitle:@"产品使用说明书" SubTitle:nil ClickOption:^{
-//        WebViewController *web = [[WebViewController alloc] init];
-//        web.URL = @"http://t1.skyware.com.cn/bglinfo";
-//        web.title = @"产品使用说明书";
-//        [self.navigationController pushViewController:web animated:YES];
-//    }];
-//    BaseArrowCellItem *item2 = [BaseArrowCellItem  createBaseCellItemWithIcon:nil AndTitle:@"故障说明" SubTitle:nil ClickOption:^{
-//        WebViewController *web = [[WebViewController alloc] init];
-//        web.URL = @"http://t1.skyware.com.cn/bglerror";
-//        web.title = @"故障说明";
-//        [self.navigationController pushViewController:web animated:YES];
-//    }];
-//    BaseArrowCellItem *item3 = [BaseArrowCellItem  createBaseCellItemWithIcon:nil AndTitle:@"保养维护" SubTitle:nil ClickOption:^{
-//        WebViewController *web = [[WebViewController alloc] init];
-//        web.URL = @"http://t1.skyware.com.cn/bgltending";
-//        web.title = @"保养维护";
-//        [self.navigationController pushViewController:web animated:YES];
-//    }];
-//    BaseArrowCellItem *item4 = [BaseArrowCellItem  createBaseCellItemWithIcon:nil AndTitle:@"安全注意事项" SubTitle:nil ClickOption:^{
-//        WebViewController *web = [[WebViewController alloc] init];
-//        web.URL = @"http://t1.skyware.com.cn/bglsoft";
-//        web.title = @"安全注意事项";
-//        [self.navigationController pushViewController:web animated:YES];
-//    }];
+    //创建UIActivityIndicatorView背底半透明View
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,64, SCREEN_WIDTH, SCREEN_HEIGHT-64)];
+    [view setTag:108];
+    [view setBackgroundColor:[UIColor blackColor]];
+    [view setAlpha:0.3];
+    [self.view addSubview:view];
     
-//    BaseCellItemGroup *group = [BaseCellItemGroup createGroupWithItem:@[item1,item2,item3,item4]];
-    
-//    [self.dataList addObject:group];
+    UIActivityIndicatorView* activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f,60.0f)];
+    [activityIndicator setCenter:self.view.center];
+    [activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    [view addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    _activityView=activityIndicator;
 }
+
+//加载完成
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [_activityView stopAnimating];
+    UIView *view = (UIView*)[self.view viewWithTag:108];
+    [view removeFromSuperview];
+}
+//加载失败
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [_activityView stopAnimating];
+    UIView *view = (UIView*)[self.view viewWithTag:108];
+    [view removeFromSuperview];
+}
+
 
 @end

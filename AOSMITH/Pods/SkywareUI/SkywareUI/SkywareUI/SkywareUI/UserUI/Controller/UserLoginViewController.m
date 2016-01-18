@@ -83,7 +83,7 @@
         result.password = self.password.text;
         [NSKeyedArchiver archiveRootObject:result toFile:[PathTool getUserDataPath]];
         [SVProgressHUD dismiss];
-        [UIWindow changeWindowRootViewController:[[UIStoryboard storyboardWithName:@"Home" bundle:nil] instantiateInitialViewController] animated:YES];
+        [UIWindow changeWindowRootViewController:[[UIStoryboard storyboardWithName:@"Home" bundle:nil] instantiateInitialViewController] animated:NO];
     } failure:^(SkywareResult *result) {
         if ([result.message isEqualToString:@"404"]) {
             [SVProgressHUD showErrorWithStatus:kMessageUserNotRegister];

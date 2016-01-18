@@ -11,6 +11,5 @@
 
 @interface CustomTimeViewController : BaseCellTableViewController
 
-@property (nonatomic,strong) SkywareDeviceInfoModel *skywareInfo;
 
 @end
