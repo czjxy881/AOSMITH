@@ -13,7 +13,7 @@
     NSTimer *_settingCalculateTimer; //校准时间定时器
     NSTimer *_settingOpenTimer;//定时开启定时器
     NSTimer *_settingCloseTimer;//定时关闭定时器
-
+    
     NSString *_tempCalculateTimeStr;
 }
 @end
@@ -81,6 +81,8 @@ static const long kLength = 2; // 占16进制2位
                 //                self.deviceError = (device_error_type)[[cmdValue removeStringFrontZero] integerValue];
                 self.deviceError = cmdValue;
                 locationStar += kLength;
+            }else{
+                return self;
             }
         }
     }
@@ -177,7 +179,7 @@ static const long kLength = 2; // 占16进制2位
         return;
     }else{
         //时间转秒再加1转成 时分秒
-//        _deviceTime  = @"测试0000";
+        //        _deviceTime  = @"测试0000";
         //手机时间-服务器获取的SkywareDeviceInfoModel里面的更新时间
         NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
         if (_serverUpdateTime!=0) {
@@ -361,9 +363,9 @@ static const long kLength = 2; // 占16进制2位
     }else{
         _deviceError = @"";
     }
-//    if (![_deviceError isEqualToString:@""]) {
-//        [self showErrorAlertView];
-//    }
+    //    if (![_deviceError isEqualToString:@""]) {
+    //        [self showErrorAlertView];
+    //    }
 }
 
 //-(void)showErrorAlertView

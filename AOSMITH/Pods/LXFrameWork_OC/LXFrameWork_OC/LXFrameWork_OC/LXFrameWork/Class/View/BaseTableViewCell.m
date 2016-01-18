@@ -201,6 +201,8 @@
 {
     if (!_rightSwitch) {
         _rightSwitch = [[UISwitch alloc] init];
+        BaseSwitchCellItem *switchItem = (BaseSwitchCellItem *) _items;
+        switchItem.switchs = _rightSwitch;
         [_rightSwitch addTarget:self  action:@selector(switchOption) forControlEvents:UIControlEventValueChanged];
     }
     return _rightSwitch;

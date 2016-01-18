@@ -16,6 +16,8 @@
     NSString *_sendTime;
     selectDataPickView *_pick;
     NSIndexPath *_indexPath; // 点击的Cell indexPath ，设置选中的时间
+    BaseSwitchCellItem *_item1;
+    BaseSwitchCellItem *_item2;
 }
 
 @property (nonatomic,strong) NSMutableArray *hourArray;
@@ -115,7 +117,7 @@ static const SendCommandModel *sendCmdModel;
         self.customModel.open = YES;
     }
     //开启
-    BaseSwitchCellItem *item1 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"开启" SubTitle:model.settingOpenTime  defaultOpen:isOpenTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
+    _item1 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"开启" SubTitle:model.settingOpenTime  defaultOpen:isOpenTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
         if (cellSwitch.on) {
             self.customModel.open = YES;
             //弹出时间选择框
@@ -142,7 +144,7 @@ static const SendCommandModel *sendCmdModel;
     }
     
     //关闭
-    BaseSwitchCellItem *item2 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"关闭" SubTitle:model.settingCloseTime defaultOpen:isCloseTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
+    _item2 = [BaseSwitchCellItem createBaseCellItemWithIcon:nil AndTitle:@"关闭" SubTitle:model.settingCloseTime defaultOpen:isCloseTime ClickOption:nil SwitchOption:^(UISwitch *cellSwitch) {
         if (cellSwitch.on) {
             self.customModel.close = YES;
             //弹出时间选择框
@@ -159,7 +161,7 @@ static const SendCommandModel *sendCmdModel;
         }
     }];
     
-    BaseCellItemGroup  *group = [BaseCellItemGroup createGroupWithItem:@[item1,item2]];
+    BaseCellItemGroup  *group = [BaseCellItemGroup createGroupWithItem:@[_item1,_item2]];
     [self.dataList addObject:group];
     
     //时间校准
@@ -211,11 +213,22 @@ static const SendCommandModel *sendCmdModel;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     _indexPath = indexPath;
     if (indexPath.section == 1) {//时间校准
-               [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要进行时间校准吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil]show];
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要进行时间校准吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil]show];
     }else{
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        NSString *selectWeekStr = cell.detailTextLabel.text;
-        [self clickSelectDateWithDefine:selectWeekStr];
+        if (indexPath.row == 0) {
+            if(_item1.switchs.isOn){
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                NSString *selectWeekStr = cell.detailTextLabel.text;
+                [self clickSelectDateWithDefine:selectWeekStr];
+            }
+        }else if (indexPath.row == 1){
+            if(_item2.switchs.isOn){
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                NSString *selectWeekStr = cell.detailTextLabel.text;
+                [self clickSelectDateWithDefine:selectWeekStr];
+            }
+        }
+        
     }
 }
 

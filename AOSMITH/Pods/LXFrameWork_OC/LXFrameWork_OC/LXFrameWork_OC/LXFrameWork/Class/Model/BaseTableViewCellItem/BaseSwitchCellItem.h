@@ -14,6 +14,8 @@ typedef void(^switchCellOption)(UISwitch *cellSwitch);
 
 /* 默认Switch开关是否开启 */
 @property (nonatomic,assign) BOOL open;
+/* Switch 开关*/
+@property (nonatomic,strong) UISwitch *switchs;
 
 /* block 保存一段代码在用到的时候执行 */
 @property (nonatomic,copy) switchCellOption switchOption;
