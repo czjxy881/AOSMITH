@@ -91,6 +91,11 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) { // 解绑
+        if ( [self.deviceModel.device_lock integerValue]== 0) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"设备已经锁定，不可以解除绑定" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alertView show];
+            return ;
+        }
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要解绑这台设备吗？（设备解绑后将无法再查看该设备）" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.tag = buttonIndex;
         [alertView show];

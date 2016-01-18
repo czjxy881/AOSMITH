@@ -156,7 +156,16 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
  */
 -(void)downloadDeviceList
 {
-    [SVProgressHUD showInfoWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeGradient];
+    
+    if (![BaseNetworkTool isConnectNetWork]) {
+        [SVProgressHUD dismiss];
+       UIAlertView *view =  [[UIAlertView alloc] initWithTitle:@"手机网络异常" message:@"您的网络出现一点问题，请检查网络，并重新刷新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"刷新", nil];
+        view.tag = 1;
+        [view show];
+        return;
+    }
+    
+    [SVProgressHUD showWithStatus:@"加载中..." maskType:SVProgressHUDMaskTypeGradient];
     [SkywareDeviceManager DeviceGetAllDevicesSuccess:^(SkywareResult *result) {
         if ([result.message intValue] == 200) {
             SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
@@ -183,13 +192,13 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
             // 设置 分页数
             self.pageVC.numberOfPages = self.dataList.count;
             [self.CollectionView reloadData];
-            //            [SVProgressHUD dismiss];
+                        [SVProgressHUD dismiss];
         }else
         {
-            //            [SVProgressHUD dismiss];
+                        [SVProgressHUD dismiss];
         }
     } failure:^(SkywareResult *result) {
-        //        [SVProgressHUD dismiss];
+                [SVProgressHUD dismiss];
         if([result.message intValue] == 404) {//没有设备
             [self.dataList removeAllObjects];
             self.pageVC.numberOfPages = 1;
@@ -346,13 +355,6 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
         }
             break;
     }
-    //    if (deviceM.deviceError.length) { // 设备报警
-    //        if (_errorAlertView == nil) {
-    //            _errorAlertView = [[UIAlertView alloc] initWithTitle:@"提示" message:deviceM.deviceError delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    //            [_errorAlertView show];
-    //            [CoverView addCoverErrorViewWithHeight:_CollectionView.frame.size.height];
-    //        }
-    //    }
 }
 
 
@@ -646,18 +648,27 @@ static NSString *CollectionViewCellID = @"HomeCollectionViewCell";
 -(void)showAlterWifiView
 {
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"设备已离线" message:kDeviceOffLine delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新配置WiFi",@"刷新", nil];
+    view.tag = 2;
     [view show];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) { //重新配网
-        AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
-        add.addDevice = NO;
-        [self.navigationController pushViewController: add animated:YES];
+    if (alertView.tag == 2) { //掉线
+        if (buttonIndex == 1) { //重新配网
+            AddDeviceViewController *add = [[AddDeviceViewController alloc] init];
+            add.addDevice = NO;
+            [self.navigationController pushViewController: add animated:YES];
+        }
+        if (buttonIndex == 2) { //刷新列表
+            [self downloadDeviceList];
+        }
     }
-    if (buttonIndex == 2) { //刷新列表
-        [self downloadDeviceList];
+    else{ //断网
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            [self downloadDeviceList];
+        }
     }
+
 }
 
 

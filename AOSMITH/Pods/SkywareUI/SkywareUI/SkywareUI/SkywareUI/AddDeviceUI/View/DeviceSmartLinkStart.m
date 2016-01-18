@@ -55,6 +55,7 @@
         self.circleProgressView.center = center;
         SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
         self.circleProgressView.progressTintColor = UIM.Device_button_bgColor;
+        self.circleProgressView.trackTintColor=[UIColor colorWithWhite:0.0 alpha:0.1];
         [self addSubview:self.circleProgressView];
         
     }
@@ -80,7 +81,7 @@
 -(void)updateProgressView
 {
     progressTime++;
-    CGFloat progress = progressTime/ 40.0 ;
+    CGFloat progress = progressTime/ 30.0 ;
     [self.circleProgressView setProgress:progress animated:YES];
     self.circleProgressView.progressLabel.text = [NSString stringWithFormat:@"%.0f%%", self.circleProgressView.progress*100];
 }

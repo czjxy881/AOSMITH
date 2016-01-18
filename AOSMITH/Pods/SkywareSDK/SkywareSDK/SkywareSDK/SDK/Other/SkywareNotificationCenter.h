@@ -45,4 +45,6 @@ LXSingletonH(SkywareNotificationCenter)
  */
 - (void) unbscribeAllAlreadyDevices;
 
+- (void)checkMqttConnection;
+
 @end

@@ -22,11 +22,11 @@
     NSString *title  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     //构造分享内容
     id<ISSContent> publishContent = [ShareSDK content:content
-                                       defaultContent:title
+                                       defaultContent:content
                                                 image:_shareImage
                                                 title:title
                                                   url:kDownloadLink
-                                          description:title
+                                          description:content
                                             mediaType:SSPublishContentMediaTypeNews];
 //    [publishContent addSinaWeiboUnitWithContent:[NSString stringWithFormat:@"%@%@",SHARE_CONTENT,kDownloadLink] image:_shareImage locationCoordinate:nil];
     [ShareSDK showShareActionSheet:container

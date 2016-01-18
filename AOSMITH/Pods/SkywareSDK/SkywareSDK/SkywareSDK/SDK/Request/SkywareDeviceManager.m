@@ -116,6 +116,7 @@
 + (void)DevicePushCMD:(NSDictionary *)parameser Success:(void (^)(SkywareResult *))success failure:(void (^)(SkywareResult *))failure
 {
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    [[SkywareNotificationCenter sharedSkywareNotificationCenter] checkMqttConnection];
     [SkywareHttpTool HttpToolPostWithUrl:DevicePushCMD paramesers:parameser requestHeaderField:@{@"token":manager.token} SuccessJson:^(id json) {
         [SkywareHttpTool responseHttpToolWithJson:json Success:success failure:failure];
     } failure:^(NSError *error) {

@@ -490,6 +490,7 @@
 				TargetAttributes = {
 					4E670B1A1C1519EF009E7B52 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 9RHGQHNHRA;
 					};
 				};
 			};
@@ -719,6 +720,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -738,6 +741,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skyware.cn.AOSMITH;
 				PRODUCT_NAME = "智能热水器";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -747,6 +751,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -766,6 +772,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skyware.cn.AOSMITH;
 				PRODUCT_NAME = "智能热水器";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

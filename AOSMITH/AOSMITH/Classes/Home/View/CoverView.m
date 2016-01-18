@@ -13,14 +13,14 @@
 //添加蒙版
 +(void)addCoverViewWithHeight:(CGFloat)height
 {
-    //显示 您还木有绑定新风机,点击“+”来绑定
+    //显示 您还木有绑定新风机,点击“+”来绑定 或者设备掉线
     UIView *coverTransparentView = [UIView newAutoLayoutView];
     coverTransparentView.tag = 10001;
     coverTransparentView.backgroundColor = [UIColor colorWithHexString:@"#001b38"];
-    coverTransparentView.alpha = 0.4;
+    coverTransparentView.alpha = 0.6;
     [[UIWindow getCurrentWindow] addSubview:coverTransparentView];
     
-    [coverTransparentView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(74+height, 0, 40, 0)];
+    [coverTransparentView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(74+height, 0, 55, 0)];
     
 }
 +(void)addCoverErrorViewWithHeight:(CGFloat)height
@@ -28,7 +28,7 @@
     UIView *coverTransparentView = [UIView newAutoLayoutView];
     coverTransparentView.tag = 10002;
     coverTransparentView.backgroundColor = [UIColor colorWithHexString:@"#001b38"];
-    coverTransparentView.alpha = 0.4;
+    coverTransparentView.alpha = 0.6;
     [[UIWindow getCurrentWindow] addSubview:coverTransparentView];
     [coverTransparentView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(74+height, 0, 0, 0)];
 }

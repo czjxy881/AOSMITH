@@ -18,7 +18,7 @@
 #define QQZoneAppKey @"1105028250"
 #define QQZoneAppSecret @"SJXjOyiOYFWDooFJ"
 //
-//#define SinaWeiboAppKey     @"606468850"
-//#define SinaWeiboAppSecret   @"28e22b252023adb38e3753d28977c509"
+#define SinaWeiboAppKey     @"4115530237"
+#define SinaWeiboAppSecret   @"71f6051bfa2c7db058562b184fcfa817"
 
 #endif

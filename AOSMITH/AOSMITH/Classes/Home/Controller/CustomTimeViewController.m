@@ -180,6 +180,8 @@ static const SendCommandModel *sendCmdModel;
     NSLog(@"the indexPath is section= %ld,row = %ld",_indexPath.section,_indexPath.row);
     cell.detailTextLabel.text = selectWeekStr;
     if (_indexPath.row == 0) { //开启
+        //刷新定时开的按钮
+        
         self.customModel.openTime  = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
         NSArray *arry = [self.customModel.openTime componentsSeparatedByString:@":"];
         NSMutableString *mustr = [NSMutableString string];
@@ -189,6 +191,9 @@ static const SendCommandModel *sendCmdModel;
         sendCmdModel.openTime = mustr;
     }else if (_indexPath.row == 1)//关闭
     {
+        //刷新定时关的按钮
+        
+        
         self.customModel.closeTime = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].detailTextLabel.text;
         NSArray *arry = [self.customModel.closeTime componentsSeparatedByString:@":"];
         NSMutableString *mustr = [NSMutableString string];

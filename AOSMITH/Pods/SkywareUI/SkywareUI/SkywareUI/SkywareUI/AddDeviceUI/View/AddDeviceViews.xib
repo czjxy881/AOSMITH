@@ -312,8 +312,8 @@
                         <action selector="yesBtnClick:" destination="cmc-Lh-UE4" eventType="touchUpInside" id="qlJ-9B-cTG"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发现史密斯智能热水器" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fCC-Gv-sry">
-                    <rect key="frame" x="60" y="181.5" width="200" height="24"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发现智能热水器" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fCC-Gv-sry">
+                    <rect key="frame" x="90" y="181.5" width="140" height="24"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" weight="black" pointSize="20"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

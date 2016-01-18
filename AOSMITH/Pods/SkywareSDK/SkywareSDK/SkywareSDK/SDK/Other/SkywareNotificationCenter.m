@@ -9,6 +9,7 @@
 #import "SkywareNotificationCenter.h"
 #import "SkywareSDK.h"
 #import <SystemDeviceTool.h>
+#import <BaseNetworkTool.h>
 
 @interface SkywareNotificationCenter ()<MQTTSessionDelegate>
 @property (nonatomic,strong) MQTTSession *session;
@@ -22,11 +23,7 @@ LXSingletonM(SkywareNotificationCenter)
 {
     self = [super init];
     if (self) {
-        if (!self.session) {
-            self.session = [[MQTTSession alloc] initWithClientId: [SystemDeviceTool getUUID]];
-            [self.session setDelegate:self];
-            [self connectionMQTT];
-        }
+        
     }
     return self;
 }
@@ -36,19 +33,34 @@ LXSingletonM(SkywareNotificationCenter)
  */
 - (void) connectionMQTT
 {
-    NSString *serviceURL = [NSString stringWithFormat:kMQTTServerHost,[SkywareSDKManager sharedSkywareSDKManager].service];
-    [self.session connectAndWaitToHost:serviceURL port:1883 usingSSL:NO];
+    if ([BaseNetworkTool isConnectNetWork]){
+        NSString *serviceURL = [NSString stringWithFormat:kMQTTServerHost,[SkywareSDKManager sharedSkywareSDKManager].service];
+        [self.session connectAndWaitToHost:serviceURL port:1883 usingSSL:NO];
+    }
+}
+
+- (void)checkMqttConnection
+{
+    if (!self.session) {
+        _session = [[MQTTSession alloc] initWithClientId: [SystemDeviceTool getUUID]];
+        [_session setDelegate:self];
+        [self connectionMQTT];
+    }
+    if (self.session.status == MQTTSessionStatusDisconnecting || self.session.status == MQTTSessionStatusClosed || self.session.status == MQTTSessionStatusError) {
+        [self connectionMQTT];
+        [self subscribeUserBindAllDevices];
+    }
 }
 
 #pragma mark - MQTT_ToolDelegate
 
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
-    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
-//    if ([topic rangeOfString:manager. currentDevice.device_mac].location != NSNotFound) {
-        SkywareMQTTModel *model = [SkywareMQTTTool conversionMQTTResultWithData:data];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareNotificationCenterCurrentDeviceMQTT object:nil userInfo:@{kSkywareMQTTuserInfoKey:model}];
-//    }
+    //    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    //    if ([topic rangeOfString:manager.currentDevice.device_mac].location != NSNotFound) {
+    SkywareMQTTModel *model = [SkywareMQTTTool conversionMQTTResultWithData:data];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareNotificationCenterCurrentDeviceMQTT object:nil userInfo:@{kSkywareMQTTuserInfoKey:model}];
+    //    }
 }
 
 - (void)connected:(MQTTSession *)session{
@@ -57,8 +69,6 @@ LXSingletonM(SkywareNotificationCenter)
 
 - (void)connectionClosed:(MQTTSession *)session
 {
-    [self connectionMQTT];
-    [self subscribeUserBindAllDevices];
     NSLog(@"MQTT 连接断开");
 }
 
@@ -71,14 +81,7 @@ LXSingletonM(SkywareNotificationCenter)
 
 - (void) subscribeToTopicWithMAC:(NSString *)mac atLevel:(MQTTQosLevel)qosLevel
 {
-    if (!self.session) return;
     if (!mac.length) return;
-    
-    if (self.session.status == MQTTSessionStatusDisconnecting || self.session.status == MQTTSessionStatusClosed || self.session.status == MQTTSessionStatusError) {
-        [self.session close];
-        [self connectionMQTT];
-    }
-    
     BOOL subscribeTure;
     if (qosLevel == 0) {
         subscribeTure = [self.session subscribeAndWaitToTopic:kTopic(mac) atLevel:MQTTQosLevelAtLeastOnce];
@@ -108,6 +111,18 @@ LXSingletonM(SkywareNotificationCenter)
     [devices enumerateObjectsUsingBlock:^(SkywareDeviceInfoModel  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self unbscribeToTopicWithMAC:obj.device_mac];
     }];
+}
+
+#pragma mark - 懒加载
+
+- (MQTTSession *)session
+{
+    if (!_session) {
+        _session = [[MQTTSession alloc] initWithClientId: [SystemDeviceTool getUUID]];
+        [_session setDelegate:self];
+        [self connectionMQTT];
+    }
+    return _session;
 }
 
 @end

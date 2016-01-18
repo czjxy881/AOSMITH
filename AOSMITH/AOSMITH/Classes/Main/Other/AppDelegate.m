@@ -102,10 +102,10 @@
      **/
     [ShareSDK connectWeChatWithAppId:WeixinAppId wechatCls:[WXApi class]];
     //添加新浪微博应用
-//    [ShareSDK connectSinaWeiboWithAppKey:SinaWeiboAppKey
-//                               appSecret:SinaWeiboAppSecret
-//                             redirectUri:@"http://www.skyware.com"];
-//    
+    [ShareSDK connectSinaWeiboWithAppKey:SinaWeiboAppKey
+                               appSecret:SinaWeiboAppSecret
+                             redirectUri:@"http://www.skyware.com"];
+    
     //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
     [ShareSDK connectQZoneWithAppKey:QQZoneAppKey
                            appSecret:QQZoneAppSecret
