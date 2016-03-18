@@ -53,4 +53,12 @@ static NSArray *colorHexs ;
     return colorHexs;
 }
 
++ (BOOL) isTheSameColor2:(UIColor*)color1 anotherColor:(UIColor*)color2
+{
+    if (CGColorEqualToColor(color1.CGColor, color2.CGColor)) {
+        return YES;
+    }else {
+        return NO;
+    }
+}
 @end

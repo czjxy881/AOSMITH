@@ -41,6 +41,7 @@
 #import "SkywareSendCmdModel.h"
 #import "SkywareResult.h"
 #import "SkywareMQTTModel.h"
+#import "LANDeviceModel.h"
 #import "SkywareDeviceManager.h"
 #import "SkywareOtherManager.h"
 #import "SkywareUserManager.h"

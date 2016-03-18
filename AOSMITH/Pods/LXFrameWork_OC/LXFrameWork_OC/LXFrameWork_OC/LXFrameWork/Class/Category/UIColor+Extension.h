@@ -27,4 +27,10 @@
  */
 + (NSArray *)someHexColors;
 
+
+/**
+ *  判断两个颜色是否相等
+ */
++ (BOOL) isTheSameColor2:(UIColor*)color1 anotherColor:(UIColor*)color2;
+
 @end

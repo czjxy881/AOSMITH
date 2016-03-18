@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cleanBtn;
 
 
+
 #define SCREEN_WIDTH      ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT     ([[UIScreen mainScreen] bounds].size.height)
 
@@ -37,7 +38,7 @@
 
 + (instancetype)createDeviceSmartLinkStartView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][3];
+    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][2];
 }
 
 - (IBAction)cleanBtnClick:(UIButton *)sender {
@@ -49,15 +50,16 @@
 - (void) beginAnimationImages{
     //进度条
     if (self.circleProgressView==nil) {
-        self.circleProgressView = [[DALabeledCircularProgressView alloc] initWithFrame:CGRectMake(200.0f, 40.0f, 90.0f, 90.0f)];
+        self.circleProgressView = [[DALabeledCircularProgressView alloc] initWithFrame:CGRectMake(200.0f, 40.0f, SCREEN_WIDTH/2.0-40, SCREEN_WIDTH/2.0-40)];
         self.circleProgressView.roundedCorners = NO;
         CGPoint center = CGPointMake(SCREEN_WIDTH/2.0, 200-80);
         self.circleProgressView.center = center;
         SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
-        self.circleProgressView.progressTintColor = UIM.Device_button_bgColor;
+        self.circleProgressView.progressTintColor = UIM.All_button_bgColor;
+        self.circleProgressView.progressLabel.textColor = UIM.All_button_bgColor;
+        self.circleProgressView.progressLabel.font = [UIFont systemFontOfSize:25];
         self.circleProgressView.trackTintColor=[UIColor colorWithWhite:0.0 alpha:0.1];
         [self addSubview:self.circleProgressView];
-        
     }
     [self initCircleProgressView];
 }

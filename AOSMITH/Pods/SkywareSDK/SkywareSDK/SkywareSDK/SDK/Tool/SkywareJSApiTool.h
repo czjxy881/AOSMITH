@@ -29,6 +29,7 @@ typedef enum {
 
 - (void)SkywareJSApiWillShowMenu:(SkywareJSApiTool *)jsApiTool;
 
+- (void)SkywareJSApiWillShowOneKeyBuy:(NSString *)jsApiOneKeyBuyURL;//一键购买连接网址
 @end
 
 @interface SkywareJSApiTool : NSObject

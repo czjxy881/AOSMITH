@@ -8,6 +8,7 @@
 
 #import "SkywareNotificationCenter.h"
 #import "SkywareSDK.h"
+#import "LXFrameWorkConst.h"
 #import <SystemDeviceTool.h>
 #import <BaseNetworkTool.h>
 
@@ -17,15 +18,21 @@
 
 @implementation SkywareNotificationCenter
 
-LXSingletonM(SkywareNotificationCenter)
+SkywareSDKSingletonM(SkywareNotificationCenter)
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkMqttConnection) name:kUseWiFiConnectInternet object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkMqttConnection) name:kUseMobileNetworkConnectInternet object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /**
@@ -41,11 +48,6 @@ LXSingletonM(SkywareNotificationCenter)
 
 - (void)checkMqttConnection
 {
-    if (!self.session) {
-        _session = [[MQTTSession alloc] initWithClientId: [SystemDeviceTool getUUID]];
-        [_session setDelegate:self];
-        [self connectionMQTT];
-    }
     if (self.session.status == MQTTSessionStatusDisconnecting || self.session.status == MQTTSessionStatusClosed || self.session.status == MQTTSessionStatusError) {
         [self connectionMQTT];
         [self subscribeUserBindAllDevices];
@@ -59,6 +61,7 @@ LXSingletonM(SkywareNotificationCenter)
     //    SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
     //    if ([topic rangeOfString:manager.currentDevice.device_mac].location != NSNotFound) {
     SkywareMQTTModel *model = [SkywareMQTTTool conversionMQTTResultWithData:data];
+    if (!model) return;
     [[NSNotificationCenter defaultCenter] postNotificationName:kSkywareNotificationCenterCurrentDeviceMQTT object:nil userInfo:@{kSkywareMQTTuserInfoKey:model}];
     //    }
 }
@@ -82,6 +85,7 @@ LXSingletonM(SkywareNotificationCenter)
 - (void) subscribeToTopicWithMAC:(NSString *)mac atLevel:(MQTTQosLevel)qosLevel
 {
     if (!mac.length) return;
+    [self checkMqttConnection];
     BOOL subscribeTure;
     if (qosLevel == 0) {
         subscribeTure = [self.session subscribeAndWaitToTopic:kTopic(mac) atLevel:MQTTQosLevelAtLeastOnce];

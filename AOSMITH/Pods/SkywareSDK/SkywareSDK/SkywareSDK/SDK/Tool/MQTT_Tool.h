@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <MQTTClient.h>
-#import <LXSingleton.h>
+#import "SkywareSDKSingleton.h"
+
+/**
+ *  已废弃  转化为使用 SkywareNotificationCenter
+ */
 
 @protocol MQTT_ToolDelegate <NSObject>
 @optional
@@ -27,7 +31,7 @@
 
 @interface MQTT_Tool : NSObject
 
-LXSingletonH(MQTT_Tool)
+SkywareSDKSingletonH(MQTT_Tool)
 
 @property (nonatomic,weak) id<MQTT_ToolDelegate> delegate;
 

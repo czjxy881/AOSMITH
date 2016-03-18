@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MQTTClient.h>
-#import <LXSingleton.h>
+#import "SkywareSDKSingleton.h"
 
 @interface SkywareNotificationCenter : NSObject
-LXSingletonH(SkywareNotificationCenter)
+SkywareSDKSingletonH(SkywareNotificationCenter)
 
 /**
  *  订阅设备
@@ -45,6 +45,9 @@ LXSingletonH(SkywareNotificationCenter)
  */
 - (void) unbscribeAllAlreadyDevices;
 
+/**
+ *  检查当前 MQTT 是否连接，如果没有连接就赶紧连接和订阅
+ */
 - (void)checkMqttConnection;
 
 @end

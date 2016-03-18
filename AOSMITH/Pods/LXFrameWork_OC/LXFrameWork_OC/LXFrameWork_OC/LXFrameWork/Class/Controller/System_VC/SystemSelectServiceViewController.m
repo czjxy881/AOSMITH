@@ -54,7 +54,6 @@
 
 - (void) showTitleView
 {
-    [NSThread sleepForTimeInterval:1];
     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"切换服务器成功，请重新启动APP" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil]show];
 }
 

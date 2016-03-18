@@ -18,6 +18,9 @@
 /** 版权信息 */
 @property (weak, nonatomic) IBOutlet UILabel *copyright;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imgAspectRatio;
+
+
 @end
 
 @implementation SystemAboutViewController
@@ -35,17 +38,26 @@
         if (UIM.copyright.length) {
             self.copyright.text = UIM.copyright;
         }
+        _imgAspectRatio=[NSLayoutConstraint constraintWithItem:_imageView
+                                                     attribute:NSLayoutAttributeWidth
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:_imageView
+                                                     attribute:NSLayoutAttributeHeight
+                                                    multiplier:UIM.AboutWRotioH//aspect ratio same as formula view
+                                                      constant:0.0f];
+        [_imageView addConstraint:_imgAspectRatio];
+
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavTitle:@"关于"];
+    //    [self setNavTitle:@"关于"];
     
-//    self.automaticallyAdjustsScrollViewInsets = NO;
-//    [self.navView setBackgroundColor:[UIColor clearColor]];
-//    [self.navView setScrollNavigationBarLineBackColor:[UIColor clearColor]];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self.navView setBackgroundColor:[UIColor clearColor]];
+    [self.navView setScrollNavigationBarLineBackColor:[UIColor clearColor]];
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *version = [NSString stringWithFormat:@"软件版本信息: %@",[infoDictionary objectForKey:@"CFBundleShortVersionString"]];

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <array>
+        <dict>
+            <key>event_id</key>
+            <integer>1</integer>
+            <key>event_name</key>
+            <string>addDevice</string>
+            <key>event_category</key>
+            <integer>1</integer>
+            <key>event_remark</key>
+            <string>添加设备</string>
+        </dict>
+        
+        <dict>
+            <key>event_id</key>
+            <integer>2</integer>
+            <key>event_name</key>
+            <string>configNetwork</string>
+            <key>event_category</key>
+            <integer>1</integer>
+            <key>event_remark</key>
+            <string>设备配网</string>
+        </dict>
+        
+        <dict>
+            <key>event_id</key>
+            <integer>3</integer>
+            <key>event_name</key>
+            <string>bindDevice</string>
+            <key>event_category</key>
+            <integer>1</integer>
+            <key>event_remark</key>
+            <string>绑定设备</string>
+        </dict>
+        
+        
+        
+        <dict>
+            <key>event_id</key>
+            <integer>4</integer>
+            <key>event_name</key>
+            <string>setWiFi</string>
+            <key>event_category</key>
+            <integer>3</integer>
+            <key>event_remark</key>
+            <string>输入WiFi信息</string>
+        </dict>
+        
+        
+        <dict>
+            <key>event_id</key>
+            <integer>5</integer>
+            <key>event_name</key>
+            <string>smartLink</string>
+            <key>event_category</key>
+            <integer>2</integer>
+            <key>event_remark</key>
+            <string>SmartLink</string>
+        </dict>
+        
+        <dict>
+            <key>event_id</key>
+            <integer>6</integer>
+            <key>event_name</key>
+            <string>checkOnlineApi</string>
+            <key>event_category</key>
+            <integer>3</integer>
+            <key>event_remark</key>
+            <string>检查设备是否上线</string>
+        </dict>
+        
+        
+        <dict>
+            <key>event_id</key>
+            <integer>7</integer>
+            <key>event_name</key>
+            <string>bindDeviceApi</string>
+            <key>event_category</key>
+            <integer>4</integer>
+            <key>event_remark</key>
+            <string>提交绑定请求</string>
+        </dict>
+        
+        <dict>
+            <key>event_id</key>
+            <integer>8</integer>
+            <key>event_name</key>
+            <string>updateDeviceApi</string>
+            <key>event_category</key>
+            <integer>4</integer>
+            <key>event_remark</key>
+            <string>提交设备信息请求</string>
+        </dict>
+        
+    </array>
+</plist>

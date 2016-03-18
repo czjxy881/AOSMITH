@@ -36,7 +36,31 @@ NSString * const DeviceQueryInfo = @"device";
 
 NSString * const DeviceUpdateInfo = @"device";
 
+NSString * const DeviceShareUserBind = @"truebind";
+
+
+NSString * const DeviceShareListBind = @"shareuser";
+
+NSString * const DeviceReleaseShareUser = @"unbindshare";
+
+NSString * const DeviceGetUndefinedDevices = @"deviceerror";
+
+NSString * const DeviceTrueUndefinedDevices = @"turebind";
+
+NSString * const DeviceCancelUndefinedDevices = @"falsebind";
+
+
+NSString * const DeviceBindUserNew = @"newbind";
+
 NSString * const DeviceBindUser = @"bind";
+
+
+NSString * const DeviceUserLock = @"lockdevice";
+
+NSString * const DeviceUnlock = @"unlockdevice";
+
+NSString * const DeviceReleaseMasterUser = @"unbindzhu";
+
 
 NSString * const DeviceReleaseUser = @"bind";
 
@@ -48,5 +72,7 @@ NSString * const DevicePushCMD = @"cmd";
 //-------------------------其他相关接口地址---------------------------------//
 
 NSString * const Address_wpm = @"wpm";
+
+NSString * const LogEvent = @"seteventlog";
 
 @end

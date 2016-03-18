@@ -10,6 +10,12 @@
 #import "LXFrameWorkManager.h"
 #import "PureLayout.h"
 
+typedef enum
+{
+    PortraitUpsideDown,
+    LeftRight,
+} NavBarInterface;
+
 @interface NavigationBar : UIView
 
 /**
@@ -52,5 +58,9 @@
  *  设置 NavBar clearColor 但是要显示左右两边的按钮
  */
 - (void) setNavigationBarHiddenShowBtn:(BOOL) isHidden;
+/**
+ *  设置屏幕旋转的时候NavBar 标题按钮，距离top 位置
+ */
+- (void) setNavBarInterfaceOrientation:(NavBarInterface)interface;
 
 @end

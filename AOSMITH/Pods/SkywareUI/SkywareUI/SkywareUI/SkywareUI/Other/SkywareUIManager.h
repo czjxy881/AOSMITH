@@ -64,4 +64,22 @@ LXSingletonH(SkywareUIManager)
 /***  关于页面的版权信息 */
 @property (nonatomic,copy) NSString *copyright;
 
+/***  设备列表图片 */
+@property (nonatomic,copy) NSString *DeviceListIconImg;
+
+/***  配网图片宽高比 */
+@property (nonatomic,assign) float WRotioH;
+
+/***  关于图片宽高比 */
+@property (nonatomic,assign) float AboutWRotioH;
+/**
+ *  帮助文档连接URL
+ */
+@property (nonatomic,copy) NSString *HelpURLMenu;
+
+/**
+ *  设备默认名称
+ */
+@property (nonatomic,copy) NSString *defaultDeviceName;
+
 @end

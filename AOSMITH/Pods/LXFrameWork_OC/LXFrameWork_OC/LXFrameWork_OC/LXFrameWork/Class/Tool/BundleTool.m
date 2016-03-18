@@ -38,7 +38,7 @@
 
 + (NSArray *)getArrayWithName:(NSString *)name FromBundle:(NSString *)bundle
 {
-  return [NSArray arrayWithContentsOfFile:[BUNDLE_PATH(bundle) stringByAppendingPathComponent :name]];
+    return [NSArray arrayWithContentsOfFile:[BUNDLE_PATH(bundle) stringByAppendingPathComponent :name]];
 }
 
 @end

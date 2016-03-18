@@ -14,7 +14,7 @@
 /***  Wifi 名称  */
 @property (weak, nonatomic) IBOutlet UITextField *wifiSSID;
 /***  提示框中文字  */
-//@property (weak, nonatomic) IBOutlet UILabel *connectLabel;
+@property (weak, nonatomic) IBOutlet UILabel *connectLabel;
 /***  下一步按钮  */
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 /***  取消按钮  */
@@ -45,14 +45,14 @@
     if ([BaseNetworkTool isConnectWIFI]) {
         self.wifiSSID.text = [SkywareDeviceTool getWiFiSSID];
     }else{
-//        self.connectLabel.text = kMessageDeviceLinkWiFi;
+        self.connectLabel.text = kMessageDeviceLinkWiFi;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChange:) name:kReachabilityChangedNotification object:nil];
 }
 
 + (instancetype)createDeviceSettingWifiView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][1];
+    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][0];
 }
 
 /**
@@ -60,11 +60,6 @@
  */
 - (IBAction)nextStep:(UIButton *)sender {
     if([BaseNetworkTool isConnectWIFI]){
-        NSString *key = self.wifiPassword.text;
-//        if (!key.length) {
-//            [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteWiFiPassword];
-//            return;
-//        }
         if (self.option) {
             self.option();
         }
@@ -74,7 +69,8 @@
 }
 
 - (IBAction)cleanBtnClick:(UIButton *)sender {
-    [Delegate.navigationController popToRootViewControllerAnimated:YES];
+//    [Delegate.navigationController popToRootViewControllerAnimated:YES];
+    [Delegate.navigationController popViewControllerAnimated:YES];
 }
 
 /**
@@ -91,13 +87,13 @@
 - (void) networkChange: (NSNotification*)note {
     Reachability * reach = [note object];
     if (reach.isReachableViaWiFi) {
-//        self.connectLabel.text = kMessageDeviceAlreadyLinkWiFi;
+        self.connectLabel.text = kMessageDeviceAlreadyLinkWiFi;
         self.wifiSSID.text = [SkywareDeviceTool getWiFiSSID];
         return;
     }
     
     if (reach.isReachableViaWWAN) {
-//        self.connectLabel.text = kMessageDeviceLinkWiFi;
+        self.connectLabel.text = kMessageDeviceLinkWiFi;
         self.wifiSSID.text = @"";
         return;
     }

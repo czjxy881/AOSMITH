@@ -20,7 +20,7 @@
         model.device_online = 0;
     }
     NSMutableDictionary *codeDict = [NSMutableDictionary dictionary];
-    if (model.data.count > 1) {
+    if (model.data.count > 0) {
         [model.data enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
             NSArray *separated = [str componentsSeparatedByString:@"::"];
             if (!separated.count) return ;

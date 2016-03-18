@@ -24,7 +24,7 @@
 
 + (instancetype)createDeviceSettingSNView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][0];
+    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][4];
 }
 
 /**
@@ -32,16 +32,22 @@
  */
 - (IBAction)activateDeviceBtnClick:(UIButton *)sender {
     if (self.codeTextField.text.length) {
-        [self.codeTextField resignFirstResponder];
-        [SVProgressHUD show];
-        [SkywareDeviceManager DeviceVerifySN:self.codeTextField.text Success:^(SkywareResult *result) {
-            [self queryDeviceMessage];
-        } failure:^(SkywareResult *result) {
-            [SVProgressHUD showErrorWithStatus:kMessageDeviceNotFindSNCode];
-        }];
+        [self queryDeviceMessage];
     }else{
         [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteSNCode];
     }
+//    if (self.codeTextField.text.length) {
+//        [self.codeTextField resignFirstResponder];
+//        [SVProgressHUD show];
+//        [SkywareDeviceManager DeviceVerifySN:self.codeTextField.text Success:^(SkywareResult *result) {
+//            [self queryDeviceMessage];
+//        } failure:^(SkywareResult *result) {
+//            [SVProgressHUD showErrorWithStatus:kMessageDeviceNotFindSNCode];
+//        }];
+//        [self queryDeviceMessage];
+//    }else{
+//        [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteSNCode];
+//    }
 }
 - (IBAction)readQRCode:(UIButton *)sender {
     QRCodeViewController *readCode = [[QRCodeViewController alloc] init];
@@ -54,27 +60,11 @@
  */
 - (void)queryDeviceMessage
 {
-    SkywareDeviceQueryInfoModel *query = [[SkywareDeviceQueryInfoModel alloc] init];
-    query.sn = self.codeTextField.text;
-    [SkywareDeviceManager DeviceQueryInfo:query Success:^(SkywareResult *result) {
-        SkywareDeviceInfoModel *model = [SkywareDeviceInfoModel mj_objectWithKeyValues:result.result];
-        if (![model.device_lock boolValue]) { // 该设备已经锁定，禁止再绑定
-            [SVProgressHUD showErrorWithStatus:kMessageDeviceClock];
-            return ;
-        }
-        // SN 已经绑定了MAC,直接和用户绑定
-        if (self.otherOption) {
-            self.otherOption(model);
-        }
-        [SVProgressHUD dismiss];
-    } failure:^(SkywareResult *result) {
-        if ([result.message isEqualToString:@"404"]) { // SN 没有绑定 MAC
-            if (self.option) {
-                self.option();
-            }
-            [SVProgressHUD dismiss];
-        }
-    }];
+//    SkywareDeviceQueryInfoModel *query = [[SkywareDeviceQueryInfoModel alloc] init];
+//    query.sn = self.codeTextField.text;
+    if (self.option) {
+        self.option();
+    }
 }
 
 #pragma mark - QRCode 代理

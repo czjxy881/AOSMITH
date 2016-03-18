@@ -8,11 +8,13 @@
 
 #import "SkywareSDKManager.h"
 #import <UserDefaultsTool.h>
+#import <BaseNetworkTool.h>
 #import "SkywareConst.h"
+#import "SkywareSDK.h"
 
 @implementation SkywareSDKManager
 
-LXSingletonM(SkywareSDKManager)
+SkywareSDKSingletonM(SkywareSDKManager)
 
 static NSArray *service_type_array ;
 
@@ -20,6 +22,15 @@ static NSArray *service_type_array ;
 {
     // 开发（0,1） 测试（2,3） 正式（4，5）
     service_type_array = @[@"v1", @"c1", @"v2", @"c3", @"v3", @"c2"];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.openLAN = YES;
+    }
+    return self;
 }
 
 - (void)PostApplicationDidBecomeActive
@@ -46,6 +57,16 @@ static NSArray *service_type_array ;
     }
 }
 
+#pragma mark ---- V2.0
+
+- (void)startSkywareSDK
+{
+    self.udp_Manager = [[UDPManager alloc] init];
+    self.tcp_Manager = [[TCPManager alloc] init];
+    [BaseNetworkTool startNetWrokWithURL:RTServersURL];
+    NSLog(@"SkywareSDK启动完成");
+}
+
 #pragma mark - 懒加载 -
 
 - (NSMutableArray *)bind_Devices_Array
@@ -63,5 +84,14 @@ static NSArray *service_type_array ;
     }
     return _bind_Devices_Dict;
 }
+
+- (NSMutableDictionary *)LAN_Devices_Dict
+{
+    if (!_LAN_Devices_Dict) {
+        _LAN_Devices_Dict = [[NSMutableDictionary alloc] init];
+    }
+    return _LAN_Devices_Dict;
+}
+
 
 @end

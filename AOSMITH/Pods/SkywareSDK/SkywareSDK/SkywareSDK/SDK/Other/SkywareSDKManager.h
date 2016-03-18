@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "SkywareDeviceInfoModel.h"
-#import <LXSingleton.h>
+#import "SkywareSDKSingleton.h"
+#import "UDPManager.h"
+#import "TCPManager.h"
 
 typedef enum {
     // 开发
@@ -26,7 +28,7 @@ typedef enum {
 
 @interface SkywareSDKManager : NSObject
 
-LXSingletonH(SkywareSDKManager)
+SkywareSDKSingletonH(SkywareSDKManager)
 
 /**
  *  选择服务器的类型 （开发，测试，正式）
@@ -59,6 +61,13 @@ LXSingletonH(SkywareSDKManager)
 @property (nonatomic,strong) NSMutableDictionary *bind_Devices_Dict;
 
 /**
+ *  局域网内发现的所有设备Dictionary
+ *  例子:
+ *  Key：device_Mac  Value: device_IP
+ */
+@property (nonatomic,strong) NSMutableDictionary *LAN_Devices_Dict;
+
+/**
  *  用户当前正在操作的DeviceInfo
  */
 @property (nonatomic,strong) SkywareDeviceInfoModel *currentDevice;
@@ -68,6 +77,11 @@ LXSingletonH(SkywareSDKManager)
  *  只读属性
  */
 @property (nonatomic,copy,readonly) NSString *service;
+
+/**
+ *  是否启动小循环
+ */
+@property (nonatomic,assign,getter = isOpenLan) BOOL openLAN;
 
 #pragma mark ------ Method ------
 /**
@@ -81,5 +95,20 @@ LXSingletonH(SkywareSDKManager)
  *  @param mac 要切换的设备的MAC
  */
 - (void) changeCurrentDeviceWithMac:(NSString *) mac;
+
+#pragma mark ---- V2.0
+
+/**
+ *  启动 SDK 率先调用
+ */
+- (void)startSkywareSDK;
+/**
+ *  发送 UDP 广播 Manager
+ */
+@property (nonatomic,strong) UDPManager *udp_Manager;
+/**
+ *  发送 指令 TCP Manager
+ */
+@property (nonatomic,strong) TCPManager *tcp_Manager;
 
 @end

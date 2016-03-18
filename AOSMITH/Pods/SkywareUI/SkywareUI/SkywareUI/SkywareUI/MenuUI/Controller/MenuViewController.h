@@ -11,7 +11,6 @@
 #import "SystemFeedBackViewController.h"
 #import "UserAccountViewController.h"
 #import "DeviceManagerViewController.h"
-#import "SystemFeedBackViewController.h"
 #import "AddDeviceViewController.h"
 #import "SkywareUIConst.h"
 

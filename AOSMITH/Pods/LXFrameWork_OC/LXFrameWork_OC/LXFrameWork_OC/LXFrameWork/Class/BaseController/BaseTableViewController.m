@@ -80,11 +80,11 @@ static NSString *LX_BaseTableViewControllerCellID = @"BaseTableViewControllerCel
         }
     }
     
-    if (!_displayNav) return;
+    if (!_displayNavBarWhenScroll) return;
     UIColor *NavBackColor = self.navView.BackColor;
     UIColor *blockColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.5];
     CGFloat offsetY = scrollView.contentOffset.y;
-    if (self.scaleImage) { // 有下拉图片
+    if (self.scaleImage) { // 有下拉图片，滚动显示 NavBar
         if ((offsetY + _scaleHeight) > 0) {
             CGFloat alpha = 1 - ((100 - (offsetY + _scaleHeight)) / 100);
             [self.navView setScrollNavigationBarBackColor:[NavBackColor colorWithAlphaComponent:alpha]];
@@ -96,8 +96,18 @@ static NSString *LX_BaseTableViewControllerCellID = @"BaseTableViewControllerCel
     }else{// 无下拉图片，滚动显示 NavBar
         if (offsetY > 0) {
             CGFloat alpha = 1 - ((100 - offsetY) / 100);
+            
             [self.navView setScrollNavigationBarBackColor:[NavBackColor colorWithAlphaComponent:alpha]];
             [self.navView setScrollNavigationBarLineBackColor:[blockColor colorWithAlphaComponent:alpha]];
+            
+            // 滚动展示NavigationBar alpha > 0.5 的时候显示 Title 和左右按钮
+            if (!self.displayNavBarElementWhenScroll) return;
+            if (alpha > 0.5) {
+                self.navView.btnView.alpha = alpha;
+            }else{
+                self.navView.btnView.alpha = 0;
+            }
+            
         } else {
             [self.navView setScrollNavigationBarBackColor:[NavBackColor colorWithAlphaComponent:0]];
             [self.navView setScrollNavigationBarLineBackColor:[blockColor colorWithAlphaComponent:0]];
@@ -110,14 +120,26 @@ static NSString *LX_BaseTableViewControllerCellID = @"BaseTableViewControllerCel
 /**
  *  实时滚动展示NavigationBar
  */
-- (void)setDisplayNav:(BOOL)displayNav
+- (void)setDisplayNavBarWhenScroll:(BOOL)displayNav
 {
-    _displayNav = displayNav;
+    _displayNavBarWhenScroll = displayNav;
     if (displayNav) {
         self.automaticallyAdjustsScrollViewInsets = NO;
         self.tableView.showsVerticalScrollIndicator = NO;
         [self.navView setScrollNavigationBarBackColor:[UIColor clearColor]];
         [self.navView setScrollNavigationBarLineBackColor:[UIColor clearColor]];
+    }
+}
+
+/**
+ *  TableView 实时滚动展示NavigationBar alpha > 0.5 的时候显示 Title 和左右按钮
+ */
+- (void)setDisplayNavBarElementWhenScroll:(BOOL)displayNavBarElementWhenScroll
+{
+    _displayNavBarElementWhenScroll = displayNavBarElementWhenScroll;
+    if (displayNavBarElementWhenScroll) {
+        [self setDisplayNavBarWhenScroll:YES];
+        self.navView.btnView.alpha = 0;
     }
 }
 
@@ -132,8 +154,8 @@ static NSString *LX_BaseTableViewControllerCellID = @"BaseTableViewControllerCel
     UIImageView *scralImageView = [UIImageView newAutoLayoutView];
     scralImageView.image = _scaleImage;
     [self.tableView insertSubview:scralImageView atIndex:0];
-    [scralImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [scralImageView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [scralImageView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.view];
+    [scralImageView autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self.view];
     [scralImageView autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self.view];
     _scrollHeight = [scralImageView autoSetDimension:ALDimensionHeight toSize:_scaleHeight];
     scralImageView.contentMode = UIViewContentModeScaleAspectFill;

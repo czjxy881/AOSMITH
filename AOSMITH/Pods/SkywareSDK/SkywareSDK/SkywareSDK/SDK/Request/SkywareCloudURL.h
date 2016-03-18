@@ -48,10 +48,38 @@ extern NSString *const DeviceQueryInfo;
 /** 更新设备信息 */
 extern NSString *const DeviceUpdateInfo;
 
+/** 被分享的设备是否确认绑定**/
+extern NSString * const DeviceShareUserBind;
+
+/** 设备被绑定的列表*/
+extern NSString * const DeviceShareListBind;
+
+/**主用户锁定该设备时，所有分享用户不可操作该设备，不可绑定该设备。**/
+extern NSString * const DeviceUserLock;
+
+/** 主用户解锁该设备，所有分享用户可以操作以及绑定该设备*/
+extern NSString * const DeviceUnlock;
+
+/** 主用户解除分享用户与设备之间的绑定关系*/
+extern NSString * const DeviceReleaseShareUser;
+
+/** 获取分享用户的未未确认绑定设备 **/
+extern NSString * const DeviceGetUndefinedDevices;
+
+/** 分享用户确认绑定设备 **/
+extern NSString * const DeviceTrueUndefinedDevices;
+
+/** 分享用户取消绑定设备 **/
+extern NSString * const DeviceCancelUndefinedDevices;
+
+/** 绑定设备 新接口 */
+extern NSString * const DeviceBindUserNew;
 /** 绑定设备 */
 extern NSString *const DeviceBindUser;
 
-/** 解绑设备 */
+/** 主用户 解绑设备 确认 */
+extern NSString * const DeviceReleaseMasterUser;
+/** 用户解绑设备 */
 extern NSString *const DeviceReleaseUser;
 
 /** 获取设备清单 */
@@ -65,5 +93,7 @@ extern NSString *const DevicePushCMD;
 
 /** 天气接口 */
 extern NSString *const Address_wpm;
+/** 日志 */
+extern NSString * const LogEvent;
 
 @end

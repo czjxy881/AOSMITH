@@ -10,8 +10,11 @@
 
 @interface SkywareConst : NSObject
 
-/** 收到 CurrentDevice 推送消息发送通知 */
+/** 收到 CurrentDevice MQTT推送消息发送通知 */
 extern NSString * const kSkywareNotificationCenterCurrentDeviceMQTT;
+
+/** 收到 CurrentDevice LAN推送消息发送通知 */
+extern NSString * const kSkywareNotificationCenterCurrentDeviceLAN;
 
 /** 推送消息发送通知 userInfo 的 Key  */
 extern NSString * const kSkywareMQTTuserInfoKey;
@@ -24,8 +27,28 @@ extern NSString * const kSkywareFindBindUserAllDeviceSuccess;
 /** 设备从后台进入前台注册 MQTT 监听 */
 extern NSString * const kApplicationDidBecomeActive;
 
-
 /** 设备从后台进入前台注册 MQTT 监听 */
 extern NSString * const kNotUser_tokenGotoLogin;
+
+
+#pragma mark ---- LAN V2.0
+
+/** 设备TCP远程端口规定值 */
+extern int const PORT_TCP_REMOTE;
+
+/** 设备UDP远程端口规定值 */
+extern int const PORT_UDP_REMOTE;
+
+/** 设备UDP广播本地监听端口 */
+extern int const PORT_UDP_LOCAL;
+
+/** 设备UDP广播子网掩码 */
+extern NSString * const UDP_MASK_HOST;
+
+/** 设备UDP广播口令 */
+extern NSString * const UDP_MASK_CODE;
+
+/** 用户切换不同的 WIFI */
+extern NSString * const kSkywareSDKChangeWIFI;
 
 @end

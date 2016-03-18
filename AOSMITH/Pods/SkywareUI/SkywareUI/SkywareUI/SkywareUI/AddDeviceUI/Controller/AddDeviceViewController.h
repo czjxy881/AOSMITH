@@ -18,13 +18,13 @@
 #import <SkywareDeviceManager.h>
 
 /** 添加设备需要的View */
-#import "DeviceSettingSNView.h"
 #import "DeviceSettingWifiView.h"
 #import "DeviceResetView.h"
 #import "DeviceSmartLinkStart.h"
 #import "DeviceSettingErrorView.h"
 #import "DeviceBindingView.h"
-
+#import "DeviceBindSucceedView.h"
+#import "DeviceSettingSNView.h"
 /** Skyware_UI */
 #import "SkywareUIConst.h"
 
@@ -41,5 +41,7 @@ typedef enum {
  *  设备的状态，是添加设备，还是离线配置WiFi
  */
 @property (nonatomic,assign,getter = isAddDevice) BOOL addDevice;
+
+@property (nonatomic,assign) BOOL isWiFi;
 
 @end

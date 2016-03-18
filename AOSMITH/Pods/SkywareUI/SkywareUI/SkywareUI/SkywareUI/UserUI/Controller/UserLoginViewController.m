@@ -79,6 +79,7 @@
     }
     [SkywareUserManager UserLoginWithParamesers:params Success:^(SkywareResult *result) {
         // 将用户信息保存到本地
+        //添加日志功能
         result.phone = self.phone.text;
         result.password = self.password.text;
         [NSKeyedArchiver archiveRootObject:result toFile:[PathTool getUserDataPath]];

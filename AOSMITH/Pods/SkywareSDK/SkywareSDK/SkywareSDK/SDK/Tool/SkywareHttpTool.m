@@ -7,6 +7,7 @@
 //
 
 #import "SkywareHttpTool.h"
+#import "PathTool.h"
 
 @implementation SkywareHttpTool
 
@@ -43,6 +44,17 @@
     if (message == request_success) {
         if (success) {
             success(result);
+        }
+    }else if (message == request_token_inexistence){//token过期
+        SkywareResult *result = [NSKeyedUnarchiver unarchiveObjectWithFile:[PathTool getUserDataPath]];
+        if (result.phone.length && result.password.length) { // 保存有用户名密码，跳转到首页
+            NSMutableDictionary *param = [NSMutableDictionary dictionary];
+            [param setObject:result.phone forKey:@"login_id"];
+            [param setObject:result.password forKey:@"login_pwd"];
+            [SkywareUserManager UserLoginWithParamesers:param Success:^(SkywareResult *result) {
+                failure(result);
+            } failure:^(SkywareResult *result) {
+            }];
         }
     }else{
         if (failure) {

@@ -7,25 +7,44 @@
 //
 
 #import "LXFrameWorkManager.h"
+#import "UIColor+Extension.h"
 
 @implementation LXFrameWorkManager
 LXSingletonM(LXFrameWorkManager);
 
-- (UIColor *)NavigationBar_bgColor
+- (UIColor *)navigationBar_bgColor
 {
-    if (_NavigationBar_bgColor == nil) {
+    if (_navigationBar_bgColor == nil) {
         return [UIColor whiteColor];
     }else{
-        return _NavigationBar_bgColor;
+        return _navigationBar_bgColor;
     }
 }
 
-- (UIColor *)ViewController_bgColor
+- (UIColor *)navigationBar_textColor
 {
-    if (_ViewController_bgColor == nil) {
+    if (_navigationBar_textColor == nil) {
+        return [UIColor blackColor];
+    }else{
+        return _navigationBar_textColor;
+    }
+}
+
+- (UIColor *)viewController_bgColor
+{
+    if (_viewController_bgColor == nil) {
         return [UIColor whiteColor];
     }else{
-        return _ViewController_bgColor;
+        return _viewController_bgColor;
+    }
+}
+
+- (UIColor *)stepViewTitle_bgColor
+{
+    if (_stepViewTitle_bgColor == nil) {
+        return [UIColor colorWithHexString:@"5fc206"];
+    }else{
+        return _stepViewTitle_bgColor;
     }
 }
 
@@ -37,16 +56,5 @@ LXSingletonM(LXFrameWorkManager);
         return writeBase;
     }
 }
-
-- (UIColor *)NavigationBar_textColor
-{
-    if (_NavigationBar_textColor == nil) {
-        return [UIColor blackColor];
-    }else{
-        return _NavigationBar_textColor;
-    }
-}
-
-
 
 @end

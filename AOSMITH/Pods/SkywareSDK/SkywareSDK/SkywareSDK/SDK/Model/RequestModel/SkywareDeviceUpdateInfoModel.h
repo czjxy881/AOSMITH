@@ -37,4 +37,9 @@
 /*** 用户token */
 @property (nonatomic,copy) NSString *token ;
 
+/*------------------------------------------------------*/
+
+/*** 新的SN */
+@property (nonatomic,copy) NSString *device_dnsn;
+
 @end

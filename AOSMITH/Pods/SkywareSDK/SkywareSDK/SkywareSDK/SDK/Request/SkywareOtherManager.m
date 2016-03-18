@@ -19,5 +19,16 @@
     }];
 }
 
++ (void) UserSendLogParamesers:(NSDictionary *) params Success:(void(^)(SkywareResult *result)) success failure:(void (^)(SkywareResult *result)) failure
+{
+    
+    if ([SkywareSDKManager sharedSkywareSDKManager].token.length > 0 ) {
+        [SkywareHttpTool HttpToolPostWithUrl:LogEvent paramesers:params requestHeaderField:@{@"token":[SkywareSDKManager sharedSkywareSDKManager].token} SuccessJson:^(id json) {
+            [SkywareHttpTool responseHttpToolWithJson:json Success:success failure:failure];
+        } failure:^(NSError *error) {
+            
+        }];
+    }
+}
 
 @end

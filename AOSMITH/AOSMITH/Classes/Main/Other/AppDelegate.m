@@ -10,7 +10,6 @@
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 #import <SMS_SDK/SMSSDK.h>
-#import <SMS_SDK/SMSSDK+AddressBookMethods.h>
 #import <SkywareUIManager.h>
 #import "UserLoginViewController.h"
 #import "UIColor+Utility.h"
@@ -37,6 +36,7 @@
     
     // 设置 App_id
     SkywareSDKManager *manager = [SkywareSDKManager sharedSkywareSDKManager];
+    [manager startSkywareSDK];
     manager.app_id = 17;
     manager.service_type = testing_new;
     
@@ -53,8 +53,8 @@
 
     
     LXFrameWorkManager *LXManager = [LXFrameWorkManager sharedLXFrameWorkManager];
-    LXManager.NavigationBar_bgColor = [UIColor colorWithHexString:@"#001b38"];
-    LXManager.NavigationBar_textColor = [UIColor whiteColor];
+    LXManager.navigationBar_bgColor = [UIColor colorWithHexString:@"#001b38"];
+    LXManager.navigationBar_textColor = [UIColor whiteColor];
     LXManager.backState = writeBase;
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -70,7 +70,6 @@
     
     // 启动ShareSDK 的短信功能
     [SMSSDK registerApp:SMS_SDKAppKey withSecret:SMS_SDKAppSecret];
-    [SMSSDK enableAppContactFriends:NO];
     
     //关闭用户反馈功能
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
@@ -139,7 +138,7 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

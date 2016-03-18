@@ -14,4 +14,6 @@ typedef void (^cityCellClick)(NSString *);
 
 @property (nonatomic,copy) cityCellClick cellClick;
 
+@property (nonatomic,assign,getter = isNeedCity) BOOL needCity;
+
 @end

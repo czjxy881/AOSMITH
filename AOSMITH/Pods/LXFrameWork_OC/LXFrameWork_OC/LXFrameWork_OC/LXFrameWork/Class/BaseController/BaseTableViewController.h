@@ -40,7 +40,10 @@
 @property (nonatomic,strong) NSMutableArray *dataList;
 
 /** TableView 实时滚动展示NavigationBar */
-@property (nonatomic,assign) BOOL displayNav;
+@property (nonatomic,assign) BOOL displayNavBarWhenScroll;
+
+/** TableView 实时滚动展示NavigationBar alpha > 0.5 的时候显示 Title 和左右按钮 */
+@property (nonatomic,assign) BOOL displayNavBarElementWhenScroll;
 
 /** TableView 拖拽 TableView 放大HeadImg */
 @property (nonatomic,strong) UIImage *scaleImage;

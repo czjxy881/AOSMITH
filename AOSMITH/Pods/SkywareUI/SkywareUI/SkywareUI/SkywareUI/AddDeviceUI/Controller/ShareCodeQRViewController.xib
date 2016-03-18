@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShareCodeQRViewController">
+            <connections>
+                <outlet property="QRCodeImg" destination="ful-jC-DE1" id="sYm-9C-HT7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ful-jC-DE1">
+                    <rect key="frame" x="170" y="93" width="260" height="260"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="260" id="FRL-Dj-UeQ"/>
+                        <constraint firstAttribute="height" constant="260" id="LFQ-PY-wJt"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="扫一扫上方的二维码图案，绑定我的设备" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUU-Oq-l9I">
+                    <rect key="frame" x="147" y="383" width="306" height="21"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注意：二维码有效时间5分钟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y2N-TJ-kQ1">
+                    <rect key="frame" x="206" y="537" width="189" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Y2N-TJ-kQ1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7XZ-WJ-uNo"/>
+                <constraint firstItem="IUU-Oq-l9I" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U85-A0-adl"/>
+                <constraint firstItem="IUU-Oq-l9I" firstAttribute="top" secondItem="ful-jC-DE1" secondAttribute="bottom" constant="30" id="Xvv-eZ-bE2"/>
+                <constraint firstItem="ful-jC-DE1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="93" id="cEY-z4-6WG"/>
+                <constraint firstItem="ful-jC-DE1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="mPy-mC-dGA"/>
+                <constraint firstAttribute="bottom" secondItem="Y2N-TJ-kQ1" secondAttribute="bottom" constant="45" id="yWu-Yl-lmW"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

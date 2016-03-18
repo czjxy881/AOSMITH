@@ -1,0 +1,1 @@
+../../../SkywareUI/SkywareUI/SkywareUI/SkywareUI/MenuUI/View/ShareBindDeviceTableCell.h

@@ -9,6 +9,7 @@
 #import "DeviceBindingView.h"
 #import <SelectCityViewController.h>
 
+
 @interface DeviceBindingView ()
 {
     CoreLocationTool *locationTool;
@@ -30,14 +31,29 @@
  * 修改地址按钮
  */
 @property (weak, nonatomic) IBOutlet UIButton *changeLocationBtn;
+
+
 /**
- *  绑定完成按钮
+ *  开始体验按钮
  */
-@property (weak, nonatomic) IBOutlet UIButton *finishBtn;
+@property (nonatomic,strong) IBOutlet UIButton *btnStart;
+/**
+ *  继续添加设备
+ */
+@property (nonatomic,strong) IBOutlet UIButton *btnContinuAdd;
+/**
+ *  共享设备
+ */
+@property (nonatomic,strong) IBOutlet UIButton *btnShare;
+
 /**
  *  位置显示
  */
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UITextField *locationLabel;
+
+
+
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *buttonTopConstraint;
 
 @end
 
@@ -47,8 +63,15 @@
 {
     SkywareUIManager *UIM = [SkywareUIManager sharedSkywareUIManager];
     self.backgroundColor = UIM.Device_view_bgColor == nil? UIM.All_view_bgColor :UIM.Device_view_bgColor;
+    if (IS_IPHONE_4_OR_LESS) {
+        _buttonTopConstraint.constant = 14;
+    }else{
+        _buttonTopConstraint.constant = 44;
+    }
     [self.changeLocationBtn setBackgroundColor:UIM.Device_button_bgColor == nil ? UIM.All_button_bgColor :UIM.Device_button_bgColor];
-    [self.finishBtn setBackgroundColor:UIM.Device_button_bgColor == nil? UIM.All_button_bgColor : UIM.Device_button_bgColor];
+    [self.btnStart setBackgroundColor:UIM.Device_button_bgColor == nil? UIM.All_button_bgColor : UIM.Device_button_bgColor];
+    [self.btnContinuAdd setBackgroundColor:UIM.Device_button_bgColor == nil? UIM.All_button_bgColor : UIM.Device_button_bgColor];
+    [self.btnShare setBackgroundColor:UIM.Device_button_bgColor == nil? UIM.All_button_bgColor : UIM.Device_button_bgColor];
 }
 
 + (instancetype)createDeviceBindingView
@@ -65,7 +88,7 @@
 {
     [super setParams:params];
     if (!params.count) return;
-    NSString *deviceLocaion = params[@"deviceLocaion"];
+    NSString *deviceLocaion = params[@"deviceLocation"];
     if (deviceLocaion.length) {
         self.locationLabel.text = deviceLocaion;
     }else{
@@ -100,22 +123,77 @@
     };
     self.option(selectCity);
 }
+//- (IBAction)commitBtnClick:(UIButton *)sender {
+//    if (!self.name.text.length) {
+//        [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteDeviceName];
+//        return;
+//    }
+//    if (!self.locationLabel.text.length) {
+//        [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteDeviceLocation];
+//        return;
+//    }
+//    if (self.otherOption) {
+//        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//        [params setValue:self.name.text forKey:@"deviceName"];
+//        [params setValue:@(!self.switchBtn.isOn) forKey:@"switchState"];
+//        [params setValue:self.locationLabel.text forKey:@"deviceLocation"];
+//        self.otherOption(params);
+//    }
+//}
 
-- (IBAction)commitBtnClick:(UIButton *)sender {
+-(BOOL)checkDeviceNameAndLocationIsEmpty
+{
     if (!self.name.text.length) {
         [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteDeviceName];
-        return;
+        return YES;
     }
     if (!self.locationLabel.text.length) {
-        [SVProgressHUD showErrorWithStatus:@"请输入设备地址"];
+        [SVProgressHUD showErrorWithStatus:kMessageDeviceWriteDeviceLocation];
+        return YES;
+    }
+    return NO;
+}
+- (IBAction)onStartExperience:(UIButton *)sender {
+    //跳到首页
+    if ([self checkDeviceNameAndLocationIsEmpty]) {
         return;
     }
+    [self removeFromSuperview];
     if (self.otherOption) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         [params setValue:self.name.text forKey:@"deviceName"];
         [params setValue:@(!self.switchBtn.isOn) forKey:@"switchState"];
-        [params setValue:self.locationLabel.text forKey:@"deviceLocaion"];
+        [params setValue:self.locationLabel.text forKey:@"deviceLocation"];
         self.otherOption(params);
+    }
+}
+
+- (IBAction)onAddAnotherDevice:(UIButton *)sender {
+    if ([self checkDeviceNameAndLocationIsEmpty]) {
+        return;
+    }
+    [self removeFromSuperview];
+    if (self.addAnotherOption) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setValue:self.name.text forKey:@"deviceName"];
+        [params setValue:@(!self.switchBtn.isOn) forKey:@"switchState"];
+        [params setValue:self.locationLabel.text forKey:@"deviceLocation"];
+        self.addAnotherOption(params);
+    }
+}
+
+- (IBAction)onShareDevice:(UIButton *)sender
+{
+    if ([self checkDeviceNameAndLocationIsEmpty]) {
+        return;
+    }
+    [self removeFromSuperview];
+    if (self.shareOption) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        [params setValue:self.name.text forKey:@"deviceName"];
+        [params setValue:@(!self.switchBtn.isOn) forKey:@"switchState"];
+        [params setValue:self.locationLabel.text forKey:@"deviceLocation"];
+        self.shareOption(params);
     }
 }
 
@@ -129,5 +207,8 @@
         }];
     }];
 }
+
+
+
 
 @end

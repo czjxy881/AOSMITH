@@ -45,7 +45,8 @@
     BaseIconItem *iconItem ;
     NSString *imgurl = self.user_img.length == 0 ? @"view_userface" :self.user_img;
     NSString *name = self.user_name.length == 0? @"匿名" :self.user_name;
-    iconItem = [BaseIconItem createBaseCellItemWithIconNameOrUrl:imgurl AndTitle:name SubTitle:nil
+    NSString *phone = self.user_phone.length == 0?@"":self.user_phone;
+    iconItem = [BaseIconItem createBaseCellItemWithIconNameOrUrl:imgurl AndTitle:name SubTitle:phone
                                                  ClickCellOption:nil ClickIconOption:^{
                                                      UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"是否从相册选取" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相机",@"从相册选取", nil];
                                                      [sheet showInView: self.view.window];
@@ -143,5 +144,24 @@
         });
     }
 }
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 4;
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 4;
+    }
+    return 0;
+}
+
+
 
 @end

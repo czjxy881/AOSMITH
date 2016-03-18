@@ -27,4 +27,20 @@
  */
 + (void) UserAddressWeatherParamesers:(SkywareWeatherModel *) model Success:(void(^)(SkywareResult *result)) success failure:(void (^)(SkywareResult *result)) failure;
 
+/**
+ *  发送日志信息到服务器  （目前只有配网的日志）
+ *
+ *  @param params
+ NSDictionary *dic =  @{
+ @"log":@{
+ @"app_id":@"1",
+ @"app_version":@"1"
+ ...
+ }
+ };
+ *  @param success
+ *  @param failure
+ */
++ (void) UserSendLogParamesers:(NSDictionary *) params Success:(void(^)(SkywareResult *result)) success failure:(void (^)(SkywareResult *result)) failure;
+
 @end

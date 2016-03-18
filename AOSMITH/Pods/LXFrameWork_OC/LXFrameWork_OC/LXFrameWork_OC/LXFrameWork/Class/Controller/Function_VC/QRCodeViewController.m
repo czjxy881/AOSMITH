@@ -50,7 +50,12 @@
     // 显示摄像头取到的图像
     AVCaptureVideoPreviewLayer * layer = [AVCaptureVideoPreviewLayer layerWithSession:_capSession];
     layer.videoGravity=AVLayerVideoGravityResizeAspectFill;
-    layer.frame = self.view.layer.bounds;
+    CGRect frame = self.view.layer.bounds;
+    if (frame.size.width > frame.size.height) {
+        layer.frame = CGRectMake(0, 0, frame.size.height, frame.size.width);
+    }else{
+        layer.frame = self.view.layer.bounds;
+    }
     [self.view.layer insertSublayer:layer atIndex:0];
     //走起！！
     [_capSession startRunning];
@@ -104,6 +109,23 @@
     if (buttonIndex == 0) {
         [self cleanBtnClick];
     }
+}
+
+#pragma mark - 禁止该页面的屏幕旋转
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

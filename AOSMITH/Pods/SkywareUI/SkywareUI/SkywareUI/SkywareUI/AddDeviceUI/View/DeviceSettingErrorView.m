@@ -45,7 +45,7 @@
 
 + (instancetype)createDeviceSettingErrorView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][4];
+    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][3];
 }
 
 - (IBAction)againBtnClick:(UIButton *)sender {

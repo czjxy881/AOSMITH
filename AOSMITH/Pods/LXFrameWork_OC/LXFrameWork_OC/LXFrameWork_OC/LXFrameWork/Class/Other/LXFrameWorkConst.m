@@ -16,4 +16,8 @@ NSString * const kUseWiFiConnectInternet = @"kUseWiFiConnectInternet";
 
 NSString * const kUseMobileNetworkConnectInternet = @"kUseMobileNetworkConnectInternet";
 
+NSString * const kOpenHttpRequestLog = @"kOpenHttpRequestLog";
+
+NSString * const kShowGuidancePage = @"kShowGuidancePage";
+
 @end

@@ -33,7 +33,9 @@
 /** 更新时间  */
 @property (nonatomic,copy) NSString *update_time ;
 /** 设备地址  */
-@property (nonatomic,copy) NSString *device_address ;
+@property (nonatomic,copy) NSString *device_address;
+/*** 主用户 被分享用户*/
+@property (nonatomic,copy) NSString *user_state; //主用户0，分享用户1
 /** 设备当前状态代码  */
 @property (nonatomic,strong) id device_data ;
 

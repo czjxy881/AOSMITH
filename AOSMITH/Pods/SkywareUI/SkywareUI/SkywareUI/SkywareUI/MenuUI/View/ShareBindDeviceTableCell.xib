@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShareBindDeviceTableCell" id="KGk-i7-Jjw" customClass="ShareBindDeviceTableCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cgy-jS-NFJ">
+                        <rect key="frame" x="28" y="19" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1u-pd-X0h">
+                        <rect key="frame" x="209" y="14" width="83" height="30"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="VZD-ma-VHJ"/>
+                            <constraint firstAttribute="width" constant="83" id="xnd-3M-JRZ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="解绑"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="4"/>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="onBindDevice:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="c3L-sH-0ix"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="d1u-pd-X0h" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ZnG-lJ-V3W"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="d1u-pd-X0h" secondAttribute="trailing" constant="20" id="iEm-R0-smn"/>
+                    <constraint firstItem="Cgy-jS-NFJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="lzP-hN-deA"/>
+                    <constraint firstItem="Cgy-jS-NFJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="p1h-zj-Y6P"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnUnBind" destination="d1u-pd-X0h" id="RQg-ZZ-Uza"/>
+                <outlet property="lblPhone" destination="Cgy-jS-NFJ" id="hlF-uW-IR5"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

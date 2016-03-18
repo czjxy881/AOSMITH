@@ -7,7 +7,7 @@
 //
 
 #import "BaseDelegate.h"
-//#import "CustomQRCodeViewController.h"
+#import "SystemExceptionDebugModel.h"
 
 @interface BaseDelegate ()
 
@@ -18,6 +18,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    // 3D-touch 点击应用图标 当应用程序并非在后台，而是直接重新打开的时候， 根据不同的Action响应不同的事件
+    //    UIApplicationShortcutItem *item = [launchOptions valueForKey:UIApplicationLaunchOptionsShortcutItemKey];
     
     // 设置弹出框后不可操作
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
@@ -29,23 +31,11 @@
     manager.shouldToolbarUsesTextFieldTintColor = YES; // 控制键盘上的工具条文字颜色是否用户自定义
     manager.enableAutoToolbar = YES; //控制是否显示键盘上的工具条
     
+    // 全局的异常处理
+    NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     return YES;
 }
 
-- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler{
-    //判断先前我们设置的唯一标识
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    NSString *searchItemType1 = [NSString stringWithFormat:@"%@.Search",bundleIdentifier];
-    NSString *searchItemType2 = [NSString stringWithFormat:@"%@.QRCode",bundleIdentifier];
-    
-    if([shortcutItem.type isEqualToString:searchItemType1]){
-        
-    }else if ([shortcutItem.type isEqualToString:searchItemType2]){
-//        CustomQRCodeViewController *qrcode = [[CustomQRCodeViewController alloc] init];
-//        [self.window.rootViewController presentViewController:qrcode animated:YES completion:^{
-//        }];
-    }
-}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -66,6 +56,18 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+/**
+ *  全局的异常处理方法
+ */
+void UncaughtExceptionHandler(NSException *exception) {
+    SystemExceptionDebugModel *exceptionModel = [[SystemExceptionDebugModel alloc] init];
+    NSArray *callStack = [exception callStackSymbols];
+    exceptionModel.exception_time = [NSDate date];
+    exceptionModel.exception = exception;
+    exceptionModel.exception_callStack = callStack;
+    [SystemExceptionDebugModel addSystemExceptionDebugModel:exceptionModel];
 }
 
 @end

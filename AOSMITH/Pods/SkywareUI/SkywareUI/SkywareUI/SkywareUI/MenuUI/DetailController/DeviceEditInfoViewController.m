@@ -25,7 +25,7 @@
 /*** 完成按钮 */
 @property (weak, nonatomic) IBOutlet UIButton *finishBtn;
 /*** 定位位置的Label */
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UITextField *locationLabel;
 
 @end
 
@@ -139,6 +139,7 @@
     update.device_lock = [NSString stringWithFormat:@"%d",!self.switchBtn.isOn];
     if ([self.locationLabel.text rangeOfString:@"..."].location == NSNotFound) {
         update.device_address = self.locationLabel.text;
+        update.city = self.locationLabel.text;
     }
     update.longitude = [NSString stringWithFormat:@"%f",_location.coordinate.longitude];
     update.latitude =  [NSString stringWithFormat:@"%f",_location.coordinate.latitude];

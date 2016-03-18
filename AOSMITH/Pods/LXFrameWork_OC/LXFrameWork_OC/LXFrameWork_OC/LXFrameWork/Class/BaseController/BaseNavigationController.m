@@ -169,12 +169,24 @@
     return _cover;
 }
 
-#pragma amrk - 设置状态栏颜色
+#pragma mark - 设置状态栏颜色
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
     return manager.statusBarStyle;
+}
+
+#pragma mark - 设置页面是否支持横竖屏操作
+
+- (BOOL)shouldAutorotate
+{
+    return self.topViewController.shouldAutorotate;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return self.topViewController.supportedInterfaceOrientations;
 }
 
 @end

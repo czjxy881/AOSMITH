@@ -20,7 +20,7 @@
     }else{ //关机
         powcmd = @"1000";
     }
-    [SkywareDeviceManager DevicePushCMDWithEncodeData:powcmd];
+    [SkywareDeviceManager DeviceAutoPushCMDWithData:powcmd];
 }
 
 
@@ -59,7 +59,7 @@
         default:
             break;
     }
-    [SkywareDeviceManager DevicePushCMDWithEncodeData:[NSString stringWithFormat:@"%@%@",@"21",tempcmd]];
+    [SkywareDeviceManager DeviceAutoPushCMDWithData:[NSString stringWithFormat:@"%@%@",@"21",tempcmd]];
 }
 
 - (void)setLevel:(level_type)level
@@ -73,25 +73,25 @@
     }else if(level == three_level){
         levelcmd = @"03";
     }
-    [SkywareDeviceManager DevicePushCMDWithEncodeData:[NSString stringWithFormat:@"%@%@",@"22",levelcmd]];
+    [SkywareDeviceManager DeviceAutoPushCMDWithData:[NSString stringWithFormat:@"%@%@",@"22",levelcmd]];
 }
 
 - (void)setOpenTime:(NSString *)openTime
 {
     _openTime = openTime;
-    [SkywareDeviceManager DevicePushCMDWithEncodeData:[NSString stringWithFormat:@"%@%@",@"31",openTime]];
+    [SkywareDeviceManager DeviceAutoPushCMDWithData:[NSString stringWithFormat:@"%@%@",@"31",openTime]];
 }
 
 - (void)setCloseTime:(NSString *)closeTime
 {
     _closeTime = closeTime;
-    [SkywareDeviceManager DevicePushCMDWithEncodeData:[NSString stringWithFormat:@"%@%@",@"32",closeTime]];
+    [SkywareDeviceManager DeviceAutoPushCMDWithData:[NSString stringWithFormat:@"%@%@",@"32",closeTime]];
 }
 
 - (void)setDeviceTime:(NSString *)deviceTime
 {
     _deviceTime = deviceTime;
-    [SkywareDeviceManager DevicePushCMDWithEncodeData:[NSString stringWithFormat:@"%@%@",@"41",deviceTime]];
+    [SkywareDeviceManager DeviceAutoPushCMDWithData:[NSString stringWithFormat:@"%@%@",@"41",deviceTime]];
 }
 
 

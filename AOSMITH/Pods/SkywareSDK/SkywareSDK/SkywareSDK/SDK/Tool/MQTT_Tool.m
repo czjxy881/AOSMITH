@@ -9,13 +9,17 @@
 #import "MQTT_Tool.h"
 #import "SkywareSDK.h"
 
+/**
+ *  已废弃  转化为使用 SkywareNotificationCenter
+ */
+
 @interface MQTT_Tool ()<MQTTSessionDelegate>
 
 @end
 
 @implementation MQTT_Tool
 
-LXSingletonM(MQTT_Tool)
+SkywareSDKSingletonM(MQTT_Tool)
 
 static MQTTSession *_secction;
 static NSTimer *_time;

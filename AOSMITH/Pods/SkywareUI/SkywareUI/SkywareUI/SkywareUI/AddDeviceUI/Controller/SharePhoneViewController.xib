@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SharePhoneViewController">
+            <connections>
+                <outlet property="btnSure" destination="wju-2a-H9e" id="hHD-Qw-dbC"/>
+                <outlet property="tfPhoneNumber" destination="R0q-hc-WJM" id="qrT-Gi-SUc"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="输入对方手机号可以绑定该设备" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDF-nz-rdJ">
+                    <rect key="frame" x="279" y="59" width="42" height="21"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Q85-RD-4Wv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Q85-RD-4Wv"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="Q85-RD-4Wv"/>
+                        </mask>
+                    </variation>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R0q-hc-WJM">
+                    <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="A6g-to-BOM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="A6g-to-BOM"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="A6g-to-BOM"/>
+                        </mask>
+                    </variation>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注意：一旦重新添加设备，需要再次分享" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5e-z7-Bla">
+                    <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wju-2a-H9e">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="DoR-vQ-JAf"/>
+                    </constraints>
+                    <state key="normal" title="确定"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="DoR-vQ-JAf"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="DoR-vQ-JAf"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="shareDeviceByPhone:" destination="-1" eventType="touchUpInside" id="7yc-w5-hB1"/>
+                    </connections>
+                </button>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="wju-2a-H9e" firstAttribute="trailing" secondItem="zDF-nz-rdJ" secondAttribute="trailing" id="1G0-ok-TKD"/>
+                <constraint firstItem="zDF-nz-rdJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="407-T9-RBa"/>
+                <constraint firstItem="R0q-hc-WJM" firstAttribute="top" secondItem="zDF-nz-rdJ" secondAttribute="bottom" constant="18" id="JLl-Qd-Zvu"/>
+                <constraint firstItem="o5e-z7-Bla" firstAttribute="trailing" secondItem="zDF-nz-rdJ" secondAttribute="trailing" id="KNe-5f-vSf"/>
+                <constraint firstItem="o5e-z7-Bla" firstAttribute="top" secondItem="wju-2a-H9e" secondAttribute="bottom" constant="24" id="QYv-IL-Knf"/>
+                <constraint firstItem="R0q-hc-WJM" firstAttribute="trailing" secondItem="zDF-nz-rdJ" secondAttribute="trailing" id="WXm-el-4Aa"/>
+                <constraint firstItem="wju-2a-H9e" firstAttribute="top" secondItem="R0q-hc-WJM" secondAttribute="bottom" constant="20" id="XNp-gx-XKB"/>
+                <constraint firstItem="zDF-nz-rdJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="46" id="YmP-Xk-ygv"/>
+                <constraint firstItem="R0q-hc-WJM" firstAttribute="leading" secondItem="zDF-nz-rdJ" secondAttribute="leading" id="egZ-0F-IFj"/>
+                <constraint firstAttribute="trailing" secondItem="zDF-nz-rdJ" secondAttribute="trailing" constant="47" id="p13-fP-hwT">
+                    <variation key="widthClass=compact" constant="40"/>
+                </constraint>
+                <constraint firstItem="o5e-z7-Bla" firstAttribute="leading" secondItem="zDF-nz-rdJ" secondAttribute="leading" id="qSk-jn-f10"/>
+                <constraint firstItem="wju-2a-H9e" firstAttribute="leading" secondItem="zDF-nz-rdJ" secondAttribute="leading" id="sNl-SL-tpf"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="R0q-hc-WJM"/>
+                    <exclude reference="o5e-z7-Bla"/>
+                    <exclude reference="wju-2a-H9e"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="407-T9-RBa"/>
+                    <exclude reference="YmP-Xk-ygv"/>
+                    <exclude reference="p13-fP-hwT"/>
+                    <exclude reference="JLl-Qd-Zvu"/>
+                    <exclude reference="WXm-el-4Aa"/>
+                    <exclude reference="egZ-0F-IFj"/>
+                    <exclude reference="1G0-ok-TKD"/>
+                    <exclude reference="XNp-gx-XKB"/>
+                    <exclude reference="sNl-SL-tpf"/>
+                    <exclude reference="KNe-5f-vSf"/>
+                    <exclude reference="QYv-IL-Knf"/>
+                    <exclude reference="qSk-jn-f10"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="subviews">
+                    <include reference="R0q-hc-WJM"/>
+                    <include reference="o5e-z7-Bla"/>
+                    <include reference="wju-2a-H9e"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="407-T9-RBa"/>
+                    <include reference="YmP-Xk-ygv"/>
+                    <include reference="p13-fP-hwT"/>
+                    <include reference="JLl-Qd-Zvu"/>
+                    <include reference="WXm-el-4Aa"/>
+                    <include reference="egZ-0F-IFj"/>
+                    <include reference="1G0-ok-TKD"/>
+                    <include reference="XNp-gx-XKB"/>
+                    <include reference="sNl-SL-tpf"/>
+                    <include reference="KNe-5f-vSf"/>
+                    <include reference="QYv-IL-Knf"/>
+                    <include reference="qSk-jn-f10"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

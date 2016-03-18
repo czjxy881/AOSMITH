@@ -33,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavTitle:@"反馈"];
+    [self setNavTitle:@"意见反馈"];
 }
 
 - (void)viewDidAppear:(BOOL)animated

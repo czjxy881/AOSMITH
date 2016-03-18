@@ -32,6 +32,10 @@ extern NSString * const kMessageDeviceWriteWiFiPassword;
  */
 extern NSString * const kMessageDeviceWriteDeviceName;
 /**
+ *  请输入设备地址
+ */
+extern NSString * const kMessageDeviceWriteDeviceLocation;
+/**
  *  恭喜您，配网成功！
  */
 extern NSString * const kMessageDeviceSettingWiFiSuccess;

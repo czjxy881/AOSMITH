@@ -25,4 +25,10 @@
  */
 @property (nonatomic,copy) NSString *user_img;
 
+/**
+ *  用户手机号
+ */
+@property (nonatomic,copy) NSString *user_phone;
+
+
 @end

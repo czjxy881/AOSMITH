@@ -9,8 +9,14 @@
 #import "BaseViewController.h"
 
 @interface BaseViewController ()
+{
+    NSLayoutConstraint *_navBarHeight;
+    BlockButton *_btn;
+}
 
 @property (nonatomic, strong) IQKeyboardReturnKeyHandler *returnKeyHandler;
+/***  无网状态提示 View */
+@property (nonatomic,strong) UIView *NetworkView;
 
 @end
 
@@ -24,7 +30,7 @@
     // 设置默认的View背景颜色
     LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
     if (!self.view.backgroundColor) {
-        self.view.backgroundColor = manager.ViewController_bgColor;
+        self.view.backgroundColor = manager.viewController_bgColor;
     }
     // 添加自定义的NavigationBar
     [self setNavigationBarView];
@@ -45,6 +51,15 @@
 {
     [super viewWillAppear:animated];
     [self.view bringSubviewToFront:self.navView];
+    
+    // 检测当前屏幕是横屏还是竖屏
+    if (self.interfaceOrientation == 4 || self.interfaceOrientation == 3) {
+        _navBarHeight.constant = 32;
+        [self.navView setNavBarInterfaceOrientation:LeftRight];
+    }else if (self.interfaceOrientation == 1 || self.interfaceOrientation == 2 ){
+        _navBarHeight.constant = 64;
+        [self.navView setNavBarInterfaceOrientation:PortraitUpsideDown];
+    }
 }
 
 #pragma mark - 设置左右中View
@@ -54,7 +69,7 @@
     [self.navigationController.navigationBar removeFromSuperview];
     [self.view addSubview:self.navView];
     [self.navView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeBottom];
-    [self.navView autoSetDimension:ALDimensionHeight toSize:64];
+    _navBarHeight = [self.navView autoSetDimension:ALDimensionHeight toSize:64];
 }
 
 - (void)setLeftView:(UIView *)leftView
@@ -101,7 +116,7 @@
     UILabel *centerTitle = [UILabel newAutoLayoutView];
     centerTitle.textAlignment = NSTextAlignmentCenter;
     centerTitle.font = BaseNavBarTextFont;
-    centerTitle.textColor = manager.NavigationBar_textColor;
+    centerTitle.textColor = manager.navigationBar_textColor;
     centerTitle.text = title;
     [self setCenterView:centerTitle];
     return centerTitle;
@@ -170,10 +185,25 @@
     }
     if (title.length) {
         [button setTitle:title forState:UIControlStateNormal];
-        [button setTitleColor:manager.NavigationBar_textColor forState:UIControlStateNormal];
+        [button setTitleColor:manager.navigationBar_textColor forState:UIControlStateNormal];
     }
     button.ClickOption = clickOption;
     return button;
+}
+
+- (void)showNetWorkView:(BOOL)show
+{
+    if (show) {
+        [self.view bringSubviewToFront:self.NetworkView];
+    }else{
+        [self.view sendSubviewToBack:self.NetworkView];
+    }
+}
+
+- (void)setNetworkRefreshOption:(ClickButton)networkRefreshOption
+{
+    networkRefreshOption = networkRefreshOption;
+    _btn.ClickOption = networkRefreshOption;
 }
 
 #pragma  mark - 按钮点击
@@ -181,6 +211,39 @@
 - (void)NavBackBtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - 屏幕旋转方向
+/**
+ *  屏幕将要进行旋转
+ *  可以操作隐藏一些View 等操作
+ */
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+}
+
+/**
+ *  屏幕开始旋转，执行旋转动画
+ */
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (interfaceOrientation == 4 || interfaceOrientation == 3) {
+        _navBarHeight.constant = 32;
+        [self.navView setNavBarInterfaceOrientation:LeftRight];
+    }else if (interfaceOrientation == 1 || interfaceOrientation == 2 ){
+        _navBarHeight.constant = 64;
+        [self.navView setNavBarInterfaceOrientation:PortraitUpsideDown];
+    }
+}
+
+/**
+ *  旋转动画执行完毕
+ *  可以操作显示前期隐藏的View
+ */
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    
 }
 
 #pragma mark - 懒加载
@@ -191,6 +254,43 @@
         _navView = [NavigationBar newAutoLayoutView];
     }
     return _navView;
+}
+
+- (UIView *)NetworkView
+{
+    if (!_NetworkView) {
+        _NetworkView = [UIView newAutoLayoutView];
+        [self.view insertSubview:_NetworkView atIndex:self.view.subviews.count];
+        _NetworkView.backgroundColor = [UIColor whiteColor];
+        [_NetworkView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(64, 0, 0, 0)];
+        
+        _btn = [BlockButton newAutoLayoutView];
+        [_NetworkView addSubview:_btn];
+        _btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_btn setTitle:@"刷新" forState:UIControlStateNormal];
+        [_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_btn setBackgroundImage:[BundleTool getImage:@"notwork_btn_normal" FromBundle:LXFrameWorkBundle] forState:UIControlStateNormal];
+        [_btn setBackgroundImage:[BundleTool getImage:@"notwork_btn_selected" FromBundle:LXFrameWorkBundle] forState:UIControlStateHighlighted];
+        [_btn autoAlignAxisToSuperviewAxis:ALAxisVertical];
+        [_btn autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+        _btn.ClickOption = self.networkRefreshOption;
+        
+        UILabel *label = [UILabel newAutoLayoutView];
+        [_NetworkView addSubview:label];
+        label.text = @"数据加载失败，请检查您的网络";
+        label.textColor = [UIColor grayColor];
+        label.font = [UIFont systemFontOfSize:15];
+        [label autoAlignAxisToSuperviewAxis:ALAxisVertical];
+        [label autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:_btn withOffset: -20];
+        
+        UIImageView *imageView = [UIImageView newAutoLayoutView];
+        [_NetworkView addSubview:imageView];
+        imageView.image = [BundleTool getImage:@"network_failed_gray" FromBundle:LXFrameWorkBundle];
+        [imageView autoSetDimensionsToSize:CGSizeMake(100, 100)];
+        [imageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
+        [imageView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:label withOffset: -18];
+    }
+    return _NetworkView;
 }
 
 @end

@@ -22,6 +22,10 @@
 /***  内容 */
 @property (weak, nonatomic) IBOutlet UITextView *rest_content;
 
+
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *imgAspectRatio;
+
+
 @end
 
 @implementation DeviceResetView
@@ -39,11 +43,20 @@
     if (UIM.Device_resetContent.length) {
         self.rest_content.text = UIM.Device_resetContent;
     }
+    _imgAspectRatio=[NSLayoutConstraint constraintWithItem:_imageView
+                                                 attribute:NSLayoutAttributeWidth
+                                                 relatedBy:NSLayoutRelationEqual
+                                                    toItem:_imageView
+                                                 attribute:NSLayoutAttributeHeight
+                                                multiplier:UIM.WRotioH//aspect ratio same as formula view
+                                                  constant:0.0f];
+    [_imageView addConstraint:_imgAspectRatio];
+    
 }
 
 + (instancetype)createDeviceResetView
 {
-    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][2];
+    return [[NSBundle mainBundle] loadNibNamed:@"AddDeviceViews" owner:nil options:nil][1];
 }
 
 - (IBAction)notBtnClick:(UIButton *)sender {

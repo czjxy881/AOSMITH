@@ -11,6 +11,12 @@
 // NavBar最下边 Line 的颜色
 #define lineView_BackageGroundColor [[UIColor lightGrayColor] colorWithAlphaComponent:0.5]
 
+@interface NavigationBar()
+{
+    NSLayoutConstraint *_btnViewEdgesTop;
+}
+@end
+
 @implementation NavigationBar
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -19,13 +25,14 @@
     if (self) {
         // 设置 NavBar 背景颜色
         LXFrameWorkManager *manager = [LXFrameWorkManager sharedLXFrameWorkManager];
-        self.backgroundColor = _BackColor = manager.NavigationBar_bgColor;
+        self.backgroundColor = _BackColor = manager.navigationBar_bgColor;
         
         // 设置Button View
         _btnView = [UIView newAutoLayoutView];
         _btnView.backgroundColor = [UIColor clearColor];
         [self addSubview:_btnView];
-        [_btnView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
+        NSArray * array = [_btnView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
+        _btnViewEdgesTop = [array firstObject];
         
         // 设置底部线
         _lineView = [UIView newAutoLayoutView];
@@ -38,6 +45,8 @@
         self.layer.shadowColor = [[UIColor blackColor]CGColor];
         self.layer.shadowOpacity = 0.15;
         self.layer.shadowOffset = CGSizeMake(0, 0.1);
+        
+//        self.clipsToBounds = YES;
     }
     return self;
 }
@@ -49,10 +58,10 @@
     CGRect rect = leftView.frame;
     leftView.frame = CGRectZero;
     [_btnView addSubview:leftView];
-//            leftView.backgroundColor = [UIColor redColor];
+    //            leftView.backgroundColor = [UIColor redColor];
     leftView.translatesAutoresizingMaskIntoConstraints = NO;
     [leftView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [leftView autoSetDimensionsToSize:CGSizeMake(rect.size.width == 0 ? 50 : rect.size.width, rect.size.height == 0 ? 44 : rect.size.height)];
+    [leftView autoSetDimensionsToSize:CGSizeMake(rect.size.width == 0 ? 50 : rect.size.width, rect.size.height == 0 ? (_btnViewEdgesTop.constant == 0 ? 32 : 44) : rect.size.height)];
     [leftView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset: 5];
 }
 
@@ -63,10 +72,10 @@
     CGRect rect = rightView.frame;
     rightView.frame = CGRectZero;
     [_btnView addSubview:rightView];
-//        rightView.backgroundColor = [UIColor blueColor];
+    //        rightView.backgroundColor = [UIColor blueColor];
     rightView.translatesAutoresizingMaskIntoConstraints = NO;
     [rightView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [rightView autoSetDimensionsToSize:CGSizeMake(rect.size.width == 0 ? 50 : rect.size.width, rect.size.height == 0 ? 44 : rect.size.height)];
+    [rightView autoSetDimensionsToSize:CGSizeMake(rect.size.width == 0 ? 50 : rect.size.width, rect.size.height == 0 ? (_btnViewEdgesTop.constant == 0 ? 32 : 44) : rect.size.height)];
     [rightView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset: 5];
 }
 
@@ -77,10 +86,10 @@
     CGRect rect = centerView.frame;
     centerView.frame = CGRectZero;
     [_btnView addSubview:centerView];
-//        centerView.backgroundColor = [UIColor yellowColor];
+    //        centerView.backgroundColor = [UIColor yellowColor];
     [centerView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [centerView autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [centerView autoSetDimensionsToSize:CGSizeMake(rect.size.width == 0 ? 200 :rect.size.width, rect.size.height == 0 ? 44 : rect.size.height)];
+    [centerView autoSetDimensionsToSize:CGSizeMake(rect.size.width == 0 ? 200 :rect.size.width, rect.size.height == 0 ? (_btnViewEdgesTop.constant == 0 ? 32 : 44) : rect.size.height)];
 }
 
 - (void) setScrollNavigationBarBackColor:(UIColor *) color
@@ -101,6 +110,15 @@
     }else{
         [self setScrollNavigationBarBackColor:_BackColor];
         [self setScrollNavigationBarLineBackColor: lineView_BackageGroundColor];
+    }
+}
+
+- (void)setNavBarInterfaceOrientation:(NavBarInterface)interface
+{
+    if (interface == PortraitUpsideDown) {
+        _btnViewEdgesTop.constant = 20;
+    }else if(interface == LeftRight){
+        _btnViewEdgesTop.constant = 0;
     }
 }
 

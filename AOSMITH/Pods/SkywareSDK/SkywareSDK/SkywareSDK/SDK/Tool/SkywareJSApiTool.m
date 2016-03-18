@@ -29,33 +29,39 @@
     NSString *jsStr = @"jsapi.skyware.com/";
     NSRange range = [urlStr rangeOfString:jsStr];
     if (range.location != NSNotFound) {
-        urlStr = [urlStr substringFromIndex:range.location + range.length];
-        NSArray *urlArray = [urlStr componentsSeparatedByString:@"/"];
-        NSInteger count = urlArray.count;
-        [urlArray enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
-            if ([str isEqualToString:@"sendCmdToDevice"]) { // 发送指令给设备
-                SkywareSendCmdModel *sendModel = [[SkywareSendCmdModel alloc]init];
-                sendModel.sn = urlArray[count - 3];
-                sendModel.mac = urlArray[count - 2];
-                sendModel.commandv = [urlArray[count - 1] decodeFromPercentEscapeString];
-                [self sendCmdToDeviceWith:sendModel];
-                *stop = YES;
-            }else if ([str isEqualToString:@"getCurrentDeviceInfo"]){ // 获取设备列表某个Cell信息
-                NSRange range = [urlStr rangeOfString:@"type/"];
-                NSArray *typeArray = [[urlStr substringFromIndex:range.length + range.location] componentsSeparatedByString:@"/"];
-                [self getMethodWithTypeArray:typeArray WebView:webView WithDeviceInfo:deviceInfo];
-                *stop = YES;
-            }else if([str isEqualToString:@"goback"]){
-                [KBaseDelegate.navigationController popViewControllerAnimated:YES];
-            }else if ([str isEqualToString:@"gomenu"]){
-                if ([self.delegate respondsToSelector:@selector(SkywareJSApiWillShowMenu:)]) {
-                    [self.delegate SkywareJSApiWillShowMenu:self];
-                }
-            }else if ([str isEqualToString:@"goshare"]){
-                //                [SVProgressHUD showSuccessWithStatus:@"敬请期待!"];
-                [self goShare];
+        //        urlStr = [urlStr substringFromIndex:range.location + range.length];
+        //        NSArray *urlArray = [urlStr componentsSeparatedByString:@"/"];
+        //        NSInteger count = urlArray.count;
+        //        [urlArray enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
+        //            if ([str isEqualToString:@"sendCmdToDevice"]) { // 发送指令给设备
+        //                SkywareSendCmdModel *sendModel = [[SkywareSendCmdModel alloc]init];
+        //                sendModel.sn = urlArray[count - 3];
+        //                sendModel.mac = urlArray[count - 2];
+        //                sendModel.commandv = [urlArray[count - 1] decodeFromPercentEscapeString];
+        //                [self sendCmdToDeviceWith:sendModel];
+        //                *stop = YES;
+        //            }else if ([str isEqualToString:@"getCurrentDeviceInfo"]){ // 获取设备列表某个Cell信息
+        //                NSRange range = [urlStr rangeOfString:@"type/"];
+        //                NSArray *typeArray = [[urlStr substringFromIndex:range.length + range.location] componentsSeparatedByString:@"/"];
+        //                [self getMethodWithTypeArray:typeArray WebView:webView WithDeviceInfo:deviceInfo];
+        //                *stop = YES;
+        //            }else if([str isEqualToString:@"goback"]){
+        //                [KBaseDelegate.navigationController popViewControllerAnimated:YES];
+        //            }else if ([str isEqualToString:@"gomenu"]){
+        //                if ([self.delegate respondsToSelector:@selector(SkywareJSApiWillShowMenu:)]) {
+        //                    [self.delegate SkywareJSApiWillShowMenu:self];
+        //                }
+        //            }else if ([str isEqualToString:@"goshare"]){
+        //                //                [SVProgressHUD showSuccessWithStatus:@"敬请期待!"];
+        //                [self goShare];
+        //            }
+        //        }];
+        NSArray *urlArray = [urlStr componentsSeparatedByString:@"="];
+        if (urlArray.count == 2) {
+            if ([self.delegate respondsToSelector:@selector(SkywareJSApiWillShowOneKeyBuy:)]) {
+                [self.delegate SkywareJSApiWillShowOneKeyBuy:[urlArray objectAtIndex:1]];
             }
-        }];
+        }
         return NO;
     }
     return YES;
