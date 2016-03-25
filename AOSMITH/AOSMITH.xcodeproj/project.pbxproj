@@ -301,7 +301,6 @@
 			children = (
 				4E670B6C1C151C34009E7B52 /* Controllers */,
 				4E670B771C151C34009E7B52 /* LaunchScreen */,
-				4E670B7C1C151C34009E7B52 /* Lib */,
 				4E670B7F1C151C34009E7B52 /* Other */,
 			);
 			path = Main;
@@ -331,13 +330,6 @@
 				4E670B7B1C151C34009E7B52 /* ViewController.m */,
 			);
 			path = LaunchScreen;
-			sourceTree = "<group>";
-		};
-		4E670B7C1C151C34009E7B52 /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Lib;
 			sourceTree = "<group>";
 		};
 		4E670B7F1C151C34009E7B52 /* Other */ = {
